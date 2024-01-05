@@ -48,48 +48,50 @@ struct BreadJournalListView: View {
         }
     }
     
-    var entries = Entry.all
+    
     let store: StoreOf<BreadJournalLisFeature>
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                LazyVGrid(
-                    columns: columns,
-                    spacing: 16) {
-                        ForEach(entries) { entry in
-                            JournalEntryView.init(entry: entry)
+        WithViewStore(self.store, observe: \.journalEntries) { viewStore in
+            NavigationStack {
+                ScrollView {
+                    LazyVGrid(
+                        columns: columns,
+                        spacing: 16) {
+                            ForEach(viewStore.state) { entry in
+                                JournalEntryView.init(entry: entry)
+                            }
                         }
+                        .padding(.all, 46)
+                }
+                .navigationTitle("Bread journal")
+                .toolbar {
+                    ToolbarItemGroup(placement: .primaryAction) {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .foregroundColor(.black)
+                                .font(
+                                    .system(
+                                        size: 40,
+                                        weight: .light)
+                                )
+                        }
+                        .padding(.top, 48)
+                        Spacer()
+                        Button {
+                            print("Filter tapped!")
+                        } label: {
+                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                                .foregroundColor(.black)
+                                .font(
+                                    .system(
+                                        size: 40,
+                                        weight: .light)
+                                )
+                        }
+                        .padding(.top, 48)
                     }
-                    .padding(.all, 46)
-            }
-            .navigationTitle("Bread journal")
-            .toolbar {
-                ToolbarItemGroup(placement: .primaryAction) {
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .foregroundColor(.black)
-                            .font(
-                                .system(
-                                    size: 40,
-                                    weight: .light)
-                            )
-                    }
-                    .padding(.top, 48)
-                    Spacer()
-                    Button {
-                        print("Filter tapped!")
-                    } label: {
-                        Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                            .foregroundColor(.black)
-                            .font(
-                                .system(
-                                    size: 40,
-                                    weight: .light)
-                            )
-                    }
-                    .padding(.top, 48)
                 }
             }
         }
@@ -101,7 +103,8 @@ struct BreadJournalListView: View {
         NavigationStack {
             BreadJournalListView(
                 store: Store(
-                    initialState: BreadJournalLisFeature.State(),
+                    initialState: BreadJournalLisFeature.State(
+                        journalEntries: [.mock]),
                     reducer: {
                         BreadJournalLisFeature()
                     }))

@@ -51,7 +51,8 @@ struct BreadJournalListView: View {
     
     let store: StoreOf<BreadJournalLisFeature>
     var body: some View {
-        WithViewStore(self.store, observe: \.journalEntries) { viewStore in
+        WithViewStore(self.store, 
+                      observe: \.journalEntries) { viewStore in
             NavigationStack {
                 ScrollView {
                     LazyVGrid(
@@ -104,7 +105,7 @@ struct BreadJournalListView: View {
             BreadJournalListView(
                 store: Store(
                     initialState: BreadJournalLisFeature.State(
-                        journalEntries: [.mock]),
+                        journalEntries: [.mock, .mock2]),
                     reducer: {
                         BreadJournalLisFeature()
                     }))

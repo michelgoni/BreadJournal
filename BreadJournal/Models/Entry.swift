@@ -25,7 +25,19 @@ import UIKit
 }
 
 extension Entry {
-    static let mock = Entry(date: Date(), isFavorite: false, rating: 2, name: "Pan de centeno", image: nil, id: Entry.ID())
+    static let mock = Entry(date: Date(), 
+                            isFavorite: false,
+                            rating: 2, 
+                            name: "Pan de centeno",
+                            image: nil,
+                            id: Entry.ID())
+    
+    static let mock2 = Entry(date: Date(),
+                            isFavorite: true,
+                            rating: 4,
+                            name: "Pan de maíz",
+                            image: nil,
+                            id: Entry.ID())
     
 }
 

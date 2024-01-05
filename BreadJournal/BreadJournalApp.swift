@@ -5,13 +5,19 @@
 //  Created by Michel Goñi on 3/1/24.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 @main
 struct BreadJournalApp: App {
     var body: some Scene {
         WindowGroup {
-            BreadJournalListView()
+            BreadJournalListView( 
+                store: Store(
+                    initialState: BreadJournalLisFeature.State(),
+                    reducer: {
+                        BreadJournalLisFeature()
+                    }))
         }
     }
 }

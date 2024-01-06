@@ -68,7 +68,8 @@ struct BreadJournalListView: View {
                 .toolbar {
                     ToolbarItemGroup(placement: .primaryAction) {
                         Button {
-                            
+                            viewStore.send(.addEntry)
+                      
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .foregroundColor(.black)
@@ -81,7 +82,8 @@ struct BreadJournalListView: View {
                         .padding(.top, 48)
                         Spacer()
                         Button {
-                            print("Filter tapped!")
+                            viewStore.send(.filterEntries)
+                           
                         } label: {
                             Image(systemName: "line.3.horizontal.decrease.circle.fill")
                                 .foregroundColor(.black)
@@ -108,7 +110,9 @@ struct BreadJournalListView: View {
                         journalEntries: [.mock, .mock2]),
                     reducer: {
                         BreadJournalLisFeature()
+                            ._printChanges()
                     }))
+            
         }
     }
 }

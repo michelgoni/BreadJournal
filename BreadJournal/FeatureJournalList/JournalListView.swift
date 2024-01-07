@@ -120,7 +120,7 @@ struct BreadJournalListView: View {
                         BreadJournalLisFeature()
                             ._printChanges()
                     }, withDependencies: {
-                        $0.journalListDataManager = .mock(initialData: try? JSONEncoder().encode([Entry.mock]))
+                        $0.journalListDataManager = .previewValue
                     }))
             
         }

@@ -14,6 +14,14 @@ struct BreadJournalLisFeature {
     
     struct State {
         var journalEntries: IdentifiedArrayOf<Entry> = []
+        init() {
+            do {
+                @Dependency (\.journalListDataManager.load) var loadEntries
+                self.journalEntries = try JSONDecoder().decode(IdentifiedArrayOf<Entry>.self, from: loadEntries(.breadEntries))
+            } catch {
+                self.journalEntries = []
+            }
+        }
     }
     
     enum Action {
@@ -50,6 +58,7 @@ struct BreadJournalListView: View {
     
     
     let store: StoreOf<BreadJournalLisFeature>
+    
     var body: some View {
         WithViewStore(self.store, 
                       observe: \.journalEntries) { viewStore in
@@ -106,11 +115,12 @@ struct BreadJournalListView: View {
         NavigationStack {
             BreadJournalListView(
                 store: Store(
-                    initialState: BreadJournalLisFeature.State(
-                        journalEntries: [.mock, .mock2]),
+                    initialState: BreadJournalLisFeature.State(),
                     reducer: {
                         BreadJournalLisFeature()
                             ._printChanges()
+                    }, withDependencies: {
+                        $0.journalListDataManager = .mock(initialData: try? JSONEncoder().encode([Entry.mock]))
                     }))
             
         }

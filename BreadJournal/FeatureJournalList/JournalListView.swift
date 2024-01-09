@@ -61,13 +61,14 @@ struct BreadJournalListView: View {
     var body: some View {
         WithViewStore(self.store,
                       observe: \.journalEntries) { viewStore in
+            
             NavigationStack {
                 ScrollView {
                     LazyVGrid(
                         columns: columns,
                         spacing: 16) {
                             if viewStore.isEmpty {
-                                EmptyView()
+                                EmptyJournalView()
                             } else {
                                 ForEach(viewStore.state) { entry in
                                     JournalEntryView.init(entry: entry)

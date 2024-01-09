@@ -20,7 +20,8 @@ extension JournalListManager: DependencyKey {
         save: { data, url in try data.write(to: url) }
     )
     
-    static let previewValue = Self.emptyMock()
+    static let previewValue = Self.mock()
+    static let previewEmpty = Self.emptyMock()
     
     
     static func mock(initialData: Data? = nil) -> Self {

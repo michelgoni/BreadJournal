@@ -20,11 +20,26 @@ extension JournalListManager: DependencyKey {
         save: { data, url in try data.write(to: url) }
     )
     
-    static let previewValue = Self.mock()
+    static let previewValue = Self.emptyMock()
     
     
     static func mock(initialData: Data? = nil) -> Self {
         let data = LockIsolated(try? JSONEncoder().encode([Entry.mock, Entry.mock2]))
+      return Self(
+        load: { _ in
+          guard let data = data.value
+          else {
+            struct FileNotFound: Error {}
+            throw FileNotFound()
+          }
+          return data
+        },
+        save: { newData, _ in data.setValue(newData) }
+      )
+    }
+    
+    static func emptyMock(initialData: Data? = nil) -> Self {
+        let data = LockIsolated(try? JSONEncoder().encode([Entry].self ()))
       return Self(
         load: { _ in
           guard let data = data.value

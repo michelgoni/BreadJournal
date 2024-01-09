@@ -62,50 +62,50 @@ struct BreadJournalListView: View {
         WithViewStore(self.store,
                       observe: \.journalEntries) { viewStore in
             NavigationStack {
-                if viewStore.state.isEmpty {
-                    EmptyView()
-                } else {
-                    ScrollView {
-                        LazyVGrid(
-                            columns: columns,
-                            spacing: 16) {
+                ScrollView {
+                    LazyVGrid(
+                        columns: columns,
+                        spacing: 16) {
+                            if viewStore.isEmpty {
+                                EmptyView()
+                            } else {
                                 ForEach(viewStore.state) { entry in
                                     JournalEntryView.init(entry: entry)
                                 }
                             }
-                            .padding(.all, 46)
-                    }
-                    .navigationTitle("Bread journal")
-                    .toolbar {
-                        ToolbarItemGroup(placement: .primaryAction) {
-                            Button {
-                                viewStore.send(.addEntry)
-                          
-                            } label: {
-                                Image(systemName: "plus.circle.fill")
-                                    .foregroundColor(.black)
-                                    .font(
-                                        .system(
-                                            size: 40,
-                                            weight: .light)
-                                    )
-                            }
-                            .padding(.top, 48)
-                            Spacer()
-                            Button {
-                                viewStore.send(.filterEntries)
-                               
-                            } label: {
-                                Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                                    .foregroundColor(.black)
-                                    .font(
-                                        .system(
-                                            size: 40,
-                                            weight: .light)
-                                    )
-                            }
-                            .padding(.top, 48)
                         }
+                        .padding(.all, 46)
+                }
+                .navigationTitle("Bread journal")
+                .toolbar {
+                    ToolbarItemGroup(placement: .primaryAction) {
+                        Button {
+                            viewStore.send(.addEntry)
+                      
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .foregroundColor(.black)
+                                .font(
+                                    .system(
+                                        size: 40,
+                                        weight: .light)
+                                )
+                        }
+                        .padding(.top, 48)
+                        Spacer()
+                        Button {
+                            viewStore.send(.filterEntries)
+                           
+                        } label: {
+                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                                .foregroundColor(.black)
+                                .font(
+                                    .system(
+                                        size: 40,
+                                        weight: .light)
+                                )
+                        }
+                        .padding(.top, 48)
                     }
                 }
                 

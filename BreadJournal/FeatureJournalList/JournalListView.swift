@@ -77,37 +77,7 @@ struct BreadJournalListView: View {
                         .padding(.all, 46)
                 }
                 .navigationTitle("Bread journal")
-                .toolbar {
-                    ToolbarItemGroup(placement: .primaryAction) {
-                        Button {
-                            viewStore.send(.addEntry)
-                      
-                        } label: {
-                            Image(systemName: "plus.circle.fill")
-                                .foregroundColor(.black)
-                                .font(
-                                    .system(
-                                        size: 40,
-                                        weight: .light)
-                                )
-                        }
-                        .padding(.top, 48)
-                        Spacer()
-                        Button {
-                            viewStore.send(.filterEntries)
-                           
-                        } label: {
-                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                                .foregroundColor(.black)
-                                .font(
-                                    .system(
-                                        size: 40,
-                                        weight: .light)
-                                )
-                        }
-                        .padding(.top, 48)
-                    }
-                }
+                .applyToolbar(viewStore: viewStore)
                 
             }
         }

@@ -25,7 +25,8 @@ import UIKit
 }
 
 extension Entry {
-    static let mock = Entry(date: Date(), 
+    
+    static let mock = Entry(date: Date(),
                             isFavorite: false,
                             rating: 2, 
                             name: "Pan de centeno",

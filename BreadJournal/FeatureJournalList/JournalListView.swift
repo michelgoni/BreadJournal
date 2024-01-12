@@ -27,8 +27,9 @@ struct BreadJournalLisFeature {
     
     enum Action {
         case addEntry
-        case filterEntries
         case cancelEntry
+        case entriesResponse(TaskResult<[Entry]>)
+        case filterEntries
     }
     
     
@@ -38,6 +39,10 @@ struct BreadJournalLisFeature {
             case .addEntry:
                 return .none
             case .cancelEntry:
+                return .none
+            case let .entriesResponse(.success(data)):
+                return .none
+            case let .entriesResponse(.failure(error)):
                 return .none
             case .filterEntries:
                 return .none

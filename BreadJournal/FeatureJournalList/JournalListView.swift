@@ -22,6 +22,7 @@ struct BreadJournalLisFeature {
                 self.journalEntries = []
             }
         }
+        var error: BreadJournalError? = nil
     }
     
     enum Action {
@@ -29,6 +30,7 @@ struct BreadJournalLisFeature {
         case filterEntries
         case cancelEntry
     }
+    
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -43,7 +45,6 @@ struct BreadJournalLisFeature {
         }
     }
 }
-
 
 struct BreadJournalListView: View {
     
@@ -67,6 +68,7 @@ struct BreadJournalListView: View {
                     LazyVGrid(
                         columns: columns,
                         spacing: 16) {
+                            
                             if viewStore.isEmpty {
                                 EmptyJournalView()
                             } else {

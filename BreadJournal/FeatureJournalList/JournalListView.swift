@@ -14,14 +14,6 @@ struct BreadJournalLisFeature {
     
     struct State {
         var journalEntries: IdentifiedArrayOf<Entry> = []
-        init() {
-            do {
-                @Dependency (\.journalListDataManager.load) var loadEntries
-                self.journalEntries = try JSONDecoder().decode(IdentifiedArrayOf<Entry>.self, from: loadEntries(.breadEntries))
-            } catch {
-                self.journalEntries = []
-            }
-        }
         var error: BreadJournalError? = nil
         var loading = false
     }
@@ -29,7 +21,7 @@ struct BreadJournalLisFeature {
     enum Action {
         case addEntry
         case cancelEntry
-        case entriesResponse(TaskResult<[Entry]>)
+        case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
         case genEntries
         case filterEntries
         
@@ -37,6 +29,7 @@ struct BreadJournalLisFeature {
     
     
     var body: some ReducerOf<Self> {
+        @Dependency (\.journalListDataManager.load) var loadEntries
         Reduce { state, action in
             switch action {
             case .addEntry:
@@ -45,10 +38,22 @@ struct BreadJournalLisFeature {
                 return .none
             case .genEntries:
                 state.loading.toggle()
-                return .none
+                return .run { send in
+                    await send (.entriesResponse(
+                        TaskResult {
+                            try JSONDecoder().decode(
+                                    IdentifiedArrayOf<Entry>.self,
+                                    from: loadEntries(.breadEntries)
+                                )
+                        })
+                    )
+                }
+                
             case let .entriesResponse(.success(data)):
+                state.journalEntries = data
                 return .none
             case let .entriesResponse(.failure(error)):
+                debugPrint(error)
                 return .none
             case .filterEntries:
                 return .none
@@ -73,30 +78,27 @@ struct BreadJournalListView: View {
     var body: some View {
         WithViewStore(self.store,
                       observe: \.journalEntries) { viewStore in
-            
             NavigationStack {
-                ScrollView {
-                    LazyVGrid(
-                        columns: columns,
-                        spacing: 16) {
-                            
-                            if viewStore.isEmpty {
-                                EmptyJournalView()
-                            } else {
+                if viewStore.isEmpty {
+                    EmptyJournalView()
+                } else {
+                    ScrollView {
+                        LazyVGrid(
+                            columns: columns,
+                            spacing: 16) {
                                 ForEach(viewStore.state) { entry in
                                     JournalEntryView.init(entry: entry)
                                 }
                             }
-                        }
-                        .padding(.all, 46)
+                            .padding(.all, 46)
+                    }
                 }
-                .navigationTitle("Bread journal")
+            } 
+            .navigationTitle("Bread journal")
                 .applyToolbar(viewStore: viewStore)
                 .task {
                     viewStore.send(.genEntries)
                 }
-                
-            }
         }
     }
 }

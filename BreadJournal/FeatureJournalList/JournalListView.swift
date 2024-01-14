@@ -23,13 +23,16 @@ struct BreadJournalLisFeature {
             }
         }
         var error: BreadJournalError? = nil
+        var loading = false
     }
     
     enum Action {
         case addEntry
         case cancelEntry
         case entriesResponse(TaskResult<[Entry]>)
+        case genEntries
         case filterEntries
+        
     }
     
     
@@ -39,6 +42,9 @@ struct BreadJournalLisFeature {
             case .addEntry:
                 return .none
             case .cancelEntry:
+                return .none
+            case .genEntries:
+                state.loading.toggle()
                 return .none
             case let .entriesResponse(.success(data)):
                 return .none
@@ -86,6 +92,9 @@ struct BreadJournalListView: View {
                 }
                 .navigationTitle("Bread journal")
                 .applyToolbar(viewStore: viewStore)
+                .task {
+                    viewStore.send(.genEntries)
+                }
                 
             }
         }

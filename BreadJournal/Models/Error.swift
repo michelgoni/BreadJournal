@@ -12,3 +12,10 @@ enum BreadJournalError: Error {
     case underlying(Error)
     case databaseFailure(internalCode: Int)
 }
+
+extension BreadJournalError: Equatable {
+
+    public static func == (lhs: BreadJournalError, rhs: BreadJournalError) -> Bool {
+        return true
+    }
+}

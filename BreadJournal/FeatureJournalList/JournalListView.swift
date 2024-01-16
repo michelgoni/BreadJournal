@@ -13,7 +13,7 @@ struct BreadJournalLisFeature {
     
     struct State: Equatable {
         var journalEntries: IdentifiedArrayOf<Entry> = []
-//        var error: BreadJournalError? = nil
+        var error: BreadJournalError? = nil
         var isLoading = false
     }
     

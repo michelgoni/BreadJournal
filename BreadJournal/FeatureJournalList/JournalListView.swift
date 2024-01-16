@@ -51,7 +51,8 @@ struct BreadJournalLisFeature {
                 
             case let .entriesResponse(.success(data)):
                 state.isLoading = false
-                state.journalEntries = data
+                state.error = .general
+//                state.journalEntries = data
                 return .none
             case let .entriesResponse(.failure(error)):
                 state.isLoading = false
@@ -99,6 +100,7 @@ struct BreadJournalListView: View {
             }
             .navigationTitle("Bread journal")
             .loader(isLoading: viewStore.state.isLoading)
+            .onError(error: viewStore.state.error)
             .applyToolbar(viewStore: viewStore)
             .task {
                 viewStore.send(.genEntries)

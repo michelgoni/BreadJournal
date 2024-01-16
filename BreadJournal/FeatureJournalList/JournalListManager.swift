@@ -22,6 +22,7 @@ extension JournalListManager: DependencyKey {
     
     static let previewValue = Self.mock()
     static let previewEmpty = Self.emptyMock()
+    static let previewError = Self.errorMock()
     
     
     static func mock(initialData: Data? = nil) -> Self {
@@ -53,6 +54,19 @@ extension JournalListManager: DependencyKey {
         save: { newData, _ in data.setValue(newData) }
       )
     }
+    
+    static func errorMock(initialData: Data? = nil) -> Self {
+        struct FileNotFound: Error {}
+        
+      return Self(
+        load: { _ in
+          
+            throw FileNotFound()
+        },
+        save: { _ , _ in}
+      )
+    }
+
 }
 
 extension DependencyValues {

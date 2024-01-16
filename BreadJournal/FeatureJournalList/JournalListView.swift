@@ -51,12 +51,11 @@ struct BreadJournalLisFeature {
                 
             case let .entriesResponse(.success(data)):
                 state.isLoading = false
-                state.error = .general
-//                state.journalEntries = data
+                state.journalEntries = data
                 return .none
             case let .entriesResponse(.failure(error)):
                 state.isLoading = false
-                debugPrint(error)
+                state.error = .underlying(error)
                 return .none
             case .filterEntries:
                 debugPrint("Filtering items")
@@ -119,7 +118,7 @@ struct BreadJournalListView: View {
                         BreadJournalLisFeature()
                             ._printChanges()
                     }, withDependencies: {
-                        $0.journalListDataManager = .previewValue
+                        $0.journalListDataManager = .previewError
                     }))
             
         }

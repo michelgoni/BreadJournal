@@ -9,7 +9,7 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ToolbarModifier: ViewModifier {
-    let viewStore: ViewStore<IdentifiedArrayOf<Entry>, BreadJournalLisFeature.Action>
+    let viewStore: ViewStore<BreadJournalLisFeature.State, BreadJournalLisFeature.Action>
 
     func body(content: Content) -> some View {
         content
@@ -40,7 +40,8 @@ struct ToolbarModifier: ViewModifier {
 }
 
 extension View {
-    func applyToolbar(viewStore: ViewStore<IdentifiedArrayOf<Entry>, BreadJournalLisFeature.Action>) -> some View {
+    func applyToolbar(viewStore: ViewStore<BreadJournalLisFeature.State,
+                      BreadJournalLisFeature.Action>) -> some View {
         self.modifier(ToolbarModifier(viewStore: viewStore))
     }
 }

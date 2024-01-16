@@ -9,20 +9,15 @@ import ComposableArchitecture
 import SwiftUI
 
 @Reducer
-
 struct BreadJournalLisFeature {
     
-    struct State {
+    struct State: Equatable {
         var journalEntries: IdentifiedArrayOf<Entry> = []
-        var error: BreadJournalError? = nil
-        var loading = false
-        
-        var isEmpty: Bool {
-            return journalEntries.isEmpty
-        }
+//        var error: BreadJournalError? = nil
+        var isLoading = false
     }
     
-    enum Action {
+    enum Action: Equatable {
         case addEntry
         case cancelEntry
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
@@ -37,11 +32,12 @@ struct BreadJournalLisFeature {
         Reduce { state, action in
             switch action {
             case .addEntry:
+                debugPrint("Adding items")
                 return .none
             case .cancelEntry:
                 return .none
             case .genEntries:
-                state.loading.toggle()
+                state.isLoading = true
                 return .run { send in
                     await send (.entriesResponse(
                         TaskResult {
@@ -54,12 +50,15 @@ struct BreadJournalLisFeature {
                 }
                 
             case let .entriesResponse(.success(data)):
+                state.isLoading = false
                 state.journalEntries = data
                 return .none
             case let .entriesResponse(.failure(error)):
+                state.isLoading = false
                 debugPrint(error)
                 return .none
             case .filterEntries:
+                debugPrint("Filtering items")
                 return .none
             }
         }
@@ -81,28 +80,29 @@ struct BreadJournalListView: View {
     
     var body: some View {
         WithViewStore(self.store,
-                      observe: \.journalEntries) { viewStore in
+                      observe: { $0 }) { viewStore in
             NavigationStack {
-                if viewStore.isEmpty {
+                if viewStore.state.journalEntries.isEmpty {
                     EmptyJournalView()
                 } else {
                     ScrollView {
                         LazyVGrid(
                             columns: columns,
                             spacing: 16) {
-                                ForEach(viewStore.state) { entry in
+                                ForEach(viewStore.state.journalEntries) { entry in
                                     JournalEntryView.init(entry: entry)
                                 }
                             }
                             .padding(.all, 46)
                     }
                 }
-            } 
+            }
             .navigationTitle("Bread journal")
-                .applyToolbar(viewStore: viewStore)
-                .task {
-                    viewStore.send(.genEntries)
-                }
+            .loader(isLoading: viewStore.state.isLoading)
+            .applyToolbar(viewStore: viewStore)
+            .task {
+                viewStore.send(.genEntries)
+            }
         }
     }
 }

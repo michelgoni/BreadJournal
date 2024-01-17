@@ -14,7 +14,6 @@
 		2D975B742B45C3DF00FA1FB2 /* JournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B732B45C3DF00FA1FB2 /* JournalListView.swift */; };
 		2D975B762B45C3E000FA1FB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D975B752B45C3E000FA1FB2 /* Assets.xcassets */; };
 		2D975B792B45C3E000FA1FB2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D975B782B45C3E000FA1FB2 /* Preview Assets.xcassets */; };
-		2D975B832B45C3E100FA1FB2 /* BreadJournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B822B45C3E100FA1FB2 /* BreadJournalTests.swift */; };
 		2D975B8D2B45C3E100FA1FB2 /* BreadJournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B8C2B45C3E100FA1FB2 /* BreadJournalUITests.swift */; };
 		2D975B8F2B45C3E100FA1FB2 /* BreadJournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B8E2B45C3E100FA1FB2 /* BreadJournalUITestsLaunchTests.swift */; };
 		2D975B9D2B45C54C00FA1FB2 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 2D975B9C2B45C54C00FA1FB2 /* ComposableArchitecture */; };
@@ -27,6 +26,7 @@
 		2D975BAE2B45D74600FA1FB2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975BAD2B45D74600FA1FB2 /* Date.swift */; };
 		2DA5F8A92B4DCFC700F3E5D2 /* ToolbarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */; };
 		2DA5F8AB2B4DD30500F3E5D2 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */; };
+		2DD2582D2B584AB400B6B037 /* BreadJournalListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */; };
 		2DD9E6022B4B232800E8EEAD /* JournalListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */; };
 		2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6032B4B269D00E8EEAD /* URL.swift */; };
 /* End PBXBuildFile section */
@@ -58,7 +58,6 @@
 		2D975B752B45C3E000FA1FB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D975B782B45C3E000FA1FB2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2D975B7E2B45C3E100FA1FB2 /* BreadJournalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreadJournalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D975B822B45C3E100FA1FB2 /* BreadJournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalTests.swift; sourceTree = "<group>"; };
 		2D975B882B45C3E100FA1FB2 /* BreadJournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreadJournalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D975B8C2B45C3E100FA1FB2 /* BreadJournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalUITests.swift; sourceTree = "<group>"; };
 		2D975B8E2B45C3E100FA1FB2 /* BreadJournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -71,6 +70,7 @@
 		2D975BAD2B45D74600FA1FB2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarModifier.swift; sourceTree = "<group>"; };
 		2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalListTests.swift; sourceTree = "<group>"; };
 		2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListManager.swift; sourceTree = "<group>"; };
 		2DD9E6032B4B269D00E8EEAD /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,7 +145,7 @@
 		2D975B812B45C3E100FA1FB2 /* BreadJournalTests */ = {
 			isa = PBXGroup;
 			children = (
-				2D975B822B45C3E100FA1FB2 /* BreadJournalTests.swift */,
+				2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */,
 			);
 			path = BreadJournalTests;
 			sourceTree = "<group>";
@@ -362,7 +362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D975B832B45C3E100FA1FB2 /* BreadJournalTests.swift in Sources */,
+				2DD2582D2B584AB400B6B037 /* BreadJournalListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

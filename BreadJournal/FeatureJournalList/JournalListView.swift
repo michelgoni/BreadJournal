@@ -15,6 +15,10 @@ struct BreadJournalLisFeature {
         var journalEntries: IdentifiedArrayOf<Entry> = []
         var error: BreadJournalError? = nil
         var isLoading = false
+        
+        var isEmpty: Bool {
+            journalEntries.isEmpty
+        }
     }
     
     enum Action: Equatable {

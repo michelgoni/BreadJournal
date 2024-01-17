@@ -14,15 +14,19 @@ import XCTest
 final class BreadJournalListTests: XCTestCase {
     
    
-    func test_get_empty_entries() async {
+    func test_isloading() async {
         let store = TestStore(initialState: BreadJournalLisFeature.State()) {
             BreadJournalLisFeature()
         }withDependencies: {
             $0.journalListDataManager = .emptyMock()
         }
         
-        await store .send(.genEntries) {
-            $0.isLoading.toggle()
+        await store.send(.getEntries) { state in
+            state.isLoading = true
+        }
+        
+        await store.receive(\.entriesResponse.success) {
+            $0.isLoading = false
         }
     }
 

@@ -23,7 +23,6 @@ struct BreadJournalLisFeature {
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
         case genEntries
         case filterEntries
-        
     }
     
     
@@ -37,7 +36,7 @@ struct BreadJournalLisFeature {
             case .cancelEntry:
                 return .none
             case .genEntries:
-                state.isLoading = true
+                state.isLoading.toggle()
                 return .run { send in
                     await send (.entriesResponse(
                         TaskResult {
@@ -50,11 +49,11 @@ struct BreadJournalLisFeature {
                 }
                 
             case let .entriesResponse(.success(data)):
-                state.isLoading = false
+                state.isLoading.toggle()
                 state.journalEntries = data
                 return .none
             case let .entriesResponse(.failure(error)):
-                state.isLoading = false
+                state.isLoading.toggle()
                 state.error = .underlying(error)
                 return .none
             case .filterEntries:

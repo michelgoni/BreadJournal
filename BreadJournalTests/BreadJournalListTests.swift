@@ -13,7 +13,7 @@ import XCTest
 @MainActor
 final class BreadJournalListTests: XCTestCase {
     
-   
+    
     func test_isloading() async {
         let store = TestStore(initialState: BreadJournalLisFeature.State()) {
             BreadJournalLisFeature()
@@ -31,18 +31,18 @@ final class BreadJournalListTests: XCTestCase {
     }
     
     func test_receivedError() async {
-              let store = TestStore(initialState: BreadJournalLisFeature.State()) {
-                  BreadJournalLisFeature()
-              }withDependencies: {
-                  $0.journalListDataManager = .errorMock()
-              }
-              store.exhaustivity = .off
-      
-              await store.send(.getEntries)
-      
-              await store.receive(\.entriesResponse.failure) {
-                  $0.error = .databaseFailure(internalCode: 0)
-              }
-          }
-
+        let store = TestStore(initialState: BreadJournalLisFeature.State()) {
+            BreadJournalLisFeature()
+        }withDependencies: {
+            $0.journalListDataManager = .errorMock()
+        }
+        store.exhaustivity = .off
+        
+        await store.send(.getEntries)
+        
+        await store.receive(\.entriesResponse.failure) {
+            $0.error = .databaseFailure(internalCode: 0)
+        }
+    }
+    
 }

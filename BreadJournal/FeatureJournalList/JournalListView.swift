@@ -21,7 +21,7 @@ struct BreadJournalLisFeature {
         case addEntry
         case cancelEntry
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
-        case genEntries
+        case getEntries
         case filterEntries
     }
     
@@ -35,7 +35,7 @@ struct BreadJournalLisFeature {
                 return .none
             case .cancelEntry:
                 return .none
-            case .genEntries:
+            case .getEntries:
                 state.isLoading.toggle()
                 return .run { send in
                     await send (.entriesResponse(
@@ -101,7 +101,7 @@ struct BreadJournalListView: View {
             .onError(error: viewStore.state.error)
             .applyToolbar(viewStore: viewStore)
             .task {
-                viewStore.send(.genEntries)
+                viewStore.send(.getEntries)
             }
         }
     }

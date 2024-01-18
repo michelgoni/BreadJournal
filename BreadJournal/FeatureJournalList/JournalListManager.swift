@@ -75,3 +75,22 @@ extension DependencyValues {
     set { self[JournalListManager.self] = newValue }
   }
 }
+
+extension JournalListManager: TestDependencyKey {
+    static let testValueMock = Self.mockTest()
+    
+    static func mockTest(initialData: Data? = nil) -> Self {
+        let data = LockIsolated(try? JSONEncoder().encode([Entry.mock, Entry.mock2]))
+      return Self(
+        load: { _ in
+          guard let data = data.value
+          else {
+            struct FileNotFound: Error {}
+            throw FileNotFound()
+          }
+          return data
+        },
+        save: { newData, _ in data.setValue(newData) }
+      )
+    }
+}

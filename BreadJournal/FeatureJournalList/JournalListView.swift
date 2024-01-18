@@ -29,9 +29,9 @@ struct BreadJournalLisFeature {
         case filterEntries
     }
     
-    
+    @Dependency (\.journalListDataManager.load) var loadEntries
     var body: some ReducerOf<Self> {
-        @Dependency (\.journalListDataManager.load) var loadEntries
+        
         Reduce { state, action in
             switch action {
             case .addEntry:

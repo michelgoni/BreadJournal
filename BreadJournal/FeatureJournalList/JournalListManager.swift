@@ -78,6 +78,8 @@ extension DependencyValues {
 
 extension JournalListManager: TestDependencyKey {
     static let testValueMock = Self.mockTest()
+    static let testValueEmptyMock = Self.emptyMock()
+    static let testValueErrorMock = Self.errorMock()
     
     static func mockTest(initialData: Data? = nil) -> Self {
         let data = LockIsolated(try? JSONEncoder().encode([Entry.mock, Entry.mock2]))

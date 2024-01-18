@@ -57,6 +57,23 @@ final class BreadJournalListTests: XCTestCase {
         
         await store.receive(\.entriesResponse.success) {
             $0.journalEntries[0] = Entry.mock
+            let array = IdentifiedArray<UUID, Entry>()
+        }
+    }
+    
+    func test_received_empty_response() async {
+        let store = TestStore(initialState: BreadJournalLisFeature.State()) {
+            BreadJournalLisFeature()
+        }withDependencies: {
+            $0.journalListDataManager = .emptyMock()
+        }
+        store.exhaustivity = .off
+        
+        await store.send(.getEntries)
+        
+        await store.receive(\.entriesResponse.success) {
+            let array = IdentifiedArray<UUID, Entry>()
+            $0.journalEntries = array
         }
     }
 }

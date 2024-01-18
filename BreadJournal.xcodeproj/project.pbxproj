@@ -29,6 +29,7 @@
 		2DD2582D2B584AB400B6B037 /* BreadJournalListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */; };
 		2DD9E6022B4B232800E8EEAD /* JournalListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */; };
 		2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6032B4B269D00E8EEAD /* URL.swift */; };
+		2DDFA6CC2B59B0AE0070C157 /* JournalListManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDFA6CB2B59B0AE0070C157 /* JournalListManager+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalListTests.swift; sourceTree = "<group>"; };
 		2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListManager.swift; sourceTree = "<group>"; };
 		2DD9E6032B4B269D00E8EEAD /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		2DDFA6CB2B59B0AE0070C157 /* JournalListManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JournalListManager+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,11 +166,11 @@
 		2D975B9E2B45C57000FA1FB2 /* FeatureJournalList */ = {
 			isa = PBXGroup;
 			children = (
+				2DDFA6CA2B59B08D0070C157 /* DataManager */,
 				2DA5F8A72B4DCFA300F3E5D2 /* Modifiers */,
 				2D975B732B45C3DF00FA1FB2 /* JournalListView.swift */,
 				2D975BA22B45D3E100FA1FB2 /* JournalEntryView.swift */,
 				2D975BA42B45D3FE00FA1FB2 /* RatingView.swift */,
-				2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */,
 				2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */,
 			);
 			path = FeatureJournalList;
@@ -203,6 +205,15 @@
 				2D619A112B570408004E564B /* BreadErrorModifier.swift */,
 			);
 			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		2DDFA6CA2B59B08D0070C157 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */,
+				2DDFA6CB2B59B0AE0070C157 /* JournalListManager+Extension.swift */,
+			);
+			path = DataManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,6 +358,7 @@
 				2D975BAC2B45D5C100FA1FB2 /* FavoriteImage.swift in Sources */,
 				2D975BA32B45D3E100FA1FB2 /* JournalEntryView.swift in Sources */,
 				2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */,
+				2DDFA6CC2B59B0AE0070C157 /* JournalListManager+Extension.swift in Sources */,
 				2DD9E6022B4B232800E8EEAD /* JournalListManager.swift in Sources */,
 				2D975BAA2B45D5C100FA1FB2 /* Shimmering.swift in Sources */,
 				2D975B742B45C3DF00FA1FB2 /* JournalListView.swift in Sources */,

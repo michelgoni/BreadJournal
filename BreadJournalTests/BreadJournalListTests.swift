@@ -30,7 +30,7 @@ final class BreadJournalListTests: XCTestCase {
         }
     }
     
-    func test_receivedError() async {
+    func test_received_error() async {
         let store = TestStore(initialState: BreadJournalLisFeature.State()) {
             BreadJournalLisFeature()
         }withDependencies: {
@@ -45,4 +45,18 @@ final class BreadJournalListTests: XCTestCase {
         }
     }
     
+    func test_received_response() async {
+        let store = TestStore(initialState: BreadJournalLisFeature.State()) {
+            BreadJournalLisFeature()
+        }withDependencies: {
+            $0.journalListDataManager = .mock()
+        }
+        store.exhaustivity = .off
+        
+        await store.send(.getEntries)
+        
+        await store.receive(\.entriesResponse.success) {
+            $0.journalEntries[0] = Entry.mock
+        }
+    }
 }

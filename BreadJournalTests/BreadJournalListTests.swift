@@ -18,7 +18,7 @@ final class BreadJournalListTests: XCTestCase {
         let store = TestStore(initialState: BreadJournalLisFeature.State()) {
             BreadJournalLisFeature()
         }withDependencies: {
-            $0.journalListDataManager = .emptyMock()
+            $0.journalListDataManager = .testValueEmptyMock
         }
         
         await store.send(.getEntries) { state in
@@ -34,7 +34,7 @@ final class BreadJournalListTests: XCTestCase {
         let store = TestStore(initialState: BreadJournalLisFeature.State()) {
             BreadJournalLisFeature()
         }withDependencies: {
-            $0.journalListDataManager = .errorMock()
+            $0.journalListDataManager = .testValueErrorMock
         }
         store.exhaustivity = .off
         
@@ -49,7 +49,7 @@ final class BreadJournalListTests: XCTestCase {
         let store = TestStore(initialState: BreadJournalLisFeature.State()) {
             BreadJournalLisFeature()
         }withDependencies: {
-            $0.journalListDataManager = .mock()
+            $0.journalListDataManager = .testValueMock
         }
         store.exhaustivity = .off
         
@@ -57,7 +57,6 @@ final class BreadJournalListTests: XCTestCase {
         
         await store.receive(\.entriesResponse.success) {
             $0.journalEntries[0] = Entry.mock
-            let array = IdentifiedArray<UUID, Entry>()
         }
     }
     

@@ -30,6 +30,7 @@
 		2DD9E6022B4B232800E8EEAD /* JournalListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */; };
 		2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6032B4B269D00E8EEAD /* URL.swift */; };
 		2DDFA6CC2B59B0AE0070C157 /* JournalListManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDFA6CB2B59B0AE0070C157 /* JournalListManager+Extension.swift */; };
+		2DF10E252B5DA932002C343A /* BreadForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF10E242B5DA932002C343A /* BreadForm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListManager.swift; sourceTree = "<group>"; };
 		2DD9E6032B4B269D00E8EEAD /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		2DDFA6CB2B59B0AE0070C157 /* JournalListManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JournalListManager+Extension.swift"; sourceTree = "<group>"; };
+		2DF10E242B5DA932002C343A /* BreadForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadForm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 		2D975B702B45C3DF00FA1FB2 /* BreadJournal */ = {
 			isa = PBXGroup;
 			children = (
+				2DF10E232B5DA8FC002C343A /* FeatureBreadForm */,
 				2D975BA62B45D5A700FA1FB2 /* Extension */,
 				2D975B9F2B45CBF500FA1FB2 /* Models */,
 				2D975B9E2B45C57000FA1FB2 /* FeatureJournalList */,
@@ -214,6 +217,14 @@
 				2DDFA6CB2B59B0AE0070C157 /* JournalListManager+Extension.swift */,
 			);
 			path = DataManager;
+			sourceTree = "<group>";
+		};
+		2DF10E232B5DA8FC002C343A /* FeatureBreadForm */ = {
+			isa = PBXGroup;
+			children = (
+				2DF10E242B5DA932002C343A /* BreadForm.swift */,
+			);
+			path = FeatureBreadForm;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,6 +367,7 @@
 				2DA5F8AB2B4DD30500F3E5D2 /* EmptyView.swift in Sources */,
 				2D619A102B56FCFA004E564B /* LoaderModifier.swift in Sources */,
 				2D975BAC2B45D5C100FA1FB2 /* FavoriteImage.swift in Sources */,
+				2DF10E252B5DA932002C343A /* BreadForm.swift in Sources */,
 				2D975BA32B45D3E100FA1FB2 /* JournalEntryView.swift in Sources */,
 				2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */,
 				2DDFA6CC2B59B0AE0070C157 /* JournalListManager+Extension.swift in Sources */,

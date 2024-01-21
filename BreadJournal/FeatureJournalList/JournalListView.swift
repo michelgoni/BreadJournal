@@ -12,7 +12,7 @@ import SwiftUI
 struct BreadJournalLisFeature {
     
     struct State: Equatable {
-        @PresentationState var addNewENtry: BreadJournalLisFeature.State?
+        @PresentationState var addNewEntry: BreadFormFeature.State?
         var journalEntries: IdentifiedArrayOf<Entry> = []
         var error: BreadJournalError? = nil
         var isLoading = false
@@ -24,7 +24,7 @@ struct BreadJournalLisFeature {
     
     enum Action: Equatable {
         case addEntryTapped
-        case addEntry(PresentationAction<BreadJournalLisFeature.Action>)
+        case addEntry(PresentationAction<BreadFormFeature.Action>)
         case cancelEntry
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
         case getEntries
@@ -38,6 +38,9 @@ struct BreadJournalLisFeature {
             switch action {
             case .addEntry:
                 debugPrint("Adding items")
+                return .none
+            case .addEntryTapped:
+                state.addNewEntry = BreadFormFeature.State()
                 return .none
             case .cancelEntry:
                 return .none
@@ -65,6 +68,7 @@ struct BreadJournalLisFeature {
             case .filterEntries:
                 debugPrint("Filtering items")
                 return .none
+          
             }
         }
     }

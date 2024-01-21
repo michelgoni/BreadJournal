@@ -16,7 +16,7 @@ struct ToolbarModifier: ViewModifier {
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button {
-                        viewStore.send(.addEntry)
+                        viewStore.send(.addEntryTapped)
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.black)

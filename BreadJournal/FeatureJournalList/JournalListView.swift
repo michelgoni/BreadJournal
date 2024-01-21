@@ -23,7 +23,8 @@ struct BreadJournalLisFeature {
     }
     
     enum Action: Equatable {
-        case addEntry
+        case addEntryTapped
+        case addEntry(PresentationAction<BreadJournalLisFeature.Action>)
         case cancelEntry
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
         case getEntries

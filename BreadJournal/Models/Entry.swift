@@ -14,26 +14,26 @@ import UIKit
     case yeast
 }
 
- struct Entry: Codable, Identifiable, Equatable {
-
-    let date: Date
-    let isFavorite: Bool
-    let rating: Int
-    let name: String
-    let image: Data?
+struct Entry: Codable, Identifiable, Equatable {
+    
+    var date = Date()
+    var isFavorite = false
+    var rating = Int.zero
+    var name = ""
+    var image: Data?
     let id: UUID
 }
 
 extension Entry {
     
-    static let mock = Entry(date: Date(),
+    static let mock = Entry(
                             isFavorite: false,
                             rating: 2, 
                             name: "Pan de centeno",
                             image: nil,
                             id: Entry.ID())
     
-    static let mock2 = Entry(date: Date(),
+    static let mock2 = Entry(
                             isFavorite: true,
                             rating: 4,
                             name: "Pan de maíz",

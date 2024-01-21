@@ -7,27 +7,39 @@
 
 import UIKit
 
-public enum Filter {
+ enum Filter {
     case date
     case rank
     case sourdough
     case yeast
 }
 
-public struct Entry: Codable, Identifiable, Equatable {
+ struct Entry: Codable, Identifiable, Equatable {
 
     let date: Date
     let isFavorite: Bool
     let rating: Int
     let name: String
     let image: Data?
-    public let id: UUID
+    let id: UUID
+}
+
+extension Entry {
     
-    static let all = [Entry(date: Date(), isFavorite: false, rating: 2, name: "Pan de centeno", image: nil, id: UUID()),
-                      Entry(date: Date(), isFavorite: true, rating: 2, name: "Pan de escanda", image: nil, id: UUID()),
-                      Entry(date: Date(), isFavorite: false, rating: 5, name: "Pan de trigo", image: nil, id: UUID()),
-                      Entry(date: Date(), isFavorite: true, rating: 3, name: "Pan de maíz", image: nil, id: UUID())
-    ]
+    static let mock = Entry(date: Date(),
+                            isFavorite: false,
+                            rating: 2, 
+                            name: "Pan de centeno",
+                            image: nil,
+                            id: Entry.ID())
+    
+    static let mock2 = Entry(date: Date(),
+                            isFavorite: true,
+                            rating: 4,
+                            name: "Pan de maíz",
+                            image: nil,
+                            id: Entry.ID())
+    
 }
 
 extension Entry {

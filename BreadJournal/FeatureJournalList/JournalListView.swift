@@ -9,35 +9,68 @@ import ComposableArchitecture
 import SwiftUI
 
 @Reducer
-
-struct BreadJournalReducer {
+struct BreadJournalLisFeature {
     
-    struct State {
+    struct State: Equatable {
         var journalEntries: IdentifiedArrayOf<Entry> = []
+        var error: BreadJournalError? = nil
+        var isLoading = false
         
+        var isEmpty: Bool {
+            journalEntries.isEmpty
+        }
     }
     
-    
-    enum Action {
-        
-        
+    enum Action: Equatable {
+        case addEntry
+        case cancelEntry
+        case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
+        case getEntries
+        case filterEntries
     }
     
+    @Dependency (\.journalListDataManager.load) var loadEntries
     var body: some ReducerOf<Self> {
+        
         Reduce { state, action in
             switch action {
+            case .addEntry:
+                debugPrint("Adding items")
+                return .none
+            case .cancelEntry:
+                return .none
+            case .getEntries:
+                state.isLoading.toggle()
+                return .run { send in
+                    await send (.entriesResponse(
+                        TaskResult {
+                            try JSONDecoder().decode(
+                                    IdentifiedArrayOf<Entry>.self,
+                                    from: loadEntries(.breadEntries)
+                                )
+                        })
+                    )
+                }
                 
-                
-                
+            case let .entriesResponse(.success(data)):
+                state.isLoading.toggle()
+                state.journalEntries = data
+                return .none
+            case let .entriesResponse(.failure(error)):
+                state.isLoading.toggle()
+                state.error = .underlying(error)
+                return .none
+            case .filterEntries:
+                debugPrint("Filtering items")
+                return .none
             }
         }
     }
 }
- 
 
 struct BreadJournalListView: View {
     
-    private  var columns: [GridItem] {
+    var columns: [GridItem] {
         switch UIScreen.main.bounds.width {
         case _ where UIScreen.main.bounds.width > 400:
             return [GridItem(.flexible()), GridItem(.flexible())]
@@ -45,106 +78,52 @@ struct BreadJournalListView: View {
             return [GridItem(.flexible())]
         }
     }
-    
-    private var entries = Entry.all
+
+    let store: StoreOf<BreadJournalLisFeature>
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                LazyVGrid(
-                    columns: columns,
-                    spacing: 16) {
-                        ForEach(entries) { entry in
-                            JournalEntryView.init(entry: entry)
-                        }
+        WithViewStore(self.store,
+                      observe: { $0 }) { viewStore in
+            NavigationStack {
+                if viewStore.state.journalEntries.isEmpty {
+                    EmptyJournalView()
+                } else {
+                    ScrollView {
+                        LazyVGrid(
+                            columns: columns,
+                            spacing: 16) {
+                                ForEach(viewStore.state.journalEntries) { entry in
+                                    JournalEntryView.init(entry: entry)
+                                }
+                            }
+                            .padding(.all, 46)
                     }
-                    .padding(.all, 46)
-            }
-            .navigationTitle("Title goes here")
-            .toolbar {
-                ToolbarItemGroup(placement: .primaryAction) {
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .foregroundColor(.black)
-                            .font(
-                                .system(
-                                    size: 40,
-                                    weight: .light)
-                            )
-                    }
-                    .padding(.top, 48)
-                    Spacer()
-                    Button {
-                        print("Filter tapped!")
-                    } label: {
-                        Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                            .foregroundColor(.black)
-                            .font(
-                                .system(
-                                    size: 40,
-                                    weight: .light)
-                            )
-                    }
-                    .padding(.top, 48)
                 }
             }
-            
+            .navigationTitle("Bread journal")
+            .loader(isLoading: viewStore.state.isLoading)
+            .onError(error: viewStore.state.error)
+            .applyToolbar(viewStore: viewStore)
+            .task {
+                viewStore.send(.getEntries)
+            }
         }
-        
-        
-        
     }
-    
-    
-           
-
-      
-
-//    var body: some View {
-//        ScrollView {
-//            LazyVGrid(
-//                columns: columns,
-//                spacing: 16) {
-//                    ForEach(entries) { entry in
-//                        JournalEntryView.init(entry: entry)
-//                    }
-//                }
-//                .padding(.all, 16)
-//                .toolbar {
-//                    ToolbarItemGroup(placement: .primaryAction) {
-//                        Button {
-//                            
-//                        } label: {
-//                            Image(systemName: "plus.circle.fill")
-//                                .foregroundColor(.black)
-//                                .font(
-//                                    .system(
-//                                        size: 40,
-//                                        weight: .light)
-//                                )
-//                        }
-//                        .padding(.top, 48)
-//                        Spacer()
-//                        Button {
-//                            print("Filter tapped!")
-//                        } label: {
-//                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
-//                                .foregroundColor(.black)
-//                                .font(
-//                                    .system(
-//                                        size: 40,
-//                                        weight: .light)
-//                                )
-//                        }
-//                        .padding(.top, 48)
-//                    }
-//                }
-//        }
-//    }
 }
 
 #Preview {
-    BreadJournalListView()
+    MainActor.assumeIsolated {
+        NavigationStack {
+            BreadJournalListView(
+                store: Store(
+                    initialState: BreadJournalLisFeature.State(),
+                    reducer: {
+                        BreadJournalLisFeature()
+                            ._printChanges()
+                    }, withDependencies: {
+                        $0.journalListDataManager = .previewError
+                    }))
+            
+        }
+    }
 }

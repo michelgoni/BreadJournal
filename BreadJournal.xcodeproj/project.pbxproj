@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D5C09292B51AB1C00D5BEFB /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5C09282B51AB1C00D5BEFB /* Error.swift */; };
+		2D619A102B56FCFA004E564B /* LoaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */; };
+		2D619A122B570408004E564B /* BreadErrorModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A112B570408004E564B /* BreadErrorModifier.swift */; };
 		2D975B722B45C3DF00FA1FB2 /* BreadJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B712B45C3DF00FA1FB2 /* BreadJournalApp.swift */; };
 		2D975B742B45C3DF00FA1FB2 /* JournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B732B45C3DF00FA1FB2 /* JournalListView.swift */; };
 		2D975B762B45C3E000FA1FB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D975B752B45C3E000FA1FB2 /* Assets.xcassets */; };
 		2D975B792B45C3E000FA1FB2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D975B782B45C3E000FA1FB2 /* Preview Assets.xcassets */; };
-		2D975B832B45C3E100FA1FB2 /* BreadJournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B822B45C3E100FA1FB2 /* BreadJournalTests.swift */; };
 		2D975B8D2B45C3E100FA1FB2 /* BreadJournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B8C2B45C3E100FA1FB2 /* BreadJournalUITests.swift */; };
 		2D975B8F2B45C3E100FA1FB2 /* BreadJournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B8E2B45C3E100FA1FB2 /* BreadJournalUITestsLaunchTests.swift */; };
 		2D975B9D2B45C54C00FA1FB2 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 2D975B9C2B45C54C00FA1FB2 /* ComposableArchitecture */; };
@@ -22,6 +24,12 @@
 		2D975BAB2B45D5C100FA1FB2 /* OptionalImageModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975BA82B45D5C100FA1FB2 /* OptionalImageModifier.swift */; };
 		2D975BAC2B45D5C100FA1FB2 /* FavoriteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975BA92B45D5C100FA1FB2 /* FavoriteImage.swift */; };
 		2D975BAE2B45D74600FA1FB2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975BAD2B45D74600FA1FB2 /* Date.swift */; };
+		2DA5F8A92B4DCFC700F3E5D2 /* ToolbarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */; };
+		2DA5F8AB2B4DD30500F3E5D2 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */; };
+		2DD2582D2B584AB400B6B037 /* BreadJournalListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */; };
+		2DD9E6022B4B232800E8EEAD /* JournalListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */; };
+		2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6032B4B269D00E8EEAD /* URL.swift */; };
+		2DDFA6CC2B59B0AE0070C157 /* JournalListManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDFA6CB2B59B0AE0070C157 /* JournalListManager+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,13 +50,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D31992F2B5863AA000F9448 /* BreadJournal.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BreadJournal.xctestplan; sourceTree = "<group>"; };
+		2D5C09282B51AB1C00D5BEFB /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderModifier.swift; sourceTree = "<group>"; };
+		2D619A112B570408004E564B /* BreadErrorModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadErrorModifier.swift; sourceTree = "<group>"; };
 		2D975B6E2B45C3DF00FA1FB2 /* BreadJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreadJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D975B712B45C3DF00FA1FB2 /* BreadJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalApp.swift; sourceTree = "<group>"; };
 		2D975B732B45C3DF00FA1FB2 /* JournalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListView.swift; sourceTree = "<group>"; };
 		2D975B752B45C3E000FA1FB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D975B782B45C3E000FA1FB2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2D975B7E2B45C3E100FA1FB2 /* BreadJournalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreadJournalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D975B822B45C3E100FA1FB2 /* BreadJournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalTests.swift; sourceTree = "<group>"; };
 		2D975B882B45C3E100FA1FB2 /* BreadJournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreadJournalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D975B8C2B45C3E100FA1FB2 /* BreadJournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalUITests.swift; sourceTree = "<group>"; };
 		2D975B8E2B45C3E100FA1FB2 /* BreadJournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -59,6 +70,12 @@
 		2D975BA82B45D5C100FA1FB2 /* OptionalImageModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalImageModifier.swift; sourceTree = "<group>"; };
 		2D975BA92B45D5C100FA1FB2 /* FavoriteImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteImage.swift; sourceTree = "<group>"; };
 		2D975BAD2B45D74600FA1FB2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarModifier.swift; sourceTree = "<group>"; };
+		2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalListTests.swift; sourceTree = "<group>"; };
+		2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListManager.swift; sourceTree = "<group>"; };
+		2DD9E6032B4B269D00E8EEAD /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		2DDFA6CB2B59B0AE0070C157 /* JournalListManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JournalListManager+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +107,7 @@
 		2D975B652B45C3DF00FA1FB2 = {
 			isa = PBXGroup;
 			children = (
+				2D31992F2B5863AA000F9448 /* BreadJournal.xctestplan */,
 				2D975B702B45C3DF00FA1FB2 /* BreadJournal */,
 				2D975B812B45C3E100FA1FB2 /* BreadJournalTests */,
 				2D975B8B2B45C3E100FA1FB2 /* BreadJournalUITests */,
@@ -131,7 +149,7 @@
 		2D975B812B45C3E100FA1FB2 /* BreadJournalTests */ = {
 			isa = PBXGroup;
 			children = (
-				2D975B822B45C3E100FA1FB2 /* BreadJournalTests.swift */,
+				2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */,
 			);
 			path = BreadJournalTests;
 			sourceTree = "<group>";
@@ -148,9 +166,12 @@
 		2D975B9E2B45C57000FA1FB2 /* FeatureJournalList */ = {
 			isa = PBXGroup;
 			children = (
+				2DDFA6CA2B59B08D0070C157 /* DataManager */,
+				2DA5F8A72B4DCFA300F3E5D2 /* Modifiers */,
 				2D975B732B45C3DF00FA1FB2 /* JournalListView.swift */,
 				2D975BA22B45D3E100FA1FB2 /* JournalEntryView.swift */,
 				2D975BA42B45D3FE00FA1FB2 /* RatingView.swift */,
+				2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */,
 			);
 			path = FeatureJournalList;
 			sourceTree = "<group>";
@@ -159,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				2D975BA02B45CC3600FA1FB2 /* Entry.swift */,
+				2D5C09282B51AB1C00D5BEFB /* Error.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -167,11 +189,31 @@
 			isa = PBXGroup;
 			children = (
 				2D975BA92B45D5C100FA1FB2 /* FavoriteImage.swift */,
-				2D975BA82B45D5C100FA1FB2 /* OptionalImageModifier.swift */,
 				2D975BA72B45D5C100FA1FB2 /* Shimmering.swift */,
 				2D975BAD2B45D74600FA1FB2 /* Date.swift */,
+				2DD9E6032B4B269D00E8EEAD /* URL.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		2DA5F8A72B4DCFA300F3E5D2 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				2D975BA82B45D5C100FA1FB2 /* OptionalImageModifier.swift */,
+				2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */,
+				2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */,
+				2D619A112B570408004E564B /* BreadErrorModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		2DDFA6CA2B59B08D0070C157 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */,
+				2DDFA6CB2B59B0AE0070C157 /* JournalListManager+Extension.swift */,
+			);
+			path = DataManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,13 +353,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D975BA12B45CC3600FA1FB2 /* Entry.swift in Sources */,
+				2DA5F8AB2B4DD30500F3E5D2 /* EmptyView.swift in Sources */,
+				2D619A102B56FCFA004E564B /* LoaderModifier.swift in Sources */,
 				2D975BAC2B45D5C100FA1FB2 /* FavoriteImage.swift in Sources */,
 				2D975BA32B45D3E100FA1FB2 /* JournalEntryView.swift in Sources */,
+				2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */,
+				2DDFA6CC2B59B0AE0070C157 /* JournalListManager+Extension.swift in Sources */,
+				2DD9E6022B4B232800E8EEAD /* JournalListManager.swift in Sources */,
 				2D975BAA2B45D5C100FA1FB2 /* Shimmering.swift in Sources */,
 				2D975B742B45C3DF00FA1FB2 /* JournalListView.swift in Sources */,
 				2D975BAB2B45D5C100FA1FB2 /* OptionalImageModifier.swift in Sources */,
+				2D619A122B570408004E564B /* BreadErrorModifier.swift in Sources */,
 				2D975BA52B45D3FE00FA1FB2 /* RatingView.swift in Sources */,
 				2D975BAE2B45D74600FA1FB2 /* Date.swift in Sources */,
+				2DA5F8A92B4DCFC700F3E5D2 /* ToolbarModifier.swift in Sources */,
+				2D5C09292B51AB1C00D5BEFB /* Error.swift in Sources */,
 				2D975B722B45C3DF00FA1FB2 /* BreadJournalApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,7 +376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D975B832B45C3E100FA1FB2 /* BreadJournalTests.swift in Sources */,
+				2DD2582D2B584AB400B6B037 /* BreadJournalListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,8 +698,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.6;
+				kind = exactVersion;
+				version = 1.6.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

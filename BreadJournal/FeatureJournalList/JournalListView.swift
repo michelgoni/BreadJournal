@@ -12,6 +12,7 @@ import SwiftUI
 struct BreadJournalLisFeature {
     
     struct State: Equatable {
+        @PresentationState var addNewENtry: BreadJournalLisFeature.State?
         var journalEntries: IdentifiedArrayOf<Entry> = []
         var error: BreadJournalError? = nil
         var isLoading = false

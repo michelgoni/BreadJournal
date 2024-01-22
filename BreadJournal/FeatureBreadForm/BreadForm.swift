@@ -10,7 +10,14 @@ import Foundation
 
 @Reducer
 struct BreadFormFeature {
-    struct State: Equatable {}
+    struct State: Equatable {
+        @BindingState var journalEntry: Entry
+        
+        init(journalEntry: Entry) {
+            self.journalEntry = journalEntry
+        }
+    }
+    
     struct Action: Equatable {}
     
     var body: some ReducerOf<Self> {

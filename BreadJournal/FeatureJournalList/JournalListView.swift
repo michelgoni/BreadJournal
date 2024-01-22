@@ -32,6 +32,7 @@ struct BreadJournalLisFeature {
     }
     
     @Dependency (\.journalListDataManager.load) var loadEntries
+    @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
         
         Reduce { state, action in
@@ -40,7 +41,11 @@ struct BreadJournalLisFeature {
                 debugPrint("Adding items")
                 return .none
             case .addEntryTapped:
-                state.addNewEntry = BreadFormFeature.State()
+                state.addNewEntry = BreadFormFeature.State(
+                    journalEntry: Entry(
+                        id: self.uuid()
+                    )
+                )
                 return .none
             case .cancelEntry:
                 return .none

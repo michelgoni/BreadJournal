@@ -48,6 +48,7 @@ struct BreadJournalLisFeature {
                 )
                 return .none
             case .cancelEntry:
+                state.addNewEntry = nil
                 return .none
             case .getEntries:
                 state.isLoading.toggle()
@@ -55,9 +56,9 @@ struct BreadJournalLisFeature {
                     await send (.entriesResponse(
                         TaskResult {
                             try JSONDecoder().decode(
-                                    IdentifiedArrayOf<Entry>.self,
-                                    from: loadEntries(.breadEntries)
-                                )
+                                IdentifiedArrayOf<Entry>.self,
+                                from: loadEntries(.breadEntries)
+                            )
                         })
                     )
                 }
@@ -73,7 +74,7 @@ struct BreadJournalLisFeature {
             case .filterEntries:
                 debugPrint("Filtering items")
                 return .none
-          
+                
             }
         }
         .ifLet(\.$addNewEntry, action: \.addEntry) {
@@ -92,7 +93,7 @@ struct BreadJournalListView: View {
             return [GridItem(.flexible())]
         }
     }
-
+    
     let store: StoreOf<BreadJournalLisFeature>
     
     var body: some View {
@@ -121,9 +122,25 @@ struct BreadJournalListView: View {
             .sheet(
                 store: store.scope(
                     state: \.$addNewEntry,
-                    action: \.addEntry), content: { store in
+                    action: \.addEntry),
+                content: { store in
+                    NavigationStack {
                         BreadFormView(store: store)
+                            .navigationTitle("New journal entry")
+                            .toolbar {
+                                ToolbarItem {
+                                    Button("Save") {
+                                        viewStore.send(.addEntryTapped)
+                                    }
+                                }
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button("Cancel") {
+                                        viewStore.send(.cancelEntry)
+                                    }
+                                }
+                            }
                     }
+                }
             )
             .task {
                 viewStore.send(.getEntries)
@@ -142,7 +159,7 @@ struct BreadJournalListView: View {
                         BreadJournalLisFeature()
                             ._printChanges()
                     }, withDependencies: {
-                        $0.journalListDataManager = .previewError
+                        $0.journalListDataManager = .previewValue
                     }))
             
         }

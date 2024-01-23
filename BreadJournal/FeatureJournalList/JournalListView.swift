@@ -29,6 +29,7 @@ struct BreadJournalLisFeature {
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
         case getEntries
         case filterEntries
+        case saveEntry
     }
     
     @Dependency (\.journalListDataManager.load) var loadEntries
@@ -73,6 +74,13 @@ struct BreadJournalLisFeature {
                 return .none
             case .filterEntries:
                 debugPrint("Filtering items")
+                return .none
+            case .saveEntry:
+                guard let entry = state.addNewEntry?.journalEntry else {
+                    return .none
+                }
+                state.journalEntries.append(entry)
+                state.addNewEntry = nil
                 return .none
                 
             }
@@ -130,7 +138,7 @@ struct BreadJournalListView: View {
                             .toolbar {
                                 ToolbarItem {
                                     Button("Save") {
-                                        viewStore.send(.addEntryTapped)
+                                        viewStore.send(.saveEntry)
                                     }
                                 }
                                 ToolbarItem(placement: .cancellationAction) {

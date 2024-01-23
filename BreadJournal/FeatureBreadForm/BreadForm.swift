@@ -18,7 +18,9 @@ struct BreadFormFeature {
         }
     }
     
-    struct Action: Equatable {}
+    enum Action: BindableAction, Equatable {
+        case binding(BindingAction<State>)
+    }
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in

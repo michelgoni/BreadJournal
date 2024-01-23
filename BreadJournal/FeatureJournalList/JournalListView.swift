@@ -76,7 +76,7 @@ struct BreadJournalLisFeature {
           
             }
         }
-        .ifLet(\.$addNewEntry, action: /Action.addEntry) {
+        .ifLet(\.$addNewEntry, action: \.addEntry) {
             BreadFormFeature()
         }
     }

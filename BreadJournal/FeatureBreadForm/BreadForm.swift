@@ -6,7 +6,7 @@
 //
 
 import ComposableArchitecture
-import Foundation
+import SwiftUI
 
 @Reducer
 struct BreadFormFeature {
@@ -27,5 +27,12 @@ struct BreadFormFeature {
             }
             
         }
+    }
+}
+
+struct BreadFormView: View {
+    let store: StoreOf<BreadFormFeature>
+    var body: some View {
+        Text(verbatim: "Muy bien, no?")
     }
 }

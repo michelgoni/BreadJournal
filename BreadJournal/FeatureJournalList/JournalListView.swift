@@ -118,6 +118,13 @@ struct BreadJournalListView: View {
             .loader(isLoading: viewStore.state.isLoading)
             .onError(error: viewStore.state.error)
             .applyToolbar(viewStore: viewStore)
+            .sheet(
+                store: store.scope(
+                    state: \.$addNewEntry,
+                    action: \.addEntry), content: { store in
+                        BreadFormView(store: store)
+                    }
+            )
             .task {
                 viewStore.send(.getEntries)
             }

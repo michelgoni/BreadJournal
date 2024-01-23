@@ -13,12 +13,35 @@ import XCTest
 @MainActor
 final class BreadJournalListTests: XCTestCase {
     
+    func test_save_tapped() async {
+        let store = TestStore(initialState: BreadJournalLisFeature.State()) {
+            BreadJournalLisFeature()
+        }withDependencies: {
+            $0.journalListDataManager = .testValueMock
+        }
+        store.exhaustivity = .off
+        
+        
+        var entry = Entry(id: UUID(0))
+        await store.send(.addEntryTapped) {
+            $0.addNewEntry = BreadFormFeature.State(journalEntry: entry)
+        }
+        entry.name = "Pan de centeno"
+        await store.send(.addEntry(.presented(.set(\.$journalEntry, entry)))) {
+            $0.addNewEntry?.journalEntry.name = "Pan de centeno"
+        }
+        await store.send(.cancelEntry) {
+            $0.addNewEntry = nil
+        }
+    }
+    
     
     func test_isloading() async {
         let store = TestStore(initialState: BreadJournalLisFeature.State()) {
             BreadJournalLisFeature()
         }withDependencies: {
             $0.journalListDataManager = .testValueEmptyMock
+            $0.uuid = .incrementing
         }
         
         await store.send(.getEntries) { state in

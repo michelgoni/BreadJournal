@@ -38,9 +38,9 @@ struct BreadJournalLisFeature {
         Reduce { state, action in
             switch action {
             case .addEntry:
-                debugPrint("Adding items")
                 return .none
             case .addEntryTapped:
+                debugPrint("Adding items")
                 state.addNewEntry = BreadFormFeature.State(
                     journalEntry: Entry(
                         id: self.uuid()
@@ -75,6 +75,9 @@ struct BreadJournalLisFeature {
                 return .none
           
             }
+        }
+        .ifLet(\.$addNewEntry, action: /Action.addEntry) {
+            BreadFormFeature()
         }
     }
 }

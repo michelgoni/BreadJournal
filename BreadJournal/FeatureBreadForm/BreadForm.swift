@@ -35,6 +35,25 @@ struct BreadFormFeature {
 struct BreadFormView: View {
     let store: StoreOf<BreadFormFeature>
     var body: some View {
-        Text(verbatim: "Muy bien, no?")
+        WithViewStore(self.store, observe: {$0}) { viewStore in
+            Text(verbatim: viewStore.journalEntry.name)
+        }
+       
+    }
+}
+
+#Preview {
+    MainActor.assumeIsolated {
+        NavigationStack {
+            BreadFormView(
+                store: Store(
+                    initialState: BreadFormFeature.State(
+                        journalEntry: .mock
+                    ),
+                    reducer: {
+                        BreadFormFeature()
+                    })
+            )
+        }
     }
 }

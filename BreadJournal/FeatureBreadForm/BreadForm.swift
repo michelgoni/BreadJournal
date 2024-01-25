@@ -37,17 +37,18 @@ struct BreadFormView: View {
     var body: some View {
         WithViewStore(self.store, observe: {$0}) { viewStore in
             VStack {
+    
                 Form {
                     Section {
                         DatePicker("Fecha",
-                                   selection: viewStore.$journalEntry.date,
+                                   selection: viewStore.$journalEntry.entryDate,
                                    displayedComponents: .date)
                     }
                     
-                    //                    Section(header: Text("Foto")) {
-                    //                        ImagePickerView(selectedImage: viewStore.$journalEntry.breadPicture)
-                    //                            .frame(maxWidth: .infinity, alignment: .center)
-                    //                    }
+                    Section(header: Text("Foto")) {
+                        ImagePickerView(selectedImage: viewStore.$journalEntry.breadPicture)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
                     //                    Section(
                     //                        header: IngredientsHeaderView(
                     //                            addItem: addItem(ingredient:))

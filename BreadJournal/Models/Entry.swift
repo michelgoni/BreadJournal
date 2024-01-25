@@ -16,7 +16,7 @@ import UIKit
 
 struct Entry: Codable, Identifiable, Equatable {
     
-    var date = Date()
+    var entryDate = Date()
     var isFavorite = false
     var rating = Int.zero
     var name = ""
@@ -61,8 +61,13 @@ extension Entry {
 
 extension Entry {
     public var breadPicture: UIImage? {
-        guard let image else { return nil }
-        return UIImage(data: image)
+        get {
+            guard let imageData = self.image else { return nil }
+            return UIImage(data: imageData)
+        }
+        set {
+            self.image = newValue?.jpegData(compressionQuality: 1.0) // Or pngData()
+        }
     }
 }
 

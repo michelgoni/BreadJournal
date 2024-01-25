@@ -30,7 +30,7 @@ struct JournalEntryView: View {
                         .foregroundColor(.black)
                         .font(.system(size: 20, weight: .light))
                 }
-                Text(entry.date.convertToMonthYearFormat())
+                Text(entry.entryDate.convertToMonthYearFormat())
                     .font(.callout)
                     .fontWeight(.light)
                     .italic()
@@ -51,7 +51,7 @@ struct JournalEntryView: View {
 
 #Preview {
     
-    JournalEntryView(entry: Entry(date: Date(),
+    JournalEntryView(entry: Entry(entryDate: Date(),
                                   isFavorite: true,
                                   rating: 3,
                                   name: "Pan de centeno",
@@ -62,7 +62,7 @@ struct JournalEntryView: View {
 
 #Preview("Favorite false") {
     
-    JournalEntryView(entry: Entry(date: Date(),
+    JournalEntryView(entry: Entry(entryDate: Date(),
                                   isFavorite: false,
                                   rating: 1,
                                   name: "Pan de maíz",

@@ -58,86 +58,96 @@ struct BreadFormView: View {
                     //                                      text: $items[index])
                     //                        }
                     //                    }
-                    //                    Group {
-                    //
-                    //                        Section {
-                    //                            DatePicker("Hora último refresco mada madre",
-                    //                                       selection: viewStore.$journalEntry.lastSourdoughFeedTime,
-                    //                                       displayedComponents: .hourAndMinute)
-                    //                        }
-                    //                        Section {
-                    //                            DatePicker("Hora comiezo prefermento",
-                    //                                       selection: viewStore.$journalEntry.prefermentStartingTime,
-                    //                                       displayedComponents: .hourAndMinute)
-                    //                        }
-                    //                        Section {
-                    //                            DatePicker("Hora comiezo autólisis",
-                    //                                       selection: viewStore.journalEntry.autolysisStartingTime,
-                    //                                       displayedComponents: .hourAndMinute)
-                    //                        }
-                    //                        Section {
-                    //                            DatePicker("Hora comiezo fermentación en bloque",
-                    //                                       selection: viewStore.journalEntry.blockFermentationStartingTime,
-                    //                                       displayedComponents: .hourAndMinute)
-                    //                        }
-                    //
-                    //                        Section {
-                    //                            TextField("Pliegues", text: viewStore.journalEntry.folds)
-                    //                        }
-                    //
-                    //                        Section {
-                    //                            DatePicker("Hora formado del pan",
-                    //                                       selection: viewStore.journalEntry.breadShapingTime,
-                    //                                       displayedComponents: .hourAndMinute)
-                    //                        }
-                    //
-                    //                        Section {
-                    //                            DatePicker("Hora segunda fermentación",
-                    //                                       selection: viewStore.journalEntry.secondFermentingTime,
-                    //                                       displayedComponents: .hourAndMinute)
-                    //                        }
-                    //                    }
-                    //                    Group {
-                    //
-                    //                        Toggle(isOn: viewStore.journalEntry.fridge) {
-                    //                            Text("¿Se ha usado frigorífico?")
-                    //                        }
-                    //                        if viewStore.journalEntry.fridge{
-                    //                            Section {
-                    //
-                    //                                TextField("Tiempo total en el frigo", text: viewStore.journalEntry.fridgeTotalTime)
-                    //                            }
-                    //                        }
-                    //                        Section {
-                    //                            TextField("Tiempo de horneado",
-                    //                                      text: viewStore.journalEntry.bakingTotalTime)
-                    //                            Toggle(isOn: viewStore.journalEntry.steelPlate) {
-                    //                                Text("¿Plancha de acero?")
-                    //                            }
-                    //                        }
-                    //
-                    //                    }
+  
                     Group {
-//                                                Section(header: Text("Corteza")) {
-//                                                    StarRatingView(rating: viewStore.$journalEntry.crustRating)
-//                                                }
-//                                                Section(header: Text("Miga")) {
-//                                                    StarRatingView(rating: viewStore.$journalEntry.crumbRating)
-//                                                }
-//                                                Section(header: Text("Subida")) {
-//                                                    StarRatingView(rating: viewStore.$journalEntry.riseRating)
-//                                                }
-//                                                Section(header: Text("Greñado")) {
-//                                                    StarRatingView(rating: viewStore.j$ournalEntry.scoreRating)
-//                                                }
-//                                                Section(header: Text("Sabor")) {
-//                                                    StarRatingView(rating: viewStore.$journalEntry.tasteRating)
-//                                                }
-//                                                Section(header: Text("Evaluation")) {
-//                                                    StarRatingView(rating: viewStore.$journalEntry.evaluation)
-//                                                }
-//                                            }
+                        Section {
+                            DatePicker(
+                                "Hora último refresco mada madre",
+                                selection: viewStore.$journalEntry.lastSourdoughFeedTime,
+                                displayedComponents: .hourAndMinute
+                            )
+                        }
+                        Section {
+                            DatePicker(
+                                "Hora comiezo prefermento",
+                                selection: viewStore.$journalEntry.prefermentStartingTime,
+                                displayedComponents: .hourAndMinute
+                            )
+                        }
+                        Section {
+                            DatePicker("Hora comiezo autólisis",
+                                       selection: viewStore.$journalEntry.autolysisStartingTime,
+                                       displayedComponents: .hourAndMinute)
+                        }
+                        Section {
+                            DatePicker(
+                                "Hora comiezo fermentación en bloque",
+                                selection: viewStore.$journalEntry.bulkFermentationStartingTime,
+                                displayedComponents: .hourAndMinute
+                            )
+                        }
                         
+                        Section {
+                            TextField(
+                                "Pliegues",
+                                text: viewStore.$journalEntry.folds
+                            )
+                        }
+    
+                        Section {
+                            DatePicker("Hora formado del pan",
+                                       selection: viewStore.$journalEntry.breadFormingTime,
+                                       displayedComponents: .hourAndMinute)
+                        }
+                        
+                        Section {
+                            DatePicker("Hora segunda fermentación",
+                                       selection: viewStore.$journalEntry.secondFermentarionStartingTime,
+                                       displayedComponents: .hourAndMinute)
+                        }
+                        Group {
+                           
+                            Toggle(isOn: viewStore.$journalEntry.isFridgeUsed) {
+                                Text("¿Se ha usado frigorífico?")
+                            }
+                            if viewStore.journalEntry.isFridgeUsed{
+                                Section {
+                                    TextField("Tiempo total en el frigo", text: viewStore.$journalEntry.fridgeTotalTime)
+                                }
+                            }
+                            Section {
+                                TextField(
+                                    "Tiempo de horneado",
+                                    text: viewStore.$journalEntry.bakingTime
+                                )
+                                Toggle(
+                                    isOn: viewStore.$journalEntry.isSteelPlateUsed
+                                ) {
+                                    Text(
+                                        "¿Plancha de acero?"
+                                    )
+                                }
+                            }
+                            
+                        }
+                        Section(header: Text("Corteza")) {
+                            StarRatingView(rating: viewStore.$journalEntry.crustRating)
+                        }
+                        Section(header: Text("Miga")) {
+                            StarRatingView(rating: viewStore.$journalEntry.crumbRating)
+                        }
+                        Section(header: Text("Subida")) {
+                            StarRatingView(rating: viewStore.$journalEntry.bloomRating)
+                        }
+                        Section(header: Text("Greñado")) {
+                            StarRatingView(rating: viewStore.$journalEntry.scoreRating)
+                        }
+                        Section(header: Text("Sabor")) {
+                            StarRatingView(rating: viewStore.$journalEntry.tasteRating)
+                        }
+                        Section(header: Text("Evaluation")) {
+                            StarRatingView(rating: viewStore.$journalEntry.evaluation)
+                        }
                     }
                     Spacer()
                     Button(action: {

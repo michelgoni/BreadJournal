@@ -27,15 +27,16 @@ struct Entry: Codable, Identifiable, Equatable {
     var autolysisStartingTime = Date()
     var bulkFermentationStartingTime = Date()
     var secondFermentarionStartingTime = Date()
-    var folds = Int.zero
+    var fridgeTotalTime = ""
+    var folds = ""
     var breadFormingTime = Date()
-    var isFridgeUsed = false
-    var bakingTime = Date()
+    var isFridgeUsed = true
+    var bakingTime = ""
     var isSteelPlateUsed = false
     var crustRating = Int.zero
     var crumbRating = Int.zero
     var bloomRating = Int.zero
-    var scoresRating = Int.zero
+    var scoreRating = Int.zero
     var tasteRating = Int.zero
     var evaluation = Int.zero
 }

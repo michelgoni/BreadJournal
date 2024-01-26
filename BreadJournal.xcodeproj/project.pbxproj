@@ -26,6 +26,9 @@
 		2D975BAE2B45D74600FA1FB2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975BAD2B45D74600FA1FB2 /* Date.swift */; };
 		2DA5F8A92B4DCFC700F3E5D2 /* ToolbarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */; };
 		2DA5F8AB2B4DD30500F3E5D2 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */; };
+		2DCBB2032B640EBD00C666F4 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBB2022B640EBD00C666F4 /* ImagePicker.swift */; };
+		2DCBB2052B640EDD00C666F4 /* IngredientsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBB2042B640EDD00C666F4 /* IngredientsHeaderView.swift */; };
+		2DCBB2072B640F0300C666F4 /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBB2062B640F0300C666F4 /* StarRatingView.swift */; };
 		2DD2582D2B584AB400B6B037 /* BreadJournalListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */; };
 		2DD9E6022B4B232800E8EEAD /* JournalListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */; };
 		2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9E6032B4B269D00E8EEAD /* URL.swift */; };
@@ -73,6 +76,9 @@
 		2D975BAD2B45D74600FA1FB2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarModifier.swift; sourceTree = "<group>"; };
 		2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		2DCBB2022B640EBD00C666F4 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		2DCBB2042B640EDD00C666F4 /* IngredientsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsHeaderView.swift; sourceTree = "<group>"; };
+		2DCBB2062B640F0300C666F4 /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalListTests.swift; sourceTree = "<group>"; };
 		2DD9E6012B4B232800E8EEAD /* JournalListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListManager.swift; sourceTree = "<group>"; };
 		2DD9E6032B4B269D00E8EEAD /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
@@ -223,6 +229,9 @@
 			isa = PBXGroup;
 			children = (
 				2DF10E242B5DA932002C343A /* BreadForm.swift */,
+				2DCBB2022B640EBD00C666F4 /* ImagePicker.swift */,
+				2DCBB2042B640EDD00C666F4 /* IngredientsHeaderView.swift */,
+				2DCBB2062B640F0300C666F4 /* StarRatingView.swift */,
 			);
 			path = FeatureBreadForm;
 			sourceTree = "<group>";
@@ -368,13 +377,16 @@
 				2D619A102B56FCFA004E564B /* LoaderModifier.swift in Sources */,
 				2D975BAC2B45D5C100FA1FB2 /* FavoriteImage.swift in Sources */,
 				2DF10E252B5DA932002C343A /* BreadForm.swift in Sources */,
+				2DCBB2052B640EDD00C666F4 /* IngredientsHeaderView.swift in Sources */,
 				2D975BA32B45D3E100FA1FB2 /* JournalEntryView.swift in Sources */,
 				2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */,
+				2DCBB2032B640EBD00C666F4 /* ImagePicker.swift in Sources */,
 				2DDFA6CC2B59B0AE0070C157 /* JournalListManager+Extension.swift in Sources */,
 				2DD9E6022B4B232800E8EEAD /* JournalListManager.swift in Sources */,
 				2D975BAA2B45D5C100FA1FB2 /* Shimmering.swift in Sources */,
 				2D975B742B45C3DF00FA1FB2 /* JournalListView.swift in Sources */,
 				2D975BAB2B45D5C100FA1FB2 /* OptionalImageModifier.swift in Sources */,
+				2DCBB2072B640F0300C666F4 /* StarRatingView.swift in Sources */,
 				2D619A122B570408004E564B /* BreadErrorModifier.swift in Sources */,
 				2D975BA52B45D3FE00FA1FB2 /* RatingView.swift in Sources */,
 				2D975BAE2B45D74600FA1FB2 /* Date.swift in Sources */,

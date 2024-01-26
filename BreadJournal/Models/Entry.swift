@@ -59,6 +59,11 @@ extension Entry {
     
 }
 
+struct Ingredient: Codable, Identifiable, Equatable {
+    let id: UUID
+    var ingredient = ""
+}
+
 extension Entry {
     public var breadPicture: UIImage? {
         get {

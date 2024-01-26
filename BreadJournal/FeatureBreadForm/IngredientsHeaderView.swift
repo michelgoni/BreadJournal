@@ -5,19 +5,19 @@
 //  Created by Michel Goñi on 26/1/24.
 //
 
-import Foundation
+
+import ComposableArchitecture
 import SwiftUI
 
 struct IngredientsHeaderView: View {
-    var addItem: (String) -> Void
-    @State private var newIngredient = ""
+    var viewStore: Store<BreadFormFeature.State, BreadFormFeature.Action>
     var body: some View {
         HStack {
             Text("Ingredientes")
                 .font(.headline)
             Spacer()
             Button(action: {
-                addItem(newIngredient)
+                viewStore.send(.addIngredientTapped)
                 
             }) {
                 Image(systemName: "plus.circle.fill")
@@ -27,4 +27,12 @@ struct IngredientsHeaderView: View {
             }
         }
     }
+}
+
+#Preview {
+    IngredientsHeaderView(
+        viewStore: Store(initialState: BreadFormFeature.State(journalEntry: .mock), reducer: {
+            BreadFormFeature()
+        })
+    )
 }

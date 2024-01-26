@@ -12,6 +12,7 @@ import SwiftUI
 struct BreadFormFeature {
     struct State: Equatable {
         @BindingState var journalEntry: Entry
+        @BindingState var ingredients: IdentifiedArrayOf<Ingredient> = []
         
         init(journalEntry: Entry) {
             self.journalEntry = journalEntry
@@ -19,12 +20,16 @@ struct BreadFormFeature {
     }
     
     enum Action: BindableAction, Equatable {
+        case addIngredientTapped(String)
         case binding(BindingAction<State>)
     }
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case.addIngredientTapped:
+                
+                return .none
             default: return .none
             }
             
@@ -34,6 +39,7 @@ struct BreadFormFeature {
 
 struct BreadFormView: View {
     let store: StoreOf<BreadFormFeature>
+  
     var body: some View {
         WithViewStore(self.store, observe: {$0}) { viewStore in
             VStack {
@@ -49,17 +55,16 @@ struct BreadFormView: View {
                         ImagePickerView(selectedImage: viewStore.$journalEntry.breadPicture)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
-                    //                    Section(
-                    //                        header: IngredientsHeaderView(
-                    //                            addItem: addItem(ingredient:))
-                    //                    ) {
-                    //                        ForEach(items.indices,
-                    //                                id: \.self) { index in
-                    //                            TextField("Ingrediente \(index + 1)",
-                    //                                      text: $items[index])
-                    //                        }
-                    //                    }
-  
+                    
+                    Section(header: Text("Ingredientes")) {
+                        ForEach(viewStore.$ingredients) {
+                            TextField("Ingredient", text: $0.ingredient)
+                        }
+                        Button("Añade ingrediente") {
+                          viewStore.send(.addIngredientTapped(""))
+                        }
+                    }
+
                     Group {
                         Section {
                             DatePicker(
@@ -166,14 +171,8 @@ struct BreadFormView: View {
                     .padding(.horizontal)
                 }
             }
-            
         }
-        
-        //    func addItem(ingredient: String) {
-        //        items.append(ingredient)
-        //    }
     }
-  
 }
 
 #Preview(body: {
@@ -181,4 +180,3 @@ struct BreadFormView: View {
         BreadFormFeature()
     }))
 })
-

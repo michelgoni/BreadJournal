@@ -23,12 +23,16 @@ struct BreadFormFeature {
         case addIngredientTapped(String)
         case binding(BindingAction<State>)
     }
-    
+    @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case.addIngredientTapped:
-                
+            case .addIngredientTapped(let ingredient):
+                let ingredient = Ingredient(
+                    id: self.uuid(),
+                    ingredient: ingredient
+                )
+                state.ingredients.append(ingredient)
                 return .none
             default: return .none
             }

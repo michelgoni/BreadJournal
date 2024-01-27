@@ -8,6 +8,21 @@
 import ComposableArchitecture
 import SwiftUI
 
+@Reducer
+
+struct JournalDetailViewFeature {
+    struct State {}
+    enum Action {}
+    
+    var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+                
+            }
+        }
+    }
+}
+
 struct JournalDetailView: View {
 
     let store: StoreOf<BreadFormFeature>
@@ -22,11 +37,6 @@ struct JournalDetailView: View {
                                        selection: viewStore.$journalEntry.entryDate,
                                        displayedComponents: .date)
                         }
-                        Section(header: Text("Foto")) {
-                            ImagePickerView(selectedImage: viewStore.$journalEntry.breadPicture)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                        }
-                        
                         Section(header: Text("Ingredientes")) {
                             ForEach(viewStore.$ingredients) {
                                 TextField("Ingredient", text: $0.ingredient)
@@ -35,6 +45,14 @@ struct JournalDetailView: View {
                               viewStore.send(.addIngredientTapped(""))
                             }
                         }
+                        
+                        
+                        Section(header: Text("Foto")) {
+                            ImagePickerView(selectedImage: viewStore.$journalEntry.breadPicture)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                        
+                       
 
                         Group {
                             Section {
@@ -127,7 +145,8 @@ struct JournalDetailView: View {
                             }
                         }
                        
-                    }.navigationTitle(viewStore.journalEntry.name)
+                    }
+                    .navigationTitle(viewStore.journalEntry.name)
             }
           
             }

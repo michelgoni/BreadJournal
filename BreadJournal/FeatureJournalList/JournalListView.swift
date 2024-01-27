@@ -12,6 +12,7 @@ import SwiftUI
 struct BreadJournalLisFeature {
     
     struct State: Equatable {
+        @PresentationState var addNewEntry: BreadFormFeature.State?
         var journalEntries: IdentifiedArrayOf<Entry> = []
         var error: BreadJournalError? = nil
         var isLoading = false
@@ -22,22 +23,33 @@ struct BreadJournalLisFeature {
     }
     
     enum Action: Equatable {
-        case addEntry
+        case addEntryTapped
+        case addEntry(PresentationAction<BreadFormFeature.Action>)
         case cancelEntry
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
         case getEntries
         case filterEntries
+        case saveEntry
     }
     
     @Dependency (\.journalListDataManager.load) var loadEntries
+    @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
         
         Reduce { state, action in
             switch action {
             case .addEntry:
+                return .none
+            case .addEntryTapped:
                 debugPrint("Adding items")
+                state.addNewEntry = BreadFormFeature.State(
+                    journalEntry: Entry(
+                        id: self.uuid()
+                    )
+                )
                 return .none
             case .cancelEntry:
+                state.addNewEntry = nil
                 return .none
             case .getEntries:
                 state.isLoading.toggle()
@@ -45,9 +57,9 @@ struct BreadJournalLisFeature {
                     await send (.entriesResponse(
                         TaskResult {
                             try JSONDecoder().decode(
-                                    IdentifiedArrayOf<Entry>.self,
-                                    from: loadEntries(.breadEntries)
-                                )
+                                IdentifiedArrayOf<Entry>.self,
+                                from: loadEntries(.breadEntries)
+                            )
                         })
                     )
                 }
@@ -63,7 +75,18 @@ struct BreadJournalLisFeature {
             case .filterEntries:
                 debugPrint("Filtering items")
                 return .none
+            case .saveEntry:
+                guard let entry = state.addNewEntry?.journalEntry else {
+                    return .none
+                }
+                state.journalEntries.append(entry)
+                state.addNewEntry = nil
+                return .none
+                
             }
+        }
+        .ifLet(\.$addNewEntry, action: \.addEntry) {
+            BreadFormFeature()
         }
     }
 }
@@ -78,7 +101,7 @@ struct BreadJournalListView: View {
             return [GridItem(.flexible())]
         }
     }
-
+    
     let store: StoreOf<BreadJournalLisFeature>
     
     var body: some View {
@@ -104,6 +127,29 @@ struct BreadJournalListView: View {
             .loader(isLoading: viewStore.state.isLoading)
             .onError(error: viewStore.state.error)
             .applyToolbar(viewStore: viewStore)
+            .sheet(
+                store: store.scope(
+                    state: \.$addNewEntry,
+                    action: \.addEntry),
+                content: { store in
+                    NavigationStack {
+                        BreadFormView(store: store)
+                            .navigationTitle("New journal entry")
+                            .toolbar {
+                                ToolbarItem {
+                                    Button("Save") {
+                                        viewStore.send(.saveEntry)
+                                    }
+                                }
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button("Cancel") {
+                                        viewStore.send(.cancelEntry)
+                                    }
+                                }
+                            }
+                    }
+                }
+            )
             .task {
                 viewStore.send(.getEntries)
             }
@@ -121,7 +167,7 @@ struct BreadJournalListView: View {
                         BreadJournalLisFeature()
                             ._printChanges()
                     }, withDependencies: {
-                        $0.journalListDataManager = .previewError
+                        $0.journalListDataManager = .previewValue
                     }))
             
         }

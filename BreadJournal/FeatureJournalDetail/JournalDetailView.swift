@@ -35,98 +35,60 @@ struct JournalDetailView: View {
             NavigationStack {
                 VStack {
                     Form {
-                        Section {
-                            DatePicker("Fecha",
-                                       selection: viewStore.$journalEntry.entryDate,
-                                       displayedComponents: .date)
+                        Section(header: Text("Fecha")) {
+                            Text(viewStore.journalEntry.entryDate.convertToMonthYearFormat())
                         }
                         Section(header: Text("Ingredientes")) {
                             ForEach(viewStore.$ingredients) {
                                 TextField("Ingredient", text: $0.ingredient)
                             }
-                            Button("Añade ingrediente") {
-                              viewStore.send(.addIngredientTapped(""))
-                            }
+            
                         }
                         
                         
                         Section(header: Text("Foto")) {
-                            ImagePickerView(selectedImage: viewStore.$journalEntry.breadPicture)
-                                .frame(maxWidth: .infinity, alignment: .center)
+                            Image(uiImage: viewStore.journalEntry.breadPicture ?? UIImage())
                         }
                         
-                       
-
                         Group {
-                            Section {
-                                DatePicker(
-                                    "Hora último refresco mada madre",
-                                    selection: viewStore.$journalEntry.lastSourdoughFeedTime,
-                                    displayedComponents: .hourAndMinute
-                                )
+                            Section(header: Text("Hora último refresco mada madre")) {
+                                Text(viewStore.journalEntry.lastSourdoughFeedTime.toHourMinuteString())
                             }
-                            Section {
-                                DatePicker(
-                                    "Hora comiezo prefermento",
-                                    selection: viewStore.$journalEntry.prefermentStartingTime,
-                                    displayedComponents: .hourAndMinute
-                                )
+                            Section(header: Text("Hora comiezo prefermento")) {
+                                Text(viewStore.journalEntry.prefermentStartingTime.toHourMinuteString())
                             }
-                            Section {
-                                DatePicker("Hora comiezo autólisis",
-                                           selection: viewStore.$journalEntry.autolysisStartingTime,
-                                           displayedComponents: .hourAndMinute)
+                            Section(header: Text("Hora comiezo autólisis")) {
+                                Text(viewStore.journalEntry.autolysisStartingTime.toHourMinuteString())
                             }
-                            Section {
-                                DatePicker(
-                                    "Hora comiezo fermentación en bloque",
-                                    selection: viewStore.$journalEntry.bulkFermentationStartingTime,
-                                    displayedComponents: .hourAndMinute
-                                )
+                            Section(header: Text("Hora comiezo fermentación en bloque")) {
+                                Text(viewStore.journalEntry.bulkFermentationStartingTime.toHourMinuteString())
                             }
-                            
-                            Section {
-                                TextField(
-                                    "Pliegues",
-                                    text: viewStore.$journalEntry.folds
-                                )
+
+                            Section(header: Text("Pliegues")) {
+                                Text(viewStore.journalEntry.folds)
                             }
-        
-                            Section {
-                                DatePicker("Hora formado del pan",
-                                           selection: viewStore.$journalEntry.breadFormingTime,
-                                           displayedComponents: .hourAndMinute)
+                            Section(header: Text("Hora formado del pan")) {
+                                Text(viewStore.journalEntry.breadFormingTime.toHourMinuteString())
                             }
-                            
-                            Section {
-                                DatePicker("Hora segunda fermentación",
-                                           selection: viewStore.$journalEntry.secondFermentarionStartingTime,
-                                           displayedComponents: .hourAndMinute)
+                            Section(header: Text("Hora segunda fermentación")) {
+                                Text(viewStore.journalEntry.secondFermentarionStartingTime.toHourMinuteString())
                             }
                             Group {
-                               
-                                Toggle(isOn: viewStore.$journalEntry.isFridgeUsed) {
-                                    Text("¿Se ha usado frigorífico?")
-                                }
-                                if viewStore.journalEntry.isFridgeUsed{
-                                    Section {
-                                        TextField("Tiempo total en el frigo", text: viewStore.$journalEntry.fridgeTotalTime)
-                                    }
-                                }
-                                Section {
-                                    TextField(
-                                        "Tiempo de horneado",
-                                        text: viewStore.$journalEntry.bakingTime
-                                    )
-                                    Toggle(
-                                        isOn: viewStore.$journalEntry.isSteelPlateUsed
-                                    ) {
-                                        Text(
-                                            "¿Plancha de acero?"
-                                        )
-                                    }
+                                Section(header: Text("¿Se ha usado frigorífico?")) {
+                                   Text(viewStore.journalEntry.isFridgeUsed.elementUsedTitle)
                                 }
                                 
+                                if viewStore.journalEntry.isFridgeUsed {
+                                    Section(header: Text("Tiempo total en el frigo")) {
+                                        Text(viewStore.journalEntry.fridgeTotalTime)
+                                    }
+                                }
+                                Section(header: Text("Tiempo de horneado")) {
+                                    Text(viewStore.journalEntry.bakingTime)
+                                }
+                                Section(header: Text("¿Plancha de acero?")) {
+                                    Text(viewStore.journalEntry.isSteelPlateUsed.elementUsedTitle)
+                                }
                             }
                             Section(header: Text("Corteza")) {
                                 StarRatingView(rating: viewStore.$journalEntry.crustRating)

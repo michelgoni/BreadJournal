@@ -11,7 +11,10 @@ import SwiftUI
 @Reducer
 
 struct JournalDetailViewFeature {
-    struct State {}
+    struct State {
+        var journalEntry: Entry
+        var ingredients: IdentifiedArrayOf<Ingredient> = []
+    }
     enum Action {}
     
     var body: some ReducerOf<Self> {
@@ -145,6 +148,11 @@ struct JournalDetailView: View {
                             }
                         }
                        
+                    }
+                    .toolbar {
+                      Button("Edit") {
+                        
+                      }
                     }
                     .navigationTitle(viewStore.journalEntry.name)
             }

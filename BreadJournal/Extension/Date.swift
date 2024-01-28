@@ -13,5 +13,12 @@ public extension Date {
         dateFormatter.dateFormat = "MM/dd/yyyy"
         return dateFormatter.string(from: self)
     }
+    
+    func toHourMinuteString() -> String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .none
+        return formatter.string(from: self)
+    }
 }
 

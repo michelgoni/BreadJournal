@@ -11,11 +11,11 @@ import SwiftUI
 @Reducer
 
 struct JournalDetailViewFeature {
-    struct State {
+    struct State: Equatable {
         var journalEntry: Entry
         var ingredients: IdentifiedArrayOf<Ingredient> = []
     }
-    enum Action {}
+    enum Action: Equatable {}
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -27,9 +27,9 @@ struct JournalDetailViewFeature {
 }
 
 struct JournalDetailView: View {
-
-    let store: StoreOf<BreadFormFeature>
-  
+    
+    let store: StoreOf<JournalDetailViewFeature>
+    
     var body: some View {
         WithViewStore(self.store, observe: {$0}) { viewStore in
             NavigationStack {
@@ -39,12 +39,11 @@ struct JournalDetailView: View {
                             Text(viewStore.journalEntry.entryDate.convertToMonthYearFormat())
                         }
                         Section(header: Text("Ingredientes")) {
-                            ForEach(viewStore.$ingredients) {
-                                TextField("Ingredient", text: $0.ingredient)
+                            ForEach(viewStore.ingredients) {
+                                Text($0.ingredient)
                             }
-            
+                            
                         }
-                        
                         
                         Section(header: Text("Foto")) {
                             Image(uiImage: viewStore.journalEntry.breadPicture ?? UIImage())
@@ -63,7 +62,7 @@ struct JournalDetailView: View {
                             Section(header: Text("Hora comiezo fermentación en bloque")) {
                                 Text(viewStore.journalEntry.bulkFermentationStartingTime.toHourMinuteString())
                             }
-
+                            
                             Section(header: Text("Pliegues")) {
                                 Text(viewStore.journalEntry.folds)
                             }
@@ -75,7 +74,7 @@ struct JournalDetailView: View {
                             }
                             Group {
                                 Section(header: Text("¿Se ha usado frigorífico?")) {
-                                   Text(viewStore.journalEntry.isFridgeUsed.elementUsedTitle)
+                                    Text(viewStore.journalEntry.isFridgeUsed.elementUsedTitle)
                                 }
                                 
                                 if viewStore.journalEntry.isFridgeUsed {
@@ -91,42 +90,42 @@ struct JournalDetailView: View {
                                 }
                             }
                             Section(header: Text("Corteza")) {
-                                StarRatingView(rating: viewStore.$journalEntry.crustRating)
+                                StarRatingView(staticRating: viewStore.journalEntry.crustRating)
                             }
                             Section(header: Text("Miga")) {
-                                StarRatingView(rating: viewStore.$journalEntry.crumbRating)
+                                StarRatingView(staticRating: viewStore.journalEntry.crumbRating)
                             }
                             Section(header: Text("Subida")) {
-                                StarRatingView(rating: viewStore.$journalEntry.bloomRating)
+                                StarRatingView(staticRating: viewStore.journalEntry.bloomRating)
                             }
                             Section(header: Text("Greñado")) {
-                                StarRatingView(rating: viewStore.$journalEntry.scoreRating)
+                                StarRatingView(staticRating: viewStore.journalEntry.scoreRating)
                             }
                             Section(header: Text("Sabor")) {
-                                StarRatingView(rating: viewStore.$journalEntry.tasteRating)
+                                StarRatingView(staticRating: viewStore.journalEntry.tasteRating)
                             }
                             Section(header: Text("Evaluation")) {
-                                StarRatingView(rating: viewStore.$journalEntry.evaluation)
+                                StarRatingView(staticRating: viewStore.journalEntry.evaluation)
                             }
                         }
                         
                         Section {
-                          Button("Delete") {
-                            
-                          }
-                          .foregroundColor(.red)
-                          .frame(maxWidth: .infinity)
+                            Button("Delete") {
+                                
+                            }
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity)
                         }
-                       
+                        
                     }
                     .toolbar {
-                      Button("Edit") {
-                        
-                      }
+                        Button("Edit") {
+                            
+                        }
                     }
                     .navigationTitle(viewStore.journalEntry.name)
-            }
-          
+                }
+                
             }
         }
     }
@@ -135,11 +134,11 @@ struct JournalDetailView: View {
 #Preview {
     JournalDetailView(
         store:
-            Store(initialState: BreadFormFeature.State(
+            Store(initialState: JournalDetailViewFeature.State(
                 journalEntry: .mock
             ),
                   reducer: {
-                      BreadFormFeature()
+                      JournalDetailViewFeature()
                   }
             )
     )

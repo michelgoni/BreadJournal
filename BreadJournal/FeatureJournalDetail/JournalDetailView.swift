@@ -147,6 +147,14 @@ struct JournalDetailView: View {
                                 StarRatingView(rating: viewStore.$journalEntry.evaluation)
                             }
                         }
+                        
+                        Section {
+                          Button("Delete") {
+                            
+                          }
+                          .foregroundColor(.red)
+                          .frame(maxWidth: .infinity)
+                        }
                        
                     }
                     .toolbar {

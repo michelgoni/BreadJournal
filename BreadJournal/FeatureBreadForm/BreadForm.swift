@@ -10,9 +10,10 @@ import SwiftUI
 
 @Reducer
 struct BreadFormFeature {
+    @ObservableState
     struct State: Equatable {
-        @BindingState var journalEntry: Entry
-        @BindingState var ingredients: IdentifiedArrayOf<Ingredient> = []
+         var journalEntry: Entry
+        var ingredients: IdentifiedArrayOf<Ingredient> = []
         
         init(journalEntry: Entry) {
             self.journalEntry = journalEntry
@@ -42,30 +43,30 @@ struct BreadFormFeature {
 }
 
 struct BreadFormView: View {
-    let store: StoreOf<BreadFormFeature>
+    @Bindable var store: StoreOf<BreadFormFeature>
   
     var body: some View {
-        WithViewStore(self.store, observe: {$0}) { viewStore in
+        
             VStack {
     
                 Form {
                     Section {
                         DatePicker("Fecha",
-                                   selection: viewStore.$journalEntry.entryDate,
+                                   selection: $store.journalEntry.entryDate,
                                    displayedComponents: .date)
                     }
                     
                     Section(header: Text("Foto")) {
-                        ImagePickerView(selectedImage: viewStore.$journalEntry.breadPicture)
+                        ImagePickerView(selectedImage: $store.journalEntry.breadPicture)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
                     
                     Section(header: Text("Ingredientes")) {
-                        ForEach(viewStore.$ingredients) {
+                        ForEach($store.ingredients) {
                             TextField("Ingredient", text: $0.ingredient)
                         }
                         Button("Añade ingrediente") {
-                          viewStore.send(.addIngredientTapped(""))
+                          store.send(.addIngredientTapped(""))
                         }
                     }
 
@@ -73,26 +74,26 @@ struct BreadFormView: View {
                         Section {
                             DatePicker(
                                 "Hora último refresco mada madre",
-                                selection: viewStore.$journalEntry.lastSourdoughFeedTime,
+                                selection: $store.journalEntry.lastSourdoughFeedTime,
                                 displayedComponents: .hourAndMinute
                             )
                         }
                         Section {
                             DatePicker(
                                 "Hora comiezo prefermento",
-                                selection: viewStore.$journalEntry.prefermentStartingTime,
+                                selection: $store.journalEntry.prefermentStartingTime,
                                 displayedComponents: .hourAndMinute
                             )
                         }
                         Section {
                             DatePicker("Hora comiezo autólisis",
-                                       selection: viewStore.$journalEntry.autolysisStartingTime,
+                                       selection: $store.journalEntry.autolysisStartingTime,
                                        displayedComponents: .hourAndMinute)
                         }
                         Section {
                             DatePicker(
                                 "Hora comiezo fermentación en bloque",
-                                selection: viewStore.$journalEntry.bulkFermentationStartingTime,
+                                selection: $store.journalEntry.bulkFermentationStartingTime,
                                 displayedComponents: .hourAndMinute
                             )
                         }
@@ -100,38 +101,38 @@ struct BreadFormView: View {
                         Section {
                             TextField(
                                 "Pliegues",
-                                text: viewStore.$journalEntry.folds
+                                text: $store.journalEntry.folds
                             )
                         }
     
                         Section {
                             DatePicker("Hora formado del pan",
-                                       selection: viewStore.$journalEntry.breadFormingTime,
+                                       selection: $store.journalEntry.breadFormingTime,
                                        displayedComponents: .hourAndMinute)
                         }
                         
                         Section {
                             DatePicker("Hora segunda fermentación",
-                                       selection: viewStore.$journalEntry.secondFermentarionStartingTime,
+                                       selection: $store.journalEntry.secondFermentarionStartingTime,
                                        displayedComponents: .hourAndMinute)
                         }
                         Group {
                            
-                            Toggle(isOn: viewStore.$journalEntry.isFridgeUsed) {
+                            Toggle(isOn: $store.journalEntry.isFridgeUsed) {
                                 Text("¿Se ha usado frigorífico?")
                             }
-                            if viewStore.journalEntry.isFridgeUsed{
+                            if store.journalEntry.isFridgeUsed{
                                 Section {
-                                    TextField("Tiempo total en el frigo", text: viewStore.$journalEntry.fridgeTotalTime)
+                                    TextField("Tiempo total en el frigo", text: $store.journalEntry.fridgeTotalTime)
                                 }
                             }
                             Section {
                                 TextField(
                                     "Tiempo de horneado",
-                                    text: viewStore.$journalEntry.bakingTime
+                                    text: $store.journalEntry.bakingTime
                                 )
                                 Toggle(
-                                    isOn: viewStore.$journalEntry.isSteelPlateUsed
+                                    isOn: $store.journalEntry.isSteelPlateUsed
                                 ) {
                                     Text(
                                         "¿Plancha de acero?"
@@ -141,22 +142,22 @@ struct BreadFormView: View {
                             
                         }
                         Section(header: Text("Corteza")) {
-                            StarRatingView(rating: viewStore.$journalEntry.crustRating)
+                            StarRatingView(rating: $store.journalEntry.crustRating)
                         }
                         Section(header: Text("Miga")) {
-                            StarRatingView(rating: viewStore.$journalEntry.crumbRating)
+                            StarRatingView(rating: $store.journalEntry.crumbRating)
                         }
                         Section(header: Text("Subida")) {
-                            StarRatingView(rating: viewStore.$journalEntry.bloomRating)
+                            StarRatingView(rating: $store.journalEntry.bloomRating)
                         }
                         Section(header: Text("Greñado")) {
-                            StarRatingView(rating: viewStore.$journalEntry.scoreRating)
+                            StarRatingView(rating: $store.journalEntry.scoreRating)
                         }
                         Section(header: Text("Sabor")) {
-                            StarRatingView(rating: viewStore.$journalEntry.tasteRating)
+                            StarRatingView(rating: $store.journalEntry.tasteRating)
                         }
                         Section(header: Text("Evaluation")) {
-                            StarRatingView(rating: viewStore.$journalEntry.evaluation)
+                            StarRatingView(rating: $store.journalEntry.evaluation)
                         }
                     }
                     Spacer()
@@ -175,7 +176,7 @@ struct BreadFormView: View {
                     .padding(.horizontal)
                 }
             }
-        }
+        
     }
 }
 

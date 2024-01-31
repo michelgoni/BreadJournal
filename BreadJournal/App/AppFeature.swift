@@ -14,6 +14,7 @@ struct AppFeature {
     @ObservableState
     struct State: Equatable {
         var breadJournalEntries = BreadJournalListFeature.State()
+        var path = StackState<Path.State>()
     }
     
     enum Action {
@@ -28,6 +29,21 @@ struct AppFeature {
             switch action{
             case .breadJournalEntries:
                 return .none
+            }
+        }
+    }
+    
+    @Reducer
+    struct Path {
+        @ObservableState
+        enum State: Equatable {}
+        enum Action{}
+        
+        var body: some ReducerOf<Self> {
+            Reduce { state, action in
+                switch action {
+                    
+                }
             }
         }
     }

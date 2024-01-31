@@ -12,20 +12,32 @@ import SwiftUI
 @Reducer
 struct AppFeature {
     @ObservableState
-    struct State: Equatable {}
+    struct State: Equatable {
+        var breadJournalEntries = BreadJournalLisFeature.State()
+    }
     
-    enum Action {}
+    enum Action {
+        case breadJournalEntries(BreadJournalLisFeature.Action)
+    }
     
     var body: some ReducerOf<Self> {
+        Scope(state: \.breadJournalEntries, action: \.breadJournalEntries) {
+            BreadJournalLisFeature()
+        }
         Reduce { state, action in
-            switch action{}
+            switch action{
+            case .breadJournalEntries:
+                return .none
+            }
         }
     }
 }
 
 struct AppView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            
+        }
     }
 }
 

@@ -9,7 +9,7 @@ import ComposableArchitecture
 import SwiftUI
 
 @Reducer
-struct BreadJournalLisFeature {
+struct BreadJournalListFeature {
     
     struct State: Equatable {
         @PresentationState var addNewEntry: BreadFormFeature.State?
@@ -102,7 +102,7 @@ struct BreadJournalListView: View {
         }
     }
     
-    let store: StoreOf<BreadJournalLisFeature>
+    let store: StoreOf<BreadJournalListFeature>
     
     var body: some View {
         WithViewStore(self.store,
@@ -162,9 +162,9 @@ struct BreadJournalListView: View {
         NavigationStack {
             BreadJournalListView(
                 store: Store(
-                    initialState: BreadJournalLisFeature.State(),
+                    initialState: BreadJournalListFeature.State(),
                     reducer: {
-                        BreadJournalLisFeature()
+                        BreadJournalListFeature()
                             ._printChanges()
                     }, withDependencies: {
                         $0.journalListDataManager = .previewValue

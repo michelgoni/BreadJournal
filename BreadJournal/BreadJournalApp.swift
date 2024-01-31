@@ -14,9 +14,9 @@ struct BreadJournalApp: App {
         WindowGroup {
             BreadJournalListView( 
                 store: Store(
-                    initialState: BreadJournalLisFeature.State(),
+                    initialState: BreadJournalListFeature.State(),
                     reducer: {
-                        BreadJournalLisFeature()
+                        BreadJournalListFeature()
                     }))
         }
     }

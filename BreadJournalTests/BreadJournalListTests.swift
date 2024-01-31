@@ -14,8 +14,8 @@ import XCTest
 final class BreadJournalListTests: XCTestCase {
     
     func test_save_tapped() async {
-        let store = TestStore(initialState: BreadJournalLisFeature.State()) {
-            BreadJournalLisFeature()
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
         }withDependencies: {
             $0.journalListDataManager = .testValueMock
         }
@@ -37,8 +37,8 @@ final class BreadJournalListTests: XCTestCase {
     
     
     func test_isloading() async {
-        let store = TestStore(initialState: BreadJournalLisFeature.State()) {
-            BreadJournalLisFeature()
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
         }withDependencies: {
             $0.journalListDataManager = .testValueEmptyMock
             $0.uuid = .incrementing
@@ -54,8 +54,8 @@ final class BreadJournalListTests: XCTestCase {
     }
     
     func test_received_error() async {
-        let store = TestStore(initialState: BreadJournalLisFeature.State()) {
-            BreadJournalLisFeature()
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
         }withDependencies: {
             $0.journalListDataManager = .testValueErrorMock
         }
@@ -69,8 +69,8 @@ final class BreadJournalListTests: XCTestCase {
     }
     
     func test_received_response() async {
-        let store = TestStore(initialState: BreadJournalLisFeature.State()) {
-            BreadJournalLisFeature()
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
         }withDependencies: {
             $0.journalListDataManager = .testValueMock
         }
@@ -84,8 +84,8 @@ final class BreadJournalListTests: XCTestCase {
     }
     
     func test_received_empty_response() async {
-        let store = TestStore(initialState: BreadJournalLisFeature.State()) {
-            BreadJournalLisFeature()
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
         }withDependencies: {
             $0.journalListDataManager = .emptyMock()
         }

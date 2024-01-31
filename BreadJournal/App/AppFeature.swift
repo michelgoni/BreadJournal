@@ -13,16 +13,16 @@ import SwiftUI
 struct AppFeature {
     @ObservableState
     struct State: Equatable {
-        var breadJournalEntries = BreadJournalLisFeature.State()
+        var breadJournalEntries = BreadJournalListFeature.State()
     }
     
     enum Action {
-        case breadJournalEntries(BreadJournalLisFeature.Action)
+        case breadJournalEntries(BreadJournalListFeature.Action)
     }
     
     var body: some ReducerOf<Self> {
         Scope(state: \.breadJournalEntries, action: \.breadJournalEntries) {
-            BreadJournalLisFeature()
+            BreadJournalListFeature()
         }
         Reduce { state, action in
             switch action{
@@ -34,13 +34,16 @@ struct AppFeature {
 }
 
 struct AppView: View {
+    @Bindable var store: StoreOf<AppFeature>
     var body: some View {
         NavigationStack {
-            
+            BreadJournalListView(store: self.store.scope(state: \.breadJournalEntries, action: \.breadJournalEntries))
         }
     }
 }
 
 #Preview {
-    AppView()
+    AppView(store: Store(initialState: AppFeature.State(), reducer: {
+        AppFeature()
+    }))
 }

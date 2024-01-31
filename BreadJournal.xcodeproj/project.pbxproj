@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D573C5C2B6ABF5200B513B5 /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D573C5B2B6ABF5200B513B5 /* AppFeature.swift */; };
 		2D5C09292B51AB1C00D5BEFB /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5C09282B51AB1C00D5BEFB /* Error.swift */; };
 		2D619A102B56FCFA004E564B /* LoaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */; };
 		2D619A122B570408004E564B /* BreadErrorModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A112B570408004E564B /* BreadErrorModifier.swift */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		2D31992F2B5863AA000F9448 /* BreadJournal.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BreadJournal.xctestplan; sourceTree = "<group>"; };
+		2D573C5B2B6ABF5200B513B5 /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
 		2D5C09282B51AB1C00D5BEFB /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderModifier.swift; sourceTree = "<group>"; };
 		2D619A112B570408004E564B /* BreadErrorModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadErrorModifier.swift; sourceTree = "<group>"; };
@@ -114,6 +116,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D573C5A2B6ABF4000B513B5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2D573C5B2B6ABF5200B513B5 /* AppFeature.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		2D975B652B45C3DF00FA1FB2 = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +148,7 @@
 		2D975B702B45C3DF00FA1FB2 /* BreadJournal */ = {
 			isa = PBXGroup;
 			children = (
+				2D573C5A2B6ABF4000B513B5 /* App */,
 				2DB83A682B658F5500842B94 /* FeatureJournalDetail */,
 				2DF10E232B5DA8FC002C343A /* FeatureBreadForm */,
 				2D975BA62B45D5A700FA1FB2 /* Extension */,
@@ -393,6 +404,7 @@
 				2DD9E6042B4B269D00E8EEAD /* URL.swift in Sources */,
 				2DCBB2032B640EBD00C666F4 /* ImagePicker.swift in Sources */,
 				2DDFA6CC2B59B0AE0070C157 /* JournalListManager+Extension.swift in Sources */,
+				2D573C5C2B6ABF5200B513B5 /* AppFeature.swift in Sources */,
 				2DD9E6022B4B232800E8EEAD /* JournalListManager.swift in Sources */,
 				2D975BAA2B45D5C100FA1FB2 /* Shimmering.swift in Sources */,
 				2D975B742B45C3DF00FA1FB2 /* JournalListView.swift in Sources */,

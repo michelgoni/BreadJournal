@@ -19,6 +19,7 @@ struct AppFeature {
     
     enum Action {
         case breadJournalEntries(BreadJournalListFeature.Action)
+        case path(StackAction<Path.State, Path.Action>)
     }
     
     var body: some ReducerOf<Self> {
@@ -27,23 +28,30 @@ struct AppFeature {
         }
         Reduce { state, action in
             switch action{
+            case .path:
+                return .none
             case .breadJournalEntries:
                 return .none
             }
+        }
+        .forEach(\.path, action: \.path) {
+            Path()
         }
     }
     
     @Reducer
     struct Path {
         @ObservableState
-        enum State: Equatable {}
-        enum Action{}
+        enum State: Equatable {
+            case detail(JournalDetailViewFeature.State)
+        }
+        enum Action{
+            case detail(JournalDetailViewFeature.Action)
+        }
         
         var body: some ReducerOf<Self> {
-            Reduce { state, action in
-                switch action {
-                    
-                }
+            Scope(state: \.detail, action: \.detail) {
+                JournalDetailViewFeature()
             }
         }
     }
@@ -52,8 +60,15 @@ struct AppFeature {
 struct AppView: View {
     @Bindable var store: StoreOf<AppFeature>
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             BreadJournalListView(store: self.store.scope(state: \.breadJournalEntries, action: \.breadJournalEntries))
+        } destination: { store in
+            switch store.state {
+            case .detail:
+                if let store = store.scope(state: \.detail, action: \.detail) {
+                    JournalDetailView(store: store)
+                }
+            }
         }
     }
 }

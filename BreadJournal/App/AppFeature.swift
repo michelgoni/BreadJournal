@@ -61,7 +61,7 @@ struct AppView: View {
     @Bindable var store: StoreOf<AppFeature>
     var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-            BreadJournalListView(store: self.store.scope(state: \.breadJournalEntries, action: \.breadJournalEntries))
+            BreadJournalListView(store: store.scope(state: \.breadJournalEntries, action: \.breadJournalEntries))
         } destination: { store in
             switch store.state {
             case .detail:
@@ -74,7 +74,8 @@ struct AppView: View {
 }
 
 #Preview {
-    AppView(store: Store(initialState: AppFeature.State(), reducer: {
+    AppView(store: Store(initialState: AppFeature.State(), 
+                         reducer: {
         AppFeature()
     }))
 }

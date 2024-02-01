@@ -10,9 +10,9 @@ import SwiftUI
 
 @Reducer
 struct BreadJournalListFeature {
-    
+    @ObservableState
     struct State: Equatable {
-        @PresentationState var addNewEntry: BreadFormFeature.State?
+        @Presents var addNewEntry: BreadFormFeature.State?
         var journalEntries: IdentifiedArrayOf<Entry> = []
         var error: BreadJournalError? = nil
         var isLoading = false
@@ -102,59 +102,51 @@ struct BreadJournalListView: View {
         }
     }
     
-    let store: StoreOf<BreadJournalListFeature>
+    @Bindable var store: StoreOf<BreadJournalListFeature>
     
     var body: some View {
-        WithViewStore(self.store,
-                      observe: { $0 }) { viewStore in
-            NavigationStack {
-                if viewStore.state.journalEntries.isEmpty {
-                    EmptyJournalView()
-                } else {
-                    ScrollView {
-                        LazyVGrid(
-                            columns: columns,
-                            spacing: 16) {
-                                ForEach(viewStore.state.journalEntries) { entry in
-                                    JournalEntryView.init(entry: entry)
-                                }
-                            }
-                            .padding(.all, 46)
+        ScrollView {
+            LazyVGrid(
+                columns: columns,
+                spacing: 16) {
+                    ForEach(store.state.journalEntries) { entry in
+                        NavigationLink(state: AppFeature.Path.State.detail(JournalDetailViewFeature.State(journalEntry: entry))) {
+                            JournalEntryView.init(entry: entry)
+                        }
+                        
                     }
                 }
-            }
-            .navigationTitle("Bread journal")
-            .loader(isLoading: viewStore.state.isLoading)
-            .onError(error: viewStore.state.error)
-            .applyToolbar(viewStore: viewStore)
-            .sheet(
-                store: store.scope(
-                    state: \.$addNewEntry,
-                    action: \.addEntry),
-                content: { store in
+                .padding(.all, 46)
+                .loader(isLoading: store.state.isLoading)
+                .onError(error: store.state.error)
+                .applyToolbar(store: store)
+                .sheet(item: $store.scope(state: \.addNewEntry, action: \.addEntry), content: { store in
                     NavigationStack {
                         BreadFormView(store: store)
                             .navigationTitle("New journal entry")
                             .toolbar {
-                                ToolbarItem {
-                                    Button("Save") {
-                                        viewStore.send(.saveEntry)
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button("Dismiss") {
+                                        self.store.send(.cancelEntry)
                                     }
                                 }
-                                ToolbarItem(placement: .cancellationAction) {
-                                    Button("Cancel") {
-                                        viewStore.send(.cancelEntry)
+                                ToolbarItem(placement: .confirmationAction) {
+                                    Button("Add") {
+                                        self.store.send(.addEntryTapped)
                                     }
                                 }
                             }
                     }
-                }
-            )
-            .task {
-                viewStore.send(.getEntries)
-            }
+                })
+            
         }
+        .task {
+            store.send(.getEntries)
+        }
+        
+
     }
+
 }
 
 #Preview {

@@ -11,6 +11,7 @@ import SwiftUI
 @Reducer
 
 struct JournalDetailViewFeature {
+    @ObservableState
     struct State: Equatable {
         var journalEntry: Entry
         var ingredients: IdentifiedArrayOf<Ingredient> = []
@@ -28,84 +29,84 @@ struct JournalDetailViewFeature {
 
 struct JournalDetailView: View {
     
-    let store: StoreOf<JournalDetailViewFeature>
+    @Bindable var store: StoreOf<JournalDetailViewFeature>
     
     var body: some View {
-        WithViewStore(self.store, observe: {$0}) { viewStore in
+       
             NavigationStack {
                 VStack {
                     Form {
                         Section(header: Text("Fecha")) {
-                            Text(viewStore.journalEntry.entryDate.convertToMonthYearFormat())
+                            Text(store.journalEntry.entryDate.convertToMonthYearFormat())
                         }
                         Section(header: Text("Ingredientes")) {
-                            ForEach(viewStore.ingredients) {
+                            ForEach(store.ingredients) {
                                 Text($0.ingredient)
                             }
                             
                         }
                         
                         Section(header: Text("Foto")) {
-                            Image(uiImage: viewStore.journalEntry.breadPicture ?? UIImage())
+                            Image(uiImage: store.journalEntry.breadPicture ?? UIImage())
                         }
                         
                         Group {
                             Section(header: Text("Hora último refresco mada madre")) {
-                                Text(viewStore.journalEntry.lastSourdoughFeedTime.toHourMinuteString())
+                                Text(store.journalEntry.lastSourdoughFeedTime.toHourMinuteString())
                             }
                             Section(header: Text("Hora comiezo prefermento")) {
-                                Text(viewStore.journalEntry.prefermentStartingTime.toHourMinuteString())
+                                Text(store.journalEntry.prefermentStartingTime.toHourMinuteString())
                             }
                             Section(header: Text("Hora comiezo autólisis")) {
-                                Text(viewStore.journalEntry.autolysisStartingTime.toHourMinuteString())
+                                Text(store.journalEntry.autolysisStartingTime.toHourMinuteString())
                             }
                             Section(header: Text("Hora comiezo fermentación en bloque")) {
-                                Text(viewStore.journalEntry.bulkFermentationStartingTime.toHourMinuteString())
+                                Text(store.journalEntry.bulkFermentationStartingTime.toHourMinuteString())
                             }
                             
                             Section(header: Text("Pliegues")) {
-                                Text(viewStore.journalEntry.folds)
+                                Text(store.journalEntry.folds)
                             }
                             Section(header: Text("Hora formado del pan")) {
-                                Text(viewStore.journalEntry.breadFormingTime.toHourMinuteString())
+                                Text(store.journalEntry.breadFormingTime.toHourMinuteString())
                             }
                             Section(header: Text("Hora segunda fermentación")) {
-                                Text(viewStore.journalEntry.secondFermentarionStartingTime.toHourMinuteString())
+                                Text(store.journalEntry.secondFermentarionStartingTime.toHourMinuteString())
                             }
                             Group {
                                 Section(header: Text("¿Se ha usado frigorífico?")) {
-                                    Text(viewStore.journalEntry.isFridgeUsed.elementUsedTitle)
+                                    Text(store.journalEntry.isFridgeUsed.elementUsedTitle)
                                 }
                                 
-                                if viewStore.journalEntry.isFridgeUsed {
+                                if store.journalEntry.isFridgeUsed {
                                     Section(header: Text("Tiempo total en el frigo")) {
-                                        Text(viewStore.journalEntry.fridgeTotalTime)
+                                        Text(store.journalEntry.fridgeTotalTime)
                                     }
                                 }
                                 Section(header: Text("Tiempo de horneado")) {
-                                    Text(viewStore.journalEntry.bakingTime)
+                                    Text(store.journalEntry.bakingTime)
                                 }
                                 Section(header: Text("¿Plancha de acero?")) {
-                                    Text(viewStore.journalEntry.isSteelPlateUsed.elementUsedTitle)
+                                    Text(store.journalEntry.isSteelPlateUsed.elementUsedTitle)
                                 }
                             }
                             Section(header: Text("Corteza")) {
-                                StarRatingView(staticRating: viewStore.journalEntry.crustRating)
+                                StarRatingView(staticRating: store.journalEntry.crustRating)
                             }
                             Section(header: Text("Miga")) {
-                                StarRatingView(staticRating: viewStore.journalEntry.crumbRating)
+                                StarRatingView(staticRating: store.journalEntry.crumbRating)
                             }
                             Section(header: Text("Subida")) {
-                                StarRatingView(staticRating: viewStore.journalEntry.bloomRating)
+                                StarRatingView(staticRating: store.journalEntry.bloomRating)
                             }
                             Section(header: Text("Greñado")) {
-                                StarRatingView(staticRating: viewStore.journalEntry.scoreRating)
+                                StarRatingView(staticRating: store.journalEntry.scoreRating)
                             }
                             Section(header: Text("Sabor")) {
-                                StarRatingView(staticRating: viewStore.journalEntry.tasteRating)
+                                StarRatingView(staticRating: store.journalEntry.tasteRating)
                             }
                             Section(header: Text("Evaluation")) {
-                                StarRatingView(staticRating: viewStore.journalEntry.evaluation)
+                                StarRatingView(staticRating: store.journalEntry.evaluation)
                             }
                         }
                         
@@ -123,10 +124,10 @@ struct JournalDetailView: View {
                             
                         }
                     }
-                    .navigationTitle(viewStore.journalEntry.name)
+                    .navigationTitle(store.journalEntry.name)
                 }
                 
-            }
+            
         }
     }
 }

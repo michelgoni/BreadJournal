@@ -9,14 +9,14 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ToolbarModifier: ViewModifier {
-    let viewStore: ViewStore<BreadJournalListFeature.State, BreadJournalListFeature.Action>
+    let store: StoreOf<BreadJournalListFeature>
 
     func body(content: Content) -> some View {
         content
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button {
-                        viewStore.send(.addEntryTapped)
+                        store.send(.addEntryTapped)
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.black)
@@ -27,7 +27,7 @@ struct ToolbarModifier: ViewModifier {
                     Spacer()
 
                     Button {
-                        viewStore.send(.filterEntries)
+                        store.send(.filterEntries)
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle.fill")
                             .foregroundColor(.black)
@@ -40,9 +40,8 @@ struct ToolbarModifier: ViewModifier {
 }
 
 extension View {
-    func applyToolbar(viewStore: ViewStore<BreadJournalListFeature.State,
-                      BreadJournalListFeature.Action>) -> some View {
-        self.modifier(ToolbarModifier(viewStore: viewStore))
+    func applyToolbar(store: StoreOf<BreadJournalListFeature>) -> some View {
+        self.modifier(ToolbarModifier(store: store))
     }
 }
 

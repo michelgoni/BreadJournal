@@ -20,9 +20,9 @@ struct ToolbarModifier: ViewModifier {
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.black)
-                            .font(.system(size: 40, weight: .light))
+                            .font(.title)
                     }
-                    .padding(.top, 48)
+              
 
                     Spacer()
 
@@ -31,9 +31,9 @@ struct ToolbarModifier: ViewModifier {
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle.fill")
                             .foregroundColor(.black)
-                            .font(.system(size: 40, weight: .light))
+                            .font(.title)
                     }
-                    .padding(.top, 48)
+
                 }
             }
     }

@@ -73,7 +73,15 @@ struct AppView: View {
     }
 }
 
-#Preview {
+#Preview("Detalles") {
+    AppView(store: Store(initialState: AppFeature.State(path: StackState([.detail(JournalDetailViewFeature.State(journalEntry: .mock))])),
+                         reducer: {
+        AppFeature()
+    }))
+}
+
+
+#Preview("Inicio") {
     AppView(store: Store(initialState: AppFeature.State(), 
                          reducer: {
         AppFeature()

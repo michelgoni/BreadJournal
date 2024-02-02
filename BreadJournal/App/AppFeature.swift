@@ -73,6 +73,28 @@ struct AppView: View {
     }
 }
 
+#Preview("Edición") {
+    var entry = Entry.mock
+    entry.name = "Receta EDITADA"
+    
+    return AppView(
+        store: Store(
+            initialState: AppFeature.State(
+                path: StackState(
+                    [.detail(
+                        JournalDetailViewFeature.State(
+                            destination: JournalDetailViewFeature.Destination.State.edit(
+                                BreadFormFeature.State(
+                                    journalEntry: entry)
+                            ),
+                            journalEntry: entry))])
+            ),
+            reducer: {
+                AppFeature()
+            }))
+}
+
+
 #Preview("Detalles") {
     AppView(store: Store(initialState: AppFeature.State(path: StackState([.detail(JournalDetailViewFeature.State(journalEntry: .mock))])),
                          reducer: {

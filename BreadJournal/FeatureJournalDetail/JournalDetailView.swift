@@ -13,18 +13,54 @@ import SwiftUI
 struct JournalDetailViewFeature {
     @ObservableState
     struct State: Equatable {
+        @Presents var destination: Destination.State?
         var journalEntry: Entry
         var ingredients: IdentifiedArrayOf<Ingredient> = []
+        
     }
-    enum Action: Equatable {}
+    enum Action: Equatable {
+        case cancelEditTapped
+        case editButtonTapped
+        case destination(PresentationAction<Destination.Action>)
+    }
+    
+    @Reducer
+    struct Destination {
+        @ObservableState
+        enum State: Equatable {
+            case edit(BreadFormFeature.State)
+        }
+        enum Action: Equatable {
+            case edit(BreadFormFeature.Action)
+        }
+        
+        var body: some ReducerOf<Self> {
+            Scope(state: \.edit, action: \.edit) {
+                BreadFormFeature()
+            }
+        }
+    }
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .cancelEditTapped:
+                state.destination = nil
+                return .none
                 
+            case .destination:
+                return .none
+                
+            case .editButtonTapped:
+                state.destination = .edit(BreadFormFeature.State(journalEntry: state.journalEntry))
+                return .none
             }
         }
+       
+
     }
+    
+  
 }
 
 struct JournalDetailView: View {
@@ -124,20 +160,28 @@ struct JournalDetailView: View {
                 }
             }
             .navigationTitle(store.journalEntry.name)
+            .sheet(item: $store.scope(state: \.destination?.edit, action: \.destination.edit)) { store in
+                NavigationStack {
+                    BreadFormView(store: store)
+                }
+            }
         }
         
     }
 }
 
 #Preview {
-    JournalDetailView(
-        store:
-            Store(initialState: JournalDetailViewFeature.State(
-                journalEntry: .mock
-            ),
-                  reducer: {
-                      JournalDetailViewFeature()
-                  }
-            )
-    )
+    NavigationStack {
+        JournalDetailView(
+            store:
+                Store(initialState: JournalDetailViewFeature.State(
+                    journalEntry: .mock
+                ),
+                      reducer: {
+                          JournalDetailViewFeature()
+                      }
+                )
+        )
+    }
+    
 }

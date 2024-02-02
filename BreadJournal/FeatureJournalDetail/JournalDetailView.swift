@@ -20,6 +20,7 @@ struct JournalDetailViewFeature {
     }
     enum Action: Equatable {
         case cancelEditTapped
+        case doneEditingButtonTapped
         case editButtonTapped
         case destination(PresentationAction<Destination.Action>)
     }
@@ -51,16 +52,24 @@ struct JournalDetailViewFeature {
             case .destination:
                 return .none
                 
+            case .doneEditingButtonTapped:
+                switch state.destination {
+                case .edit(let value):
+                    state.journalEntry = value.journalEntry
+                    state.destination = nil
+                default: break
+                }
+                return .none
+                
             case .editButtonTapped:
                 state.destination = .edit(BreadFormFeature.State(journalEntry: state.journalEntry))
                 return .none
             }
         }
-       
-
+        .ifLet(\.$destination, action: \.destination) {
+          Destination()
+        }
     }
-    
-  
 }
 
 struct JournalDetailView: View {
@@ -156,13 +165,26 @@ struct JournalDetailView: View {
             }
             .toolbar {
                 Button("Edit") {
-                    
+                    store.send(.editButtonTapped)
                 }
             }
             .navigationTitle(store.journalEntry.name)
             .sheet(item: $store.scope(state: \.destination?.edit, action: \.destination.edit)) { store in
                 NavigationStack {
                     BreadFormView(store: store)
+                        .navigationTitle(store.journalEntry.name)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancel") {
+                                    self.store.send(.cancelEditTapped)
+                                }
+                            }
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") {
+                                    self.store.send(.doneEditingButtonTapped)
+                                }
+                            }
+                        }
                 }
             }
         }

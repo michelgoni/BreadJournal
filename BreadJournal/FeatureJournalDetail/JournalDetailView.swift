@@ -20,6 +20,7 @@ struct JournalDetailViewFeature {
     }
     enum Action: Equatable {
         case cancelEditTapped
+        case deleteButtonTapped
         case doneEditingButtonTapped
         case editButtonTapped
         case destination(PresentationAction<Destination.Action>)
@@ -29,12 +30,19 @@ struct JournalDetailViewFeature {
     struct Destination {
         @ObservableState
         enum State: Equatable {
+            case alert(AlertState<Action.Alert>)
             case edit(BreadFormFeature.State)
         }
         enum Action: Equatable {
+            case alert(Alert)
             case edit(BreadFormFeature.Action)
+            
+            enum Alert {
+                case confirmDelete
+            }
         }
         
+      
         var body: some ReducerOf<Self> {
             Scope(state: \.edit, action: \.edit) {
                 BreadFormFeature()
@@ -47,6 +55,10 @@ struct JournalDetailViewFeature {
             switch action {
             case .cancelEditTapped:
                 state.destination = nil
+                return .none
+                
+            case .deleteButtonTapped:
+                state.destination = .alert(.deleteJournalEntry)
                 return .none
                 
             case .destination:
@@ -156,7 +168,7 @@ struct JournalDetailView: View {
                 
                 Section {
                     Button("Delete") {
-                        
+                        store.send(.deleteButtonTapped)
                     }
                     .foregroundColor(.red)
                     .frame(maxWidth: .infinity)
@@ -169,6 +181,7 @@ struct JournalDetailView: View {
                 }
             }
             .navigationTitle(store.journalEntry.name)
+            .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
             .sheet(item: $store.scope(state: \.destination?.edit, action: \.destination.edit)) { store in
                 NavigationStack {
                     BreadFormView(store: store)
@@ -196,12 +209,13 @@ struct JournalDetailView: View {
     NavigationStack {
         JournalDetailView(
             store:
-                Store(initialState: JournalDetailViewFeature.State(
-                    journalEntry: .mock
-                ),
-                      reducer: {
-                          JournalDetailViewFeature()
-                      }
+                Store(
+                    initialState: JournalDetailViewFeature.State(
+                        journalEntry: .mock
+                    ),
+                    reducer: {
+                        JournalDetailViewFeature()
+                    }
                 )
         )
     }

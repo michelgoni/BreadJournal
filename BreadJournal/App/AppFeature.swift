@@ -28,10 +28,21 @@ struct AppFeature {
         }
         Reduce { state, action in
             switch action{
-            case .path:
-                return .none
+                
             case .breadJournalEntries:
                 return .none
+            case .path(.element(id: _,action: .detail(.delegate(let action)))):
+                switch action {
+                
+                case .entryUpdated(let entry):
+                    state.breadJournalEntries.journalEntries[id: entry.id] = entry
+                    return .none
+                case .deleteJournalEntry:
+                    return .none
+                }
+            case .path:
+                return .none
+              
             }
         }
         .forEach(\.path, action: \.path) {

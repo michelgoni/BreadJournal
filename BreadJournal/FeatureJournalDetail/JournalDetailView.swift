@@ -18,14 +18,22 @@ struct JournalDetailViewFeature {
         var ingredients: IdentifiedArrayOf<Ingredient> = []
         
     }
-    enum Action: Equatable {
+    enum Action: Sendable {
         case cancelEditTapped
+        case delegate(Delegate)
         case deleteButtonTapped
+        case destination(PresentationAction<Destination.Action>)
         case doneEditingButtonTapped
         case editButtonTapped
-        case destination(PresentationAction<Destination.Action>)
+     
+        
+        @CasePathable
+        enum Delegate {
+            case entryUpdated(Entry)
+            case deleteJournalEntry
+        }
     }
-    
+    @Dependency(\.dismiss) var dismiss
     @Reducer
     struct Destination {
         @ObservableState
@@ -57,12 +65,22 @@ struct JournalDetailViewFeature {
                 state.destination = nil
                 return .none
                 
+            case .delegate:
+                return .none
+                
             case .deleteButtonTapped:
                 state.destination = .alert(.deleteJournalEntry)
                 return .none
+         
                 
-            case .destination:
-                return .none
+            case let .destination(.presented(.alert(alertAction))):
+                switch alertAction {
+                case .confirmDelete:
+                    return .run { send in
+                        await send(.delegate(.deleteJournalEntry))
+                        await self.dismiss()
+                    }
+                }
                 
             case .doneEditingButtonTapped:
                 switch state.destination {
@@ -76,10 +94,18 @@ struct JournalDetailViewFeature {
             case .editButtonTapped:
                 state.destination = .edit(BreadFormFeature.State(journalEntry: state.journalEntry))
                 return .none
+                
+            case .destination:
+              return .none
             }
         }
         .ifLet(\.$destination, action: \.destination) {
           Destination()
+        }
+        .onChange(of: \.journalEntry) { oldValue, newValue in
+            Reduce { state, action in
+                    .send(.delegate(.entryUpdated(newValue)))
+            }
         }
     }
 }

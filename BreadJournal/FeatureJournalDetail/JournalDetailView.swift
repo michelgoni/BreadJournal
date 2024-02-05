@@ -118,6 +118,11 @@ struct JournalDetailView: View {
         
         VStack {
             Form {
+                
+                Section(header: Text("Nombre de la receta")) {
+                    Text(store.journalEntry.name)
+                }
+                
                 Section(header: Text("Fecha")) {
                     Text(store.journalEntry.entryDate.convertToMonthYearFormat())
                 }

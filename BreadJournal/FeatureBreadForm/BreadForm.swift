@@ -50,6 +50,10 @@ struct BreadFormView: View {
         VStack {
             
             Form {
+                Section("Nombre de la receta") {
+                    TextField("Nombre de la receta", text: $store.journalEntry.name)
+                }
+                
                 Section {
                     DatePicker("Fecha",
                                selection: $store.journalEntry.entryDate,

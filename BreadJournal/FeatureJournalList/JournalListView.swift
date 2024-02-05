@@ -26,6 +26,7 @@ struct BreadJournalListFeature {
         case addEntryTapped
         case addEntry(PresentationAction<BreadFormFeature.Action>)
         case cancelEntry
+        case confirmEntryTapped
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
         case getEntries
         case filterEntries
@@ -41,7 +42,6 @@ struct BreadJournalListFeature {
             case .addEntry:
                 return .none
             case .addEntryTapped:
-                debugPrint("Adding items")
                 state.addNewEntry = BreadFormFeature.State(
                     journalEntry: Entry(
                         id: self.uuid()
@@ -50,6 +50,9 @@ struct BreadJournalListFeature {
                 return .none
             case .cancelEntry:
                 state.addNewEntry = nil
+                return .none
+            case .confirmEntryTapped:
+                
                 return .none
             case .getEntries:
                 state.isLoading.toggle()
@@ -132,7 +135,7 @@ struct BreadJournalListView: View {
                                 }
                                 ToolbarItem(placement: .confirmationAction) {
                                     Button("Add") {
-                                        self.store.send(.addEntryTapped)
+                                        self.store.send(.confirmEntryTapped)
                                     }
                                 }
                             }

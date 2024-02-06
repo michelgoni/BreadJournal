@@ -35,7 +35,8 @@ struct BreadFormFeature {
                 )
                 state.ingredients.append(ingredient)
                 return .none
-            default: return .none
+            case .binding:
+                return .none
             }
             
         }
@@ -46,12 +47,11 @@ struct BreadFormView: View {
     @Bindable var store: StoreOf<BreadFormFeature>
     
     var body: some View {
-        
         VStack {
-            
             Form {
                 Section("Nombre de la receta") {
-                    TextField("Nombre de la receta", text: $store.journalEntry.name)
+                    TextField("",
+                              text: $store.journalEntry.name)
                 }
                 
                 Section {

@@ -12,6 +12,7 @@
 		2D5C09292B51AB1C00D5BEFB /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5C09282B51AB1C00D5BEFB /* Error.swift */; };
 		2D619A102B56FCFA004E564B /* LoaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */; };
 		2D619A122B570408004E564B /* BreadErrorModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A112B570408004E564B /* BreadErrorModifier.swift */; };
+		2D7237272B72AF8500DD74D7 /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = 2D7237262B72AF8500DD74D7 /* Tagged */; };
 		2D7D74C42B66D4CA0067776B /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7D74C32B66D4CA0067776B /* Bool.swift */; };
 		2D975B722B45C3DF00FA1FB2 /* BreadJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B712B45C3DF00FA1FB2 /* BreadJournalApp.swift */; };
 		2D975B742B45C3DF00FA1FB2 /* JournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B732B45C3DF00FA1FB2 /* JournalListView.swift */; };
@@ -97,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D7237272B72AF8500DD74D7 /* Tagged in Frameworks */,
 				2D975B9D2B45C54C00FA1FB2 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,6 +128,13 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		2D7237252B72AF8500DD74D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2D975B652B45C3DF00FA1FB2 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +143,7 @@
 				2D975B812B45C3E100FA1FB2 /* BreadJournalTests */,
 				2D975B8B2B45C3E100FA1FB2 /* BreadJournalUITests */,
 				2D975B6F2B45C3DF00FA1FB2 /* Products */,
+				2D7237252B72AF8500DD74D7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -279,6 +289,7 @@
 			name = BreadJournal;
 			packageProductDependencies = (
 				2D975B9C2B45C54C00FA1FB2 /* ComposableArchitecture */,
+				2D7237262B72AF8500DD74D7 /* Tagged */,
 			);
 			productName = BreadJournal;
 			productReference = 2D975B6E2B45C3DF00FA1FB2 /* BreadJournal.app */;
@@ -354,6 +365,7 @@
 			mainGroup = 2D975B652B45C3DF00FA1FB2;
 			packageReferences = (
 				2D975B9B2B45C54C00FA1FB2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				2D7237242B72AF5100DD74D7 /* XCRemoteSwiftPackageReference "swift-tagged" */,
 			);
 			productRefGroup = 2D975B6F2B45C3DF00FA1FB2 /* Products */;
 			projectDirPath = "";
@@ -746,6 +758,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2D7237242B72AF5100DD74D7 /* XCRemoteSwiftPackageReference "swift-tagged" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-tagged/";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		2D975B9B2B45C54C00FA1FB2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
@@ -757,6 +777,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2D7237262B72AF8500DD74D7 /* Tagged */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2D7237242B72AF5100DD74D7 /* XCRemoteSwiftPackageReference "swift-tagged" */;
+			productName = Tagged;
+		};
 		2D975B9C2B45C54C00FA1FB2 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2D975B9B2B45C54C00FA1FB2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;

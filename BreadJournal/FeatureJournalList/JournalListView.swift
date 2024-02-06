@@ -63,14 +63,25 @@ struct BreadJournalListFeature {
             case .addEntry:
                 return .none
             case .addEntryTapped:
-                state.destination = .add(BreadFormFeature.State(journalEntry: Entry(
-                    id: self.uuid()
-                )))
+                state.destination = .add(
+                    BreadFormFeature.State(
+                        journalEntry: Entry(
+                            id: Entry.ID(
+                                self.uuid()
+                            )
+                        )
+                    )
+                )
                 return .none
             case .cancelEntry:
                 state.destination = nil
                 return .none
             case .confirmEntryTapped:
+                guard case let .some(.add(editState)) = state.destination else {
+                    return .none
+                }
+                state.journalEntries.append(editState.journalEntry)
+                state.destination = nil
                 
                 return .none
             case .getEntries:
@@ -101,7 +112,7 @@ struct BreadJournalListFeature {
         }
         .ifLet(\.$destination, action: \.addEntry) {
           Destination()
-        }
+        }._printChanges()
     }
 }
 

@@ -11,7 +11,7 @@ import SwiftUI
 @Reducer
 struct BreadFormFeature {
     @ObservableState
-    struct State: Equatable {
+    struct State: Equatable, Sendable {
         var journalEntry: Entry
         var ingredients: IdentifiedArrayOf<Ingredient> = []
         
@@ -20,19 +20,18 @@ struct BreadFormFeature {
         }
     }
     
-    enum Action: BindableAction, Equatable {
+    enum Action: BindableAction, Equatable, Sendable {
         case addIngredientTapped(String)
         case binding(BindingAction<State>)
     }
     @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
             case .addIngredientTapped(let ingredient):
-                let ingredient = Ingredient(
-                    id: self.uuid(),
-                    ingredient: ingredient
-                )
+                let ingredient = Ingredient(id: Ingredient.ID(self.uuid()),
+                                            ingredient: ingredient)
                 state.ingredients.append(ingredient)
                 return .none
             case .binding:

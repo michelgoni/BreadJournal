@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Tagged
 
  enum Filter {
     case date
@@ -21,7 +22,7 @@ struct Entry: Codable, Identifiable, Equatable {
     var rating = Int.zero
     var name = ""
     var image: Data?
-    let id: UUID
+    let id: Tagged<Self, UUID>
     var lastSourdoughFeedTime = Date()
     var prefermentStartingTime = Date()
     var autolysisStartingTime = Date()
@@ -60,7 +61,7 @@ extension Entry {
 }
 
 struct Ingredient: Codable, Identifiable, Equatable {
-    let id: UUID
+    let id: Tagged<Self, UUID>
     var ingredient = ""
 }
 

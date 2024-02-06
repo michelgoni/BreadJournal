@@ -12,25 +12,46 @@ import SwiftUI
 struct BreadJournalListFeature {
     @ObservableState
     struct State: Equatable {
-        @Presents var addNewEntry: BreadFormFeature.State?
+        @Presents var destination: Destination.State?
         var journalEntries: IdentifiedArrayOf<Entry> = []
         var error: BreadJournalError? = nil
         var isLoading = false
+        
+        init(destination: Destination.State? = nil) {
+            self.destination = destination
+        }
         
         var isEmpty: Bool {
             journalEntries.isEmpty
         }
     }
     
-    enum Action: Equatable {
+    enum Action {
         case addEntryTapped
-        case addEntry(PresentationAction<BreadFormFeature.Action>)
+        case addEntry(PresentationAction<Destination.Action>)
         case cancelEntry
         case confirmEntryTapped
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
         case getEntries
         case filterEntries
-        case saveEntry
+    }
+    
+    @Reducer
+    struct Destination {
+        @ObservableState
+        enum State: Equatable {
+            case add(BreadFormFeature.State)
+        }
+        
+        enum Action {
+            case add(BreadFormFeature.Action)
+        }
+        
+        var body: some ReducerOf<Self> {
+            Scope(state: \.add, action: \.add) {
+                BreadFormFeature()
+            }
+        }
     }
     
     @Dependency (\.journalListDataManager.load) var loadEntries
@@ -42,14 +63,12 @@ struct BreadJournalListFeature {
             case .addEntry:
                 return .none
             case .addEntryTapped:
-                state.addNewEntry = BreadFormFeature.State(
-                    journalEntry: Entry(
-                        id: self.uuid()
-                    )
-                )
+                state.destination = .add(BreadFormFeature.State(journalEntry: Entry(
+                    id: self.uuid()
+                )))
                 return .none
             case .cancelEntry:
-                state.addNewEntry = nil
+                state.destination = nil
                 return .none
             case .confirmEntryTapped:
                 
@@ -78,18 +97,10 @@ struct BreadJournalListFeature {
             case .filterEntries:
                 debugPrint("Filtering items")
                 return .none
-            case .saveEntry:
-                guard let entry = state.addNewEntry?.journalEntry else {
-                    return .none
-                }
-                state.journalEntries.append(entry)
-                state.addNewEntry = nil
-                return .none
-                
             }
         }
-        .ifLet(\.$addNewEntry, action: \.addEntry) {
-            BreadFormFeature()
+        .ifLet(\.$destination, action: \.addEntry) {
+          Destination()
         }
     }
 }
@@ -123,24 +134,25 @@ struct BreadJournalListView: View {
                 .loader(isLoading: store.state.isLoading)
                 .onError(error: store.state.error)
                 .applyToolbar(store: store)
-                .sheet(item: $store.scope(state: \.addNewEntry, action: \.addEntry), content: { store in
+                .sheet(item: $store.scope(state: \.destination?.add,
+                                          action: \.addEntry.add)) { store in
                     NavigationStack {
                         BreadFormView(store: store)
-                            .navigationTitle("New journal entry")
-                            .toolbar {
-                                ToolbarItem(placement: .cancellationAction) {
-                                    Button("Dismiss") {
-                                        self.store.send(.cancelEntry)
-                                    }
-                                }
-                                ToolbarItem(placement: .confirmationAction) {
-                                    Button("Add") {
-                                        self.store.send(.confirmEntryTapped)
-                                    }
+                        .navigationTitle("New journal entry")
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Dismiss") {
+                                    self.store.send(.cancelEntry)
                                 }
                             }
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Add") {
+                                    self.store.send(.confirmEntryTapped)
+                                }
+                            }
+                        }
                     }
-                })
+                }
             
         }
         .task {

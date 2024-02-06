@@ -213,7 +213,8 @@ struct JournalDetailView: View {
             }
             .navigationTitle(store.journalEntry.name)
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-            .sheet(item: $store.scope(state: \.destination?.edit, action: \.destination.edit)) { store in
+            .sheet(item: $store.scope(state: \.destination?.edit, 
+                                      action: \.destination.edit)) { store in
                 NavigationStack {
                     BreadFormView(store: store)
                         .navigationTitle(store.journalEntry.name)

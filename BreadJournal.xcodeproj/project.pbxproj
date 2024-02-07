@@ -12,6 +12,7 @@
 		2D5C09292B51AB1C00D5BEFB /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5C09282B51AB1C00D5BEFB /* Error.swift */; };
 		2D619A102B56FCFA004E564B /* LoaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */; };
 		2D619A122B570408004E564B /* BreadErrorModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A112B570408004E564B /* BreadErrorModifier.swift */; };
+		2D713E532B7404CB00042F99 /* JournaliDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D713E522B7404CB00042F99 /* JournaliDetailTests.swift */; };
 		2D7237272B72AF8500DD74D7 /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = 2D7237262B72AF8500DD74D7 /* Tagged */; };
 		2D7D74C42B66D4CA0067776B /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7D74C32B66D4CA0067776B /* Bool.swift */; };
 		2D975B722B45C3DF00FA1FB2 /* BreadJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B712B45C3DF00FA1FB2 /* BreadJournalApp.swift */; };
@@ -64,6 +65,7 @@
 		2D5C09282B51AB1C00D5BEFB /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderModifier.swift; sourceTree = "<group>"; };
 		2D619A112B570408004E564B /* BreadErrorModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadErrorModifier.swift; sourceTree = "<group>"; };
+		2D713E522B7404CB00042F99 /* JournaliDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournaliDetailTests.swift; sourceTree = "<group>"; };
 		2D7D74C32B66D4CA0067776B /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		2D975B6E2B45C3DF00FA1FB2 /* BreadJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreadJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D975B712B45C3DF00FA1FB2 /* BreadJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalApp.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */,
+				2D713E522B7404CB00042F99 /* JournaliDetailTests.swift */,
 			);
 			path = BreadJournalTests;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D713E532B7404CB00042F99 /* JournaliDetailTests.swift in Sources */,
 				2DD2582D2B584AB400B6B037 /* BreadJournalListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

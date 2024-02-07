@@ -59,22 +59,22 @@ final class BreadJournalListTests: XCTestCase {
     }
     
     
-//    func test_isloading() async {
-//        let store = TestStore(initialState: BreadJournalListFeature.State()) {
-//            BreadJournalListFeature()
-//        }withDependencies: {
-//            $0.journalListDataManager = .testValueEmptyMock
-//            $0.uuid = .incrementing
-//        }
-//        
-//        await store.send(.getEntries) { state in
-//            state.isLoading = true
-//        }
-//        
-//        await store.receive(\.entriesResponse.success) {
-//            $0.isLoading = false
-//        }
-//    }
+    func test_isloading() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        } withDependencies: {
+            $0.journalListDataManager = .testValueEmptyMock
+            $0.uuid = .incrementing
+        }
+        
+        await store.send(.getEntries) { state in
+            state.isLoading = true
+        }
+        
+        await store.receive(\.entriesResponse.success) {
+            $0.isLoading = false
+        }
+    }
 //    
 //    func test_received_error() async {
 //        let store = TestStore(initialState: BreadJournalListFeature.State()) {

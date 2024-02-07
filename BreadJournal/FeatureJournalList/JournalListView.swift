@@ -9,27 +9,49 @@ import ComposableArchitecture
 import SwiftUI
 
 @Reducer
-struct BreadJournalLisFeature {
-    
+struct BreadJournalListFeature {
+    @ObservableState
     struct State: Equatable {
-        @PresentationState var addNewEntry: BreadFormFeature.State?
+        @Presents var destination: Destination.State?
         var journalEntries: IdentifiedArrayOf<Entry> = []
         var error: BreadJournalError? = nil
         var isLoading = false
+        
+        init(destination: Destination.State? = nil) {
+            self.destination = destination
+        }
         
         var isEmpty: Bool {
             journalEntries.isEmpty
         }
     }
     
-    enum Action: Equatable {
+    enum Action {
         case addEntryTapped
-        case addEntry(PresentationAction<BreadFormFeature.Action>)
+        case addEntry(PresentationAction<Destination.Action>)
         case cancelEntry
+        case confirmEntryTapped
         case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
         case getEntries
         case filterEntries
-        case saveEntry
+    }
+    
+    @Reducer
+    struct Destination {
+        @ObservableState
+        enum State: Equatable {
+            case add(BreadFormFeature.State)
+        }
+        
+        enum Action {
+            case add(BreadFormFeature.Action)
+        }
+        
+        var body: some ReducerOf<Self> {
+            Scope(state: \.add, action: \.add) {
+                BreadFormFeature()
+            }
+        }
     }
     
     @Dependency (\.journalListDataManager.load) var loadEntries
@@ -41,15 +63,26 @@ struct BreadJournalLisFeature {
             case .addEntry:
                 return .none
             case .addEntryTapped:
-                debugPrint("Adding items")
-                state.addNewEntry = BreadFormFeature.State(
-                    journalEntry: Entry(
-                        id: self.uuid()
+                state.destination = .add(
+                    BreadFormFeature.State(
+                        journalEntry: Entry(
+                            id: Entry.ID(
+                                self.uuid()
+                            )
+                        )
                     )
                 )
                 return .none
             case .cancelEntry:
-                state.addNewEntry = nil
+                state.destination = nil
+                return .none
+            case .confirmEntryTapped:
+                guard case let .some(.add(editState)) = state.destination else {
+                    return .none
+                }
+                state.journalEntries.append(editState.journalEntry)
+                state.destination = nil
+                
                 return .none
             case .getEntries:
                 state.isLoading.toggle()
@@ -75,19 +108,11 @@ struct BreadJournalLisFeature {
             case .filterEntries:
                 debugPrint("Filtering items")
                 return .none
-            case .saveEntry:
-                guard let entry = state.addNewEntry?.journalEntry else {
-                    return .none
-                }
-                state.journalEntries.append(entry)
-                state.addNewEntry = nil
-                return .none
-                
             }
         }
-        .ifLet(\.$addNewEntry, action: \.addEntry) {
-            BreadFormFeature()
-        }
+        .ifLet(\.$destination, action: \.addEntry) {
+          Destination()
+        }._printChanges()
     }
 }
 
@@ -102,59 +127,52 @@ struct BreadJournalListView: View {
         }
     }
     
-    let store: StoreOf<BreadJournalLisFeature>
+    @Bindable var store: StoreOf<BreadJournalListFeature>
     
     var body: some View {
-        WithViewStore(self.store,
-                      observe: { $0 }) { viewStore in
-            NavigationStack {
-                if viewStore.state.journalEntries.isEmpty {
-                    EmptyJournalView()
-                } else {
-                    ScrollView {
-                        LazyVGrid(
-                            columns: columns,
-                            spacing: 16) {
-                                ForEach(viewStore.state.journalEntries) { entry in
-                                    JournalEntryView.init(entry: entry)
-                                }
-                            }
-                            .padding(.all, 46)
+        ScrollView {
+            LazyVGrid(
+                columns: columns,
+                spacing: 16) {
+                    ForEach(store.state.journalEntries) { entry in
+                        NavigationLink(state: AppFeature.Path.State.detail(JournalDetailViewFeature.State(journalEntry: entry))) {
+                            JournalEntryView.init(entry: entry)
+                        }
+                        
                     }
                 }
-            }
-            .navigationTitle("Bread journal")
-            .loader(isLoading: viewStore.state.isLoading)
-            .onError(error: viewStore.state.error)
-            .applyToolbar(viewStore: viewStore)
-            .sheet(
-                store: store.scope(
-                    state: \.$addNewEntry,
-                    action: \.addEntry),
-                content: { store in
+                .padding(.all, 46)
+                .loader(isLoading: store.state.isLoading)
+                .onError(error: store.state.error)
+                .applyToolbar(store: store)
+                .sheet(item: $store.scope(state: \.destination?.add,
+                                          action: \.addEntry.add)) { store in
                     NavigationStack {
                         BreadFormView(store: store)
-                            .navigationTitle("New journal entry")
-                            .toolbar {
-                                ToolbarItem {
-                                    Button("Save") {
-                                        viewStore.send(.saveEntry)
-                                    }
-                                }
-                                ToolbarItem(placement: .cancellationAction) {
-                                    Button("Cancel") {
-                                        viewStore.send(.cancelEntry)
-                                    }
+                        .navigationTitle("New journal entry")
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Dismiss") {
+                                    self.store.send(.cancelEntry)
                                 }
                             }
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Add") {
+                                    self.store.send(.confirmEntryTapped)
+                                }
+                            }
+                        }
                     }
                 }
-            )
-            .task {
-                viewStore.send(.getEntries)
-            }
+            
         }
+        .task {
+            store.send(.getEntries)
+        }
+        
+
     }
+
 }
 
 #Preview {
@@ -162,9 +180,9 @@ struct BreadJournalListView: View {
         NavigationStack {
             BreadJournalListView(
                 store: Store(
-                    initialState: BreadJournalLisFeature.State(),
+                    initialState: BreadJournalListFeature.State(),
                     reducer: {
-                        BreadJournalLisFeature()
+                        BreadJournalListFeature()
                             ._printChanges()
                     }, withDependencies: {
                         $0.journalListDataManager = .previewValue

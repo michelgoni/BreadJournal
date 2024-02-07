@@ -56,7 +56,7 @@ struct JournalEntryView: View {
                                   rating: 3,
                                   name: "Pan de centeno",
                                   image: nil,
-                                  id: UUID()))
+                                  id: Entry.ID()))
     
 }
 
@@ -67,7 +67,7 @@ struct JournalEntryView: View {
                                   rating: 1,
                                   name: "Pan de maíz",
                                   image: nil,
-                                  id: UUID()))
+                                  id: Entry.ID()))
     
 }
 

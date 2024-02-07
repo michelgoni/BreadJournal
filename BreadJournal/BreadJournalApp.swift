@@ -10,14 +10,15 @@ import SwiftUI
 
 @main
 struct BreadJournalApp: App {
+    let store = Store(initialState: AppFeature.State()) {
+        AppFeature()
+    } withDependencies: {
+        $0.journalListDataManager = .previewValue
+    }
+
     var body: some Scene {
         WindowGroup {
-            BreadJournalListView( 
-                store: Store(
-                    initialState: BreadJournalLisFeature.State(),
-                    reducer: {
-                        BreadJournalLisFeature()
-                    }))
+            AppView(store: store)
         }
     }
 }

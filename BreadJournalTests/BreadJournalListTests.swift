@@ -75,50 +75,43 @@ final class BreadJournalListTests: XCTestCase {
             $0.isLoading = false
         }
     }
-//    
-//    func test_received_error() async {
-//        let store = TestStore(initialState: BreadJournalListFeature.State()) {
-//            BreadJournalListFeature()
-//        }withDependencies: {
-//            $0.journalListDataManager = .testValueErrorMock
-//        }
-//        store.exhaustivity = .off
-//        
-//        await store.send(.getEntries)
-//        
-//        await store.receive(\.entriesResponse.failure) {
-//            $0.error = .databaseFailure(internalCode: 0)
-//        }
-//    }
-//    
-//    func test_received_response() async {
-//        let store = TestStore(initialState: BreadJournalListFeature.State()) {
-//            BreadJournalListFeature()
-//        }withDependencies: {
-//            $0.journalListDataManager = .testValueMock
-//        }
-//        store.exhaustivity = .off
-//        
-//        await store.send(.getEntries)
-//        
-//        await store.receive(\.entriesResponse.success) {
-//            $0.journalEntries[0] = Entry.mock
-//        }
-//    }
-//    
-//    func test_received_empty_response() async {
-//        let store = TestStore(initialState: BreadJournalListFeature.State()) {
-//            BreadJournalListFeature()
-//        }withDependencies: {
-//            $0.journalListDataManager = .emptyMock()
-//        }
-//        store.exhaustivity = .off
-//        
-//        await store.send(.getEntries)
-//        
-//        await store.receive(\.entriesResponse.success) {
-//            let array = IdentifiedArray<UUID, Entry>()
-//            $0.journalEntries = array
-//        }
-//    }
+    
+    func test_received_error() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        }withDependencies: {
+            $0.journalListDataManager = .testValueErrorMock
+        }
+        store.exhaustivity = .off
+        await store.send(.getEntries)
+        await store.receive(\.entriesResponse.failure) {
+            $0.error = .databaseFailure(internalCode: 0)
+        }
+    }
+    
+    func test_received_response() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        }withDependencies: {
+            $0.journalListDataManager = .testValueMock
+        }
+        store.exhaustivity = .off
+        await store.send(.getEntries)
+        await store.receive(\.entriesResponse.success) {
+            $0.journalEntries[0] = Entry.mock
+        }
+    }
+    
+    func test_received_empty_response() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        }withDependencies: {
+            $0.journalListDataManager = .emptyMock()
+        }
+        store.exhaustivity = .off
+        await store.send(.getEntries)
+        await store.receive(\.entriesResponse.success) {
+            $0.journalEntries = []
+        }
+    }
 }

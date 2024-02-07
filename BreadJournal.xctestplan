@@ -17,7 +17,6 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:BreadJournal.xcodeproj",
         "identifier" : "2D975B7D2B45C3E100FA1FB2",

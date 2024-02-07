@@ -13,8 +13,7 @@ import XCTest
 @MainActor
 final class BreadJournalListTests: XCTestCase {
     
-    func test_add_entry_is_ok() async {
-        let clock = TestClock()
+    func test_add_entry_tapped() async {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()
         }withDependencies: {
@@ -37,6 +36,7 @@ final class BreadJournalListTests: XCTestCase {
             $0.destination = nil
             $0.journalEntries = [entry]
         }
+
     }
     
     

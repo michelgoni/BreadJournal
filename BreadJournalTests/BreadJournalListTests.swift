@@ -39,6 +39,25 @@ final class BreadJournalListTests: XCTestCase {
 
     }
     
+    func test_cancel_entry() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        } withDependencies: {
+            $0.journalListDataManager = .testValueEmptyMock
+            $0.uuid = .incrementing
+        }
+       
+        let entry = Entry(id: Entry.ID(UUID(0)))
+        
+        await store.send(.addEntryTapped) {
+            $0.destination = .add(BreadFormFeature.State(journalEntry: entry))
+        }
+
+        await store.send(.cancelEntry) {
+            $0.destination = nil
+        }
+    }
+    
     
 //    func test_isloading() async {
 //        let store = TestStore(initialState: BreadJournalListFeature.State()) {

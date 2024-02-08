@@ -163,20 +163,6 @@ struct BreadFormView: View {
                         StarRatingView(rating: $store.journalEntry.evaluation)
                     }
                 }
-                Spacer()
-                Button(action: {
-                    store.send(.confirmEntryTapped)
-                }) {
-                    Text("Enviar")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(minWidth: .zero,
-                               maxWidth: .infinity)
-                        .padding()
-                        .background(.blue)
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal)
             }
         }
         

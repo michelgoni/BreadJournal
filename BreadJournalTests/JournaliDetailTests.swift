@@ -83,4 +83,31 @@ final class JournaliDetailTests: XCTestCase {
         }
         
     }
+    
+    func test_edit_entry() async {
+        var entry = Entry.mock
+        let store = TestStore(initialState: JournalDetailViewFeature.State(journalEntry: entry)) {
+            JournalDetailViewFeature()
+        } withDependencies: {
+            $0.uuid = .incrementing
+        }
+        
+        store.exhaustivity = .off
+        
+        await store.send(.editButtonTapped)
+        
+        entry.name = "Pan de centeno EDITED"
+        
+        await store.send(.destination(.presented(.edit(.set(\.journalEntry, entry))))) {
+            $0.$destination[case: \.edit]?.journalEntry.name = "Pan de centeno EDITED"
+        }
+        
+        await store.send(.doneEditingButtonTapped) {
+            $0.destination = nil
+            $0.journalEntry.name = "Pan de centeno EDITED"
+        }
+        
+        await store.receive(\.delegate.entryUpdated)
+        
+    }
 }

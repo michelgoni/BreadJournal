@@ -69,4 +69,18 @@ final class JournaliDetailTests: XCTestCase {
         }
         
     }
+    
+    func test_cancel_navigation_state() async {
+        
+        let store = TestStore(initialState: JournalDetailViewFeature.State(journalEntry: .mock)) {
+            JournalDetailViewFeature()
+        }
+        
+        store.exhaustivity = .off
+        
+        await store.send(.cancelEditTapped) {
+            $0.destination = nil
+        }
+        
+    }
 }

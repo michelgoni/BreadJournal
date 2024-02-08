@@ -165,7 +165,7 @@ struct BreadFormView: View {
                 }
                 Spacer()
                 Button(action: {
-                    debugPrint("pressed send")
+                    store.send(.confirmEntryTapped)
                 }) {
                     Text("Enviar")
                         .font(.headline)

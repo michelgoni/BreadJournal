@@ -57,4 +57,16 @@ final class JournaliDetailTests: XCTestCase {
         await store.send(.destination(.presented(.alert(.confirmDelete))))
         await store.receive(\.delegate.deleteJournalEntry)
     }
+    
+    func test_edit_navigation_state() async {
+        
+        let store = TestStore(initialState: JournalDetailViewFeature.State(journalEntry: .mock)) {
+            JournalDetailViewFeature()
+        }
+        
+        await store.send(.editButtonTapped) {
+            $0.destination = .edit(BreadFormFeature.State(journalEntry: .mock))
+        }
+        
+    }
 }

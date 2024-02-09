@@ -13,7 +13,6 @@ struct BreadFormFeature {
     @ObservableState
     struct State: Equatable, Sendable {
         var journalEntry: Entry
-        var ingredients: IdentifiedArrayOf<Ingredient> = []
         
         init(journalEntry: Entry) {
             self.journalEntry = journalEntry
@@ -32,7 +31,7 @@ struct BreadFormFeature {
             case .addIngredientTapped(let ingredient):
                 let ingredient = Ingredient(id: Ingredient.ID(self.uuid()),
                                             ingredient: ingredient)
-                state.ingredients.append(ingredient)
+                state.journalEntry.ingredients.append(ingredient)
                 return .none
             case .binding:
                 return .none
@@ -65,7 +64,7 @@ struct BreadFormView: View {
                 }
                 
                 Section(header: Text("Ingredientes")) {
-                    ForEach($store.ingredients) {
+                    ForEach($store.journalEntry.ingredients) {
                         TextField("Ingredient", text: $0.ingredient)
                     }
                     Button("Añade ingrediente") {

@@ -15,7 +15,7 @@ struct JournalDetailViewFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var journalEntry: Entry
-        var ingredients: IdentifiedArrayOf<Ingredient> = []
+        
         
     }
     enum Action: Sendable {
@@ -127,7 +127,7 @@ struct JournalDetailView: View {
                     Text(store.journalEntry.entryDate.convertToMonthYearFormat())
                 }
                 Section(header: Text("Ingredientes")) {
-                    ForEach(store.ingredients) {
+                    ForEach(store.journalEntry.ingredients) {
                         Text($0.ingredient)
                     }
                     

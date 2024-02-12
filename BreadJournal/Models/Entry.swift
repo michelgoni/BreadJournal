@@ -7,6 +7,7 @@
 
 import UIKit
 import Tagged
+import ComposableArchitecture
 
  enum Filter {
     case date
@@ -23,6 +24,7 @@ struct Entry: Codable, Identifiable, Equatable {
     var name = ""
     var image: Data?
     let id: Tagged<Self, UUID>
+    var ingredients: IdentifiedArrayOf<Ingredient> = []
     var lastSourdoughFeedTime = Date(timeIntervalSince1970: 0)
     var prefermentStartingTime = Date(timeIntervalSince1970: 0)
     var autolysisStartingTime = Date(timeIntervalSince1970: 0)
@@ -40,23 +42,35 @@ struct Entry: Codable, Identifiable, Equatable {
     var scoreRating = Int.zero
     var tasteRating = Int.zero
     var evaluation = Int.zero
+
 }
 
 extension Entry {
     
     static let mock = Entry(
-                            isFavorite: false,
-                            rating: 2, 
-                            name: "Pan de centeno",
-                            image: nil,
-                            id: Entry.ID())
+        isFavorite: false,
+        rating: 2,
+        name: "Pan de centeno",
+        image: nil,
+        id: Entry.ID(),
+        ingredients: [Ingredient(id: Ingredient.ID(UUID(0)), ingredient: "100 grs de Harina"),
+                      Ingredient(id: Ingredient.ID(UUID(1)), ingredient: "300 grs de Agua"),
+                      Ingredient(id: Ingredient.ID(UUID(2)), ingredient: "10 grs de sal"),
+                      Ingredient(id: Ingredient.ID(UUID(3)), ingredient: "100 grs de Harina de centeno")])
     
     static let mock2 = Entry(
-                            isFavorite: true,
-                            rating: 4,
-                            name: "Pan de maíz",
-                            image: nil,
-                            id: Entry.ID())
+        isFavorite: true,
+        rating: 4,
+        name: "Pan de maíz",
+        image: nil,
+        id: Entry.ID(),
+        ingredients: [
+            Ingredient(id: Ingredient.ID(UUID(0)), ingredient: "100 grs de Harina"),
+            Ingredient(id: Ingredient.ID(UUID(1)), ingredient: "300 grs de Agua"),
+            Ingredient(id: Ingredient.ID(UUID(2)), ingredient: "10 grs de sal"),
+            Ingredient(id: Ingredient.ID(UUID(3)), ingredient: "100 grs de Harina de centeno")
+        ]
+    )
     
 }
 

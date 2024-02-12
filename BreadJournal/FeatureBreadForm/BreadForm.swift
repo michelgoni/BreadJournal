@@ -13,7 +13,6 @@ struct BreadFormFeature {
     @ObservableState
     struct State: Equatable, Sendable {
         var journalEntry: Entry
-        var ingredients: IdentifiedArrayOf<Ingredient> = []
         
         init(journalEntry: Entry) {
             self.journalEntry = journalEntry
@@ -23,6 +22,7 @@ struct BreadFormFeature {
     enum Action: BindableAction, Equatable, Sendable {
         case addIngredientTapped(String)
         case binding(BindingAction<State>)
+        case deleteIngredient(atOffset: IndexSet)
     }
     @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
@@ -32,9 +32,12 @@ struct BreadFormFeature {
             case .addIngredientTapped(let ingredient):
                 let ingredient = Ingredient(id: Ingredient.ID(self.uuid()),
                                             ingredient: ingredient)
-                state.ingredients.append(ingredient)
+                state.journalEntry.ingredients.append(ingredient)
                 return .none
             case .binding:
+                return .none
+            case .deleteIngredient(let offSet):
+                state.journalEntry.ingredients.remove(atOffsets: offSet)
                 return .none
             }
             
@@ -65,9 +68,13 @@ struct BreadFormView: View {
                 }
                 
                 Section(header: Text("Ingredientes")) {
-                    ForEach($store.ingredients) {
+                    ForEach($store.journalEntry.ingredients) {
                         TextField("Ingredient", text: $0.ingredient)
                     }
+                    .onDelete {
+                        store.send(.deleteIngredient(atOffset: $0))
+                    }
+                    
                     Button("Añade ingrediente") {
                         store.send(.addIngredientTapped(""))
                     }
@@ -163,20 +170,6 @@ struct BreadFormView: View {
                         StarRatingView(rating: $store.journalEntry.evaluation)
                     }
                 }
-                Spacer()
-                Button(action: {
-                    debugPrint("pressed send")
-                }) {
-                    Text("Enviar")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(minWidth: .zero,
-                               maxWidth: .infinity)
-                        .padding()
-                        .background(.blue)
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal)
             }
         }
         

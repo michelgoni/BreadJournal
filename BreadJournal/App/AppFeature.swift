@@ -27,22 +27,25 @@ struct AppFeature {
             BreadJournalListFeature()
         }
         Reduce { state, action in
-            switch action{
-                
-            case .breadJournalEntries:
-                return .none
-            case .path(.element(id: _,action: .detail(.delegate(let action)))):
-                switch action {
-                
-                case .entryUpdated(let entry):
+            switch action {
+            case let .path(.element(id: id, .detail(.delegate(delegateAction)))):
+                guard case let .some(.detail(detailState)) = state.path[id: id] else { return .none}
+                switch delegateAction {
+                    
+                case let .entryUpdated(entry):
                     state.breadJournalEntries.journalEntries[id: entry.id] = entry
+
                     return .none
                 case .deleteJournalEntry:
+                    state.breadJournalEntries.journalEntries.remove(id: detailState.journalEntry.id)
                     return .none
                 }
-            case .path:
-                return .none
               
+            case .breadJournalEntries(_):
+                return .none
+            case .path:
+              return .none
+           
             }
         }
         .forEach(\.path, action: \.path) {

@@ -12,6 +12,7 @@
 		2D5C09292B51AB1C00D5BEFB /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5C09282B51AB1C00D5BEFB /* Error.swift */; };
 		2D619A102B56FCFA004E564B /* LoaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */; };
 		2D619A122B570408004E564B /* BreadErrorModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A112B570408004E564B /* BreadErrorModifier.swift */; };
+		2D713E532B7404CB00042F99 /* JournaliDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D713E522B7404CB00042F99 /* JournaliDetailTests.swift */; };
 		2D7237272B72AF8500DD74D7 /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = 2D7237262B72AF8500DD74D7 /* Tagged */; };
 		2D7D74C42B66D4CA0067776B /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7D74C32B66D4CA0067776B /* Bool.swift */; };
 		2D975B722B45C3DF00FA1FB2 /* BreadJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975B712B45C3DF00FA1FB2 /* BreadJournalApp.swift */; };
@@ -28,6 +29,7 @@
 		2D975BAB2B45D5C100FA1FB2 /* OptionalImageModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975BA82B45D5C100FA1FB2 /* OptionalImageModifier.swift */; };
 		2D975BAC2B45D5C100FA1FB2 /* FavoriteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975BA92B45D5C100FA1FB2 /* FavoriteImage.swift */; };
 		2D975BAE2B45D74600FA1FB2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D975BAD2B45D74600FA1FB2 /* Date.swift */; };
+		2D9B070C2B7561CD0000AA14 /* BreadFormTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9B070B2B7561CD0000AA14 /* BreadFormTest.swift */; };
 		2DA5F8A92B4DCFC700F3E5D2 /* ToolbarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */; };
 		2DA5F8AB2B4DD30500F3E5D2 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */; };
 		2DB83A6A2B658F7500842B94 /* JournalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB83A692B658F7500842B94 /* JournalDetailView.swift */; };
@@ -64,6 +66,7 @@
 		2D5C09282B51AB1C00D5BEFB /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderModifier.swift; sourceTree = "<group>"; };
 		2D619A112B570408004E564B /* BreadErrorModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadErrorModifier.swift; sourceTree = "<group>"; };
+		2D713E522B7404CB00042F99 /* JournaliDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournaliDetailTests.swift; sourceTree = "<group>"; };
 		2D7D74C32B66D4CA0067776B /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		2D975B6E2B45C3DF00FA1FB2 /* BreadJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreadJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D975B712B45C3DF00FA1FB2 /* BreadJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadJournalApp.swift; sourceTree = "<group>"; };
@@ -81,6 +84,7 @@
 		2D975BA82B45D5C100FA1FB2 /* OptionalImageModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalImageModifier.swift; sourceTree = "<group>"; };
 		2D975BA92B45D5C100FA1FB2 /* FavoriteImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteImage.swift; sourceTree = "<group>"; };
 		2D975BAD2B45D74600FA1FB2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		2D9B070B2B7561CD0000AA14 /* BreadFormTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadFormTest.swift; sourceTree = "<group>"; };
 		2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarModifier.swift; sourceTree = "<group>"; };
 		2DA5F8AA2B4DD30500F3E5D2 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		2DB83A692B658F7500842B94 /* JournalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailView.swift; sourceTree = "<group>"; };
@@ -185,6 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				2DD2582C2B584AB400B6B037 /* BreadJournalListTests.swift */,
+				2D713E522B7404CB00042F99 /* JournaliDetailTests.swift */,
+				2D9B070B2B7561CD0000AA14 /* BreadFormTest.swift */,
 			);
 			path = BreadJournalTests;
 			sourceTree = "<group>";
@@ -440,7 +446,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D713E532B7404CB00042F99 /* JournaliDetailTests.swift in Sources */,
 				2DD2582D2B584AB400B6B037 /* BreadJournalListTests.swift in Sources */,
+				2D9B070C2B7561CD0000AA14 /* BreadFormTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

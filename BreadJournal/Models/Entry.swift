@@ -24,6 +24,7 @@ struct Entry: Codable, Identifiable, Equatable {
     var name = ""
     var image: Data?
     let id: Tagged<Self, UUID>
+    var ingredients: IdentifiedArrayOf<Ingredient> = []
     var lastSourdoughFeedTime = Date(timeIntervalSince1970: 0)
     var prefermentStartingTime = Date(timeIntervalSince1970: 0)
     var autolysisStartingTime = Date(timeIntervalSince1970: 0)
@@ -41,7 +42,7 @@ struct Entry: Codable, Identifiable, Equatable {
     var scoreRating = Int.zero
     var tasteRating = Int.zero
     var evaluation = Int.zero
-    var ingredients: IdentifiedArrayOf<Ingredient> = []
+
 }
 
 extension Entry {

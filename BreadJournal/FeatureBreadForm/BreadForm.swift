@@ -22,6 +22,7 @@ struct BreadFormFeature {
     enum Action: BindableAction, Equatable, Sendable {
         case addIngredientTapped(String)
         case binding(BindingAction<State>)
+        case deleteIngredient(atOffset: IndexSet)
     }
     @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
@@ -34,6 +35,9 @@ struct BreadFormFeature {
                 state.journalEntry.ingredients.append(ingredient)
                 return .none
             case .binding:
+                return .none
+            case .deleteIngredient(let offSet):
+                state.journalEntry.ingredients.remove(atOffsets: offSet)
                 return .none
             }
             
@@ -67,6 +71,10 @@ struct BreadFormView: View {
                     ForEach($store.journalEntry.ingredients) {
                         TextField("Ingredient", text: $0.ingredient)
                     }
+                    .onDelete {
+                        store.send(.deleteIngredient(atOffset: $0))
+                    }
+                    
                     Button("Añade ingrediente") {
                         store.send(.addIngredientTapped(""))
                     }

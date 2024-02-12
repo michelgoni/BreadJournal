@@ -31,4 +31,34 @@ final class BreadFormTest: XCTestCase {
         
     }
     
+    func test_delete_ingredients() async {
+        let store = TestStore(
+            initialState: BreadFormFeature.State(
+                journalEntry: Entry(
+                    id: Entry.ID(),
+                    ingredients: [
+                        Ingredient(
+                            id: Ingredient.ID(),
+                            ingredient: "Harina"),
+                        Ingredient(
+                            id: Ingredient.ID(),
+                            ingredient: "Agua")
+                    ]
+                )
+            )
+        ) {
+            BreadFormFeature()
+        } withDependencies: {
+            $0.uuid = .incrementing
+        }
+        
+        await store.send(.deleteIngredient(atOffset: [0])) {
+            $0.journalEntry.ingredients =  [$0.journalEntry.ingredients[1]]
+        }
+        
+        await store.send(.deleteIngredient(atOffset: [0])) {
+            $0.journalEntry.ingredients =  []
+        }
+    }
+    
 }

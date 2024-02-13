@@ -138,8 +138,8 @@ struct BreadJournalListView: View {
                         NavigationLink(state: AppFeature.Path.State.detail(JournalDetailViewFeature.State(journalEntry: entry))) {
                             JournalEntryView.init(entry: entry)
                         }
-                        
                     }
+                    .emptyPlaceholder(if: store.state.journalEntries.count)
                 }
                 .padding(.all, 46)
                 .loader(isLoading: store.state.isLoading)
@@ -169,8 +169,6 @@ struct BreadJournalListView: View {
         .task {
             store.send(.getEntries)
         }
-        
-
     }
 
 }

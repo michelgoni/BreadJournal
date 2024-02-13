@@ -112,7 +112,7 @@ struct BreadJournalListFeature {
         }
         .ifLet(\.$destination, action: \.addEntry) {
           Destination()
-        }._printChanges()
+        }
     }
 }
 

@@ -12,9 +12,7 @@ import SwiftUI
 struct BreadJournalApp: App {
     let store = Store(initialState: AppFeature.State()) {
         AppFeature()
-    } withDependencies: {
-        $0.journalListDataManager = .previewValue
-    }
+    } 
 
     var body: some Scene {
         WindowGroup {

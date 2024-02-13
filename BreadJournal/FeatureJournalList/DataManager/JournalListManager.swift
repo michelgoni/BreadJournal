@@ -10,7 +10,7 @@ import Foundation
 
 struct JournalListManager {
     var load: @Sendable (URL) throws -> Data
-    var save: @Sendable (Data, URL) throws -> Void
+    var save: @Sendable (Data, URL) async throws -> Void
 }
 
 extension JournalListManager: DependencyKey {

@@ -22,6 +22,8 @@ struct AppFeature {
         case path(StackAction<Path.State, Path.Action>)
     }
     
+    @Dependency(\.journalListDataManager.save) var save
+    
     var body: some ReducerOf<Self> {
         Scope(state: \.breadJournalEntries, action: \.breadJournalEntries) {
             BreadJournalListFeature()
@@ -50,6 +52,12 @@ struct AppFeature {
         }
         .forEach(\.path, action: \.path) {
             Path()
+        }
+        
+        Reduce { state, action in
+            return .run { [entries = state.breadJournalEntries.journalEntries] _ in
+                try save(JSONEncoder().encode(entries), .breadEntries)
+            }
         }
     }
     

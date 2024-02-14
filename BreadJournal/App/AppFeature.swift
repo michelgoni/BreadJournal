@@ -56,7 +56,7 @@ struct AppFeature {
         
         Reduce { state, action in
             return .run { [entries = state.breadJournalEntries.journalEntries] _ in
-                try save(JSONEncoder().encode(entries), .breadEntries)
+                try await save(JSONEncoder().encode(entries), .breadEntries)
             }
         }
     }

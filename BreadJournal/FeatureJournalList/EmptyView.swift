@@ -31,3 +31,21 @@ struct EmptyJournalView: View {
     EmptyJournalView()
 }
 
+
+struct IfEmptyModifier: ViewModifier {
+    var itemCount: Int
+    
+    func body(content: Content) -> some View {
+        if itemCount == .zero {
+            EmptyJournalView()
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    func emptyPlaceholder(if itemCount: Int) -> some View {
+        modifier(IfEmptyModifier(itemCount: itemCount))
+    }
+}

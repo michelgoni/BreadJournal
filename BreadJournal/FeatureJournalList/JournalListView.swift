@@ -135,7 +135,13 @@ struct BreadJournalListView: View {
                 columns: columns,
                 spacing: 16) {
                     ForEach(store.state.journalEntries) { entry in
-                        NavigationLink(state: AppFeature.Path.State.detail(JournalDetailViewFeature.State(journalEntry: entry))) {
+                        NavigationLink(
+                            state: AppFeature.Path.State.detail(
+                            JournalDetailViewFeature.State(
+                                journalEntry: entry)
+                            )
+                        ) {
+                            
                             JournalEntryView.init(entry: entry)
                         }
                     }

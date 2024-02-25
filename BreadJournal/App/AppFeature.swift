@@ -55,11 +55,12 @@ struct AppFeature {
             Path()
         }
         
-//        Reduce { state, action in
-//            return .run { [entries = state.breadJournalEntries.journalEntries] _ in
-//                try await save(JSONEncoder().encode(entries), .breadEntries)
-//            }
-//        }
+        Reduce { state, action in
+            return .run { [entries = state.breadJournalEntries.entries] _ in
+                let values = entries.map{$0.journalEntry}
+                try await save(JSONEncoder().encode(values), .breadEntries)
+            }
+        }
     }
     
     @Reducer

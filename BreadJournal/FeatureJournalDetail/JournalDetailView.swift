@@ -12,10 +12,10 @@ import SwiftUI
 
 struct JournalDetailViewFeature {
     @ObservableState
-    struct State: Equatable {
+    struct State: Equatable, Identifiable {
         @Presents var destination: Destination.State?
         var journalEntry: Entry
-        
+        let id: UUID
         
     }
     enum Action: Sendable {
@@ -243,7 +243,7 @@ struct JournalDetailView: View {
             store:
                 Store(
                     initialState: JournalDetailViewFeature.State(
-                        journalEntry: .mock
+                        journalEntry: .mock, id: UUID()
                     ),
                     reducer: {
                         JournalDetailViewFeature()

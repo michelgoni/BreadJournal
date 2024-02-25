@@ -35,11 +35,12 @@ struct AppFeature {
                 switch delegateAction {
                     
                 case let .entryUpdated(entry):
-                    state.breadJournalEntries.journalEntries[id: entry.id] = entry
+                    debugPrint(entry)
+//                    state.breadJournalEntries.entries[id: entry.id] = entry
 
                     return .none
                 case .deleteJournalEntry:
-                    state.breadJournalEntries.journalEntries.remove(id: detailState.journalEntry.id)
+//                    state.breadJournalEntries.journalEntries.remove(id: detailState.journalEntry.id)
                     return .none
                 }
               
@@ -54,11 +55,11 @@ struct AppFeature {
             Path()
         }
         
-        Reduce { state, action in
-            return .run { [entries = state.breadJournalEntries.journalEntries] _ in
-                try await save(JSONEncoder().encode(entries), .breadEntries)
-            }
-        }
+//        Reduce { state, action in
+//            return .run { [entries = state.breadJournalEntries.journalEntries] _ in
+//                try await save(JSONEncoder().encode(entries), .breadEntries)
+//            }
+//        }
     }
     
     @Reducer
@@ -109,7 +110,7 @@ struct AppView: View {
                                 BreadFormFeature.State(
                                     journalEntry: entry)
                             ),
-                            journalEntry: entry))])
+                            journalEntry: entry, id: UUID()))])
             ),
             reducer: {
                 AppFeature()
@@ -118,7 +119,7 @@ struct AppView: View {
 
 
 #Preview("Detalles") {
-    AppView(store: Store(initialState: AppFeature.State(path: StackState([.detail(JournalDetailViewFeature.State(journalEntry: .mock))])),
+    AppView(store: Store(initialState: AppFeature.State(path: StackState([.detail(JournalDetailViewFeature.State(journalEntry: .mock, id: UUID()))])),
                          reducer: {
         AppFeature()
     }))

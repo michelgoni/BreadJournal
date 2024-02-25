@@ -45,6 +45,20 @@ struct Entry: Codable, Identifiable, Equatable {
 
 }
 
+extension IdentifiedArray where ID == JournalDetailViewFeature.State.ID, Element == JournalDetailViewFeature.State {
+    
+    static let mocks: Self = [
+        JournalDetailViewFeature.State(
+            journalEntry: .mock,
+            id: UUID()
+        ),
+        JournalDetailViewFeature.State(
+            journalEntry: .mock2,
+            id: UUID()
+        )
+    ]
+}
+
 extension Entry {
     
     static let mock = Entry(

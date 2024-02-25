@@ -4,13 +4,37 @@
 //
 //  Created by Michel Goñi on 3/1/24.
 //
-
+import ComposableArchitecture
 import Foundation
 import SwiftUI
+
+@Reducer
+struct RatingFeature {
+    @ObservableState
+    struct State: Equatable {
+        var rating: Int = .zero
+    }
+    enum Action {
+        case ratingTapped
+    }
+    
+    var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .ratingTapped:
+                
+                return .none
+            }
+        }
+        
+    }
+}
+
 
 struct RatingView: View {
 
     @State var rating: Int
+//    @Bindable var store: StoreOf<RatingFeature>
 
     var label = ""
     var maximumRating = 5

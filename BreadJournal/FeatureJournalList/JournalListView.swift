@@ -13,7 +13,8 @@ struct BreadJournalListFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
-        var journalEntries: IdentifiedArrayOf<Entry> = []
+//        var journalEntries: IdentifiedArrayOf<Entry> = []
+        var entries: IdentifiedArrayOf<JournalDetailViewFeature.State> = []
         var error: BreadJournalError? = nil
         var isLoading = false
         
@@ -22,7 +23,7 @@ struct BreadJournalListFeature {
         }
         
         var isEmpty: Bool {
-            journalEntries.isEmpty
+            entries.isEmpty
         }
     }
     
@@ -31,9 +32,10 @@ struct BreadJournalListFeature {
         case addEntry(PresentationAction<Destination.Action>)
         case cancelEntry
         case confirmEntryTapped
-        case entriesResponse(TaskResult<IdentifiedArrayOf<Entry>>)
+        case entriesResponse(TaskResult<IdentifiedArrayOf<JournalDetailViewFeature.State>>)
         case getEntries
         case filterEntries
+        case detail(IdentifiedActionOf<JournalDetailViewFeature>)
     }
     
     @Reducer
@@ -58,6 +60,10 @@ struct BreadJournalListFeature {
     @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
         
+        EmptyReducer().forEach(\.entries, action: \.detail) {
+            JournalDetailViewFeature()
+        }
+        
         Reduce { state, action in
             switch action {
             case .addEntry:
@@ -80,7 +86,8 @@ struct BreadJournalListFeature {
                 guard case let .some(.add(editState)) = state.destination else {
                     return .none
                 }
-                state.journalEntries.append(editState.journalEntry)
+                debugPrint(editState.journalEntry)
+                
                 state.destination = nil
                 
                 return .none
@@ -89,17 +96,14 @@ struct BreadJournalListFeature {
                 return .run { send in
                     await send (.entriesResponse(
                         TaskResult {
-                            try JSONDecoder().decode(
-                                IdentifiedArrayOf<Entry>.self,
-                                from: loadEntries(.breadEntries)
-                            )
+                            let values = IdentifiedArrayOf.mocks
+                            return values
                         })
                     )
                 }
-                
             case let .entriesResponse(.success(data)):
                 state.isLoading.toggle()
-                state.journalEntries = data
+                state.entries = data
                 return .none
             case let .entriesResponse(.failure(error)):
                 state.isLoading.toggle()
@@ -107,6 +111,8 @@ struct BreadJournalListFeature {
                 return .none
             case .filterEntries:
                 debugPrint("Filtering items")
+                return .none
+            case .detail:
                 return .none
             }
         }
@@ -134,18 +140,11 @@ struct BreadJournalListView: View {
             LazyVGrid(
                 columns: columns,
                 spacing: 16) {
-                    ForEach(store.state.journalEntries) { entry in
-                        NavigationLink(
-                            state: AppFeature.Path.State.detail(
-                            JournalDetailViewFeature.State(
-                                journalEntry: entry)
-                            )
-                        ) {
-                            
-                            JournalEntryView.init(entry: entry)
-                        }
+                    ForEachStore(store.scope(state: \.entries, 
+                                             action: \.detail)) { store in
+                        JournalEntryView(store: store)
                     }
-                    .emptyPlaceholder(if: store.state.journalEntries.count)
+                    .emptyPlaceholder(if: store.state.entries.count)
                 }
                 .padding(.all, 46)
                 .loader(isLoading: store.state.isLoading)
@@ -187,7 +186,6 @@ struct BreadJournalListView: View {
                     initialState: BreadJournalListFeature.State(),
                     reducer: {
                         BreadJournalListFeature()
-                            ._printChanges()
                     }, withDependencies: {
                         $0.journalListDataManager = .previewValue
                     }))

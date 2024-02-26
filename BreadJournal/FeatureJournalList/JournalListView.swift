@@ -86,8 +86,7 @@ struct BreadJournalListFeature {
                 guard case let .some(.add(editState)) = state.destination else {
                     return .none
                 }
-                debugPrint(editState.journalEntry)
-                
+                state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: UUID()))
                 state.destination = nil
                 
                 return .none

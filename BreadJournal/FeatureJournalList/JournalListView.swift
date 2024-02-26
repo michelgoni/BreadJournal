@@ -96,8 +96,14 @@ struct BreadJournalListFeature {
                 return .run { send in
                     await send (.entriesResponse(
                         TaskResult {
-                            let values = IdentifiedArrayOf.mocks
-                            return values
+                            let entries = try JSONDecoder().decode(
+                                IdentifiedArrayOf<Entry>.self,
+                                from: loadEntries(.breadEntries)
+                            )
+                            let values = entries.map { JournalDetailViewFeature.State(journalEntry: $0, id: UUID()) }
+                            let final = IdentifiedArrayOf(uniqueElements: values)
+                            
+                            return final
                         })
                     )
                 }

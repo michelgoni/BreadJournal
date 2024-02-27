@@ -36,34 +36,32 @@ struct JournalEntryView: View {
     public var body: some View {
         
         HStack {
-            NavigationLink (destination: JournalDetailView(store: store)) {
-                VStack {
-                    Image("")
-                        .optionalUIImage(store.journalEntry.breadPicture)
-                        .clipShape(Capsule())
-                }
-                VStack {
-                    HStack {
-                        Text(store.journalEntry.name)
-                            .font(.body)
-                            .bold()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(.primary)
-                            .padding(.bottom, 1.0)
-                        store.journalEntry.isFavorite.favoriteImage
-                            .foregroundColor(.black)
-                            .font(.system(size: 20, weight: .light))
-                    }
-                    Text(store.journalEntry.entryDate.convertToMonthYearFormat())
-                        .font(.callout)
-                        .fontWeight(.light)
-                        .italic()
+            VStack {
+                Image("")
+                    .optionalUIImage(store.journalEntry.breadPicture)
+                    .clipShape(Capsule())
+            }
+            VStack {
+                HStack {
+                    Text(store.journalEntry.name)
+                        .font(.body)
+                        .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundColor(.primary)
-                        .padding(.bottom, 16)
-                    RatingView(rating: store.journalEntry.rating)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 1.0)
+                    store.journalEntry.isFavorite.favoriteImage
+                        .foregroundColor(.black)
+                        .font(.system(size: 20, weight: .light))
                 }
+                Text(store.journalEntry.entryDate.convertToMonthYearFormat())
+                    .font(.callout)
+                    .fontWeight(.light)
+                    .italic()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(.primary)
+                    .padding(.bottom, 16)
+                RatingView(rating: store.journalEntry.rating)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .padding()

@@ -145,15 +145,23 @@ struct BreadJournalListView: View {
             LazyVGrid(
                 columns: columns,
                 spacing: 16) {
-                    ForEachStore(store.scope(state: \.entries, 
+                    
+                    ForEachStore(store.scope(state: \.entries,
                                              action: \.detail)) { store in
-                        JournalEntryView(store: store)
+                        NavigationLink(
+                            state: AppFeature.Path.State.detail(
+                                JournalDetailViewFeature.State(
+                                    journalEntry: store.journalEntry, id: UUID())
+                            )
+                        ) {
+                            JournalEntryView(store: store)
+                        }
                     }
                     .emptyPlaceholder(if: store.state.entries.count)
                 }
                 .padding(.all, 46)
                 .loader(isLoading: store.state.isLoading)
-                .onError(error: store.state.error)
+//                .onError(error: store.state.error)
                 .applyToolbar(store: store)
                 .sheet(item: $store.scope(state: \.destination?.add,
                                           action: \.addEntry.add)) { store in

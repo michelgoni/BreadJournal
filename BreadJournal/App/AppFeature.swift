@@ -8,7 +8,6 @@
 import ComposableArchitecture
 import SwiftUI
 
-
 @Reducer
 struct AppFeature {
     @ObservableState
@@ -34,13 +33,11 @@ struct AppFeature {
                 guard case let .some(.detail(detailState)) = state.path[id: id] else { return .none}
                 switch delegateAction {
                     
-                case let .entryUpdated(entry):
-                    debugPrint(entry)
-//                    state.breadJournalEntries.entries[id: entry.id] = entry
-
+                case let .entryUpdated(updatedEntry):
+                    state.breadJournalEntries.entries[id: updatedEntry.id.rawValue] = JournalDetailViewFeature.State(journalEntry: updatedEntry, id: updatedEntry.id.rawValue)
                     return .none
                 case .deleteJournalEntry:
-                    state.breadJournalEntries.entries.remove(id: detailState.journalEntry.id.rawValue)
+                    state.breadJournalEntries.entries.remove(id: UUID(uuidString: detailState.journalEntry.id.description)!)
                     return .none
                 }
               

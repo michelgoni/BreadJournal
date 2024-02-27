@@ -40,7 +40,7 @@ struct AppFeature {
 
                     return .none
                 case .deleteJournalEntry:
-//                    state.breadJournalEntries.journalEntries.remove(id: detailState.journalEntry.id)
+                    state.breadJournalEntries.entries.remove(id: detailState.journalEntry.id.rawValue)
                     return .none
                 }
               

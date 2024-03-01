@@ -13,7 +13,6 @@ struct BreadJournalListFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
-//        var journalEntries: IdentifiedArrayOf<Entry> = []
         var entries: IdentifiedArrayOf<JournalDetailViewFeature.State> = []
         var error: BreadJournalError? = nil
         var isLoading = false
@@ -151,7 +150,8 @@ struct BreadJournalListView: View {
                         NavigationLink(
                             state: AppFeature.Path.State.detail(
                                 JournalDetailViewFeature.State(
-                                    journalEntry: store.journalEntry, id: UUID())
+                                    journalEntry: store.journalEntry, 
+                                    id: UUID())
                             )
                         ) {
                             JournalEntryView(store: store)

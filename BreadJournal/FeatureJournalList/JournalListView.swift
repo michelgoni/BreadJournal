@@ -145,7 +145,7 @@ struct BreadJournalListView: View {
                 columns: columns,
                 spacing: 16) {
                     
-                    ForEachStore(store.scope(state: \.entries,
+                    ForEach(store.scope(state: \.entries,
                                              action: \.detail)) { store in
                         NavigationLink(
                             state: AppFeature.Path.State.detail(

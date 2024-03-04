@@ -34,10 +34,10 @@ struct AppFeature {
                 switch delegateAction {
                     
                 case let .entryUpdated(updatedEntry):
-                    state.breadJournalEntries.entries[id: UUID(0)] = JournalDetailViewFeature.State(journalEntry: updatedEntry, id: updatedEntry.id)
+                    state.breadJournalEntries.entries[id: updatedEntry.id] = JournalDetailViewFeature.State(journalEntry: updatedEntry, id: updatedEntry.id)
                     return .none
                 case .deleteJournalEntry:
-                    state.breadJournalEntries.entries.remove(id: UUID(0))
+                    state.breadJournalEntries.entries.remove(id: detailState.journalEntry.id)
                     return .none
                 }
               
@@ -55,9 +55,7 @@ struct AppFeature {
         Reduce { state, action in
             return .run { [entries = state.breadJournalEntries.entries] _ in
                 let values = entries.map{$0.journalEntry}
-                if !values.isEmpty {
-                    try await save(JSONEncoder().encode(values), .breadEntries)
-                }
+                try await save(JSONEncoder().encode(values), .breadEntries)
             }
         }
     }

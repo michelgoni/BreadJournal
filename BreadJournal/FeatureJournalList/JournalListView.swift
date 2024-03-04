@@ -71,7 +71,7 @@ struct BreadJournalListFeature {
                 state.destination = .add(
                     BreadFormFeature.State(
                         journalEntry: Entry(
-                            id: UUID(0)
+                            id: uuid()
                         )
                     )
                 )
@@ -96,7 +96,7 @@ struct BreadJournalListFeature {
                                 IdentifiedArrayOf<Entry>.self,
                                 from: loadEntries(.breadEntries)
                             )
-                            let values = entries.map { 
+                            let values = entries.map {
                                 JournalDetailViewFeature.State(
                                     journalEntry: $0,
                                     id: $0.id)

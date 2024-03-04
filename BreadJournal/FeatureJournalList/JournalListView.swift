@@ -71,9 +71,7 @@ struct BreadJournalListFeature {
                 state.destination = .add(
                     BreadFormFeature.State(
                         journalEntry: Entry(
-                            id: Entry.ID(
-                                self.uuid()
-                            )
+                            id: UUID(0)
                         )
                     )
                 )
@@ -85,7 +83,7 @@ struct BreadJournalListFeature {
                 guard case let .some(.add(editState)) = state.destination else {
                     return .none
                 }
-                state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: UUID()))
+                state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: editState.journalEntry.id))
                 state.destination = nil
                 
                 return .none
@@ -98,7 +96,11 @@ struct BreadJournalListFeature {
                                 IdentifiedArrayOf<Entry>.self,
                                 from: loadEntries(.breadEntries)
                             )
-                            let values = entries.map { JournalDetailViewFeature.State(journalEntry: $0, id: UUID()) }
+                            let values = entries.map { 
+                                JournalDetailViewFeature.State(
+                                    journalEntry: $0,
+                                    id: $0.id)
+                            }
                             let final = IdentifiedArrayOf(uniqueElements: values)
                             
                             return final

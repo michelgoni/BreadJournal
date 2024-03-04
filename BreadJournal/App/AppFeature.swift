@@ -34,10 +34,10 @@ struct AppFeature {
                 switch delegateAction {
                     
                 case let .entryUpdated(updatedEntry):
-                    state.breadJournalEntries.entries[id: updatedEntry.id.rawValue] = JournalDetailViewFeature.State(journalEntry: updatedEntry, id: updatedEntry.id.rawValue)
+                    state.breadJournalEntries.entries[id: UUID(0)] = JournalDetailViewFeature.State(journalEntry: updatedEntry, id: updatedEntry.id)
                     return .none
                 case .deleteJournalEntry:
-                    state.breadJournalEntries.entries.remove(id: UUID(uuidString: detailState.journalEntry.id.description)!)
+                    state.breadJournalEntries.entries.remove(id: UUID(0))
                     return .none
                 }
               
@@ -51,11 +51,13 @@ struct AppFeature {
         .forEach(\.path, action: \.path) {
             Path()
         }
-        
+
         Reduce { state, action in
             return .run { [entries = state.breadJournalEntries.entries] _ in
                 let values = entries.map{$0.journalEntry}
-                try await save(JSONEncoder().encode(values), .breadEntries)
+                if !values.isEmpty {
+                    try await save(JSONEncoder().encode(values), .breadEntries)
+                }
             }
         }
     }

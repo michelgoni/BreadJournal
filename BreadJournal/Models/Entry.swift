@@ -23,7 +23,7 @@ struct Entry: Codable, Identifiable, Equatable {
     var rating = Int.zero
     var name = ""
     var image: Data?
-    let id: Tagged<Self, UUID>
+    let id: UUID
     var ingredients: IdentifiedArrayOf<Ingredient> = []
     var lastSourdoughFeedTime = Date(timeIntervalSince1970: 0)
     var prefermentStartingTime = Date(timeIntervalSince1970: 0)

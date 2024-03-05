@@ -19,8 +19,27 @@ struct BreadJournalListFeature {
         
         init(destination: Destination.State? = nil) {
             self.destination = destination
+            
+            do {
+                @Dependency (\.journalListDataManager.load) var loadEntries
+                let entries = try JSONDecoder().decode(
+                    IdentifiedArrayOf<Entry>.self,
+                    from: loadEntries(.breadEntries)
+                )
+                let values = entries.map {
+                    JournalDetailViewFeature.State(
+                        journalEntry: $0,
+                        id: $0.id)
+                }
+                let final = IdentifiedArrayOf(uniqueElements: values)
+                self.entries = final
+            } catch is DecodingError {
+                
+            } catch {
+                
+            }
         }
-        
+
         var isEmpty: Bool {
             entries.isEmpty
         }
@@ -32,7 +51,6 @@ struct BreadJournalListFeature {
         case cancelEntry
         case confirmEntryTapped
         case entriesResponse(TaskResult<IdentifiedArrayOf<JournalDetailViewFeature.State>>)
-        case getEntries
         case filterEntries
         case detail(IdentifiedActionOf<JournalDetailViewFeature>)
     }
@@ -55,7 +73,7 @@ struct BreadJournalListFeature {
         }
     }
     
-    @Dependency (\.journalListDataManager.load) var loadEntries
+    
     @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
         
@@ -85,28 +103,7 @@ struct BreadJournalListFeature {
                 }
                 state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: editState.journalEntry.id))
                 state.destination = nil
-                
                 return .none
-            case .getEntries:
-                state.isLoading.toggle()
-                return .run { send in
-                    await send (.entriesResponse(
-                        TaskResult {
-                            let entries = try JSONDecoder().decode(
-                                IdentifiedArrayOf<Entry>.self,
-                                from: loadEntries(.breadEntries)
-                            )
-                            let values = entries.map {
-                                JournalDetailViewFeature.State(
-                                    journalEntry: $0,
-                                    id: $0.id)
-                            }
-                            let final = IdentifiedArrayOf(uniqueElements: values)
-                            
-                            return final
-                        })
-                    )
-                }
             case let .entriesResponse(.success(data)):
                 state.isLoading.toggle()
                 state.entries = data
@@ -153,7 +150,7 @@ struct BreadJournalListView: View {
                             state: AppFeature.Path.State.detail(
                                 JournalDetailViewFeature.State(
                                     journalEntry: store.journalEntry, 
-                                    id: UUID())
+                                    id: store.journalEntry.id)
                             )
                         ) {
                             JournalEntryView(store: store)
@@ -186,9 +183,6 @@ struct BreadJournalListView: View {
                 }
             
         }
-        .task {
-            store.send(.getEntries)
-        }
     }
 
 }
@@ -204,7 +198,6 @@ struct BreadJournalListView: View {
                     }, withDependencies: {
                         $0.journalListDataManager = .previewValue
                     }))
-            
         }
     }
 }

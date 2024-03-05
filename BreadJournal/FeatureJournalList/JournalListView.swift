@@ -50,7 +50,6 @@ struct BreadJournalListFeature {
         case addEntry(PresentationAction<Destination.Action>)
         case cancelEntry
         case confirmEntryTapped
-        case entriesResponse(TaskResult<IdentifiedArrayOf<JournalDetailViewFeature.State>>)
         case filterEntries
         case detail(IdentifiedActionOf<JournalDetailViewFeature>)
     }
@@ -104,14 +103,7 @@ struct BreadJournalListFeature {
                 state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: editState.journalEntry.id))
                 state.destination = nil
                 return .none
-            case let .entriesResponse(.success(data)):
-                state.isLoading.toggle()
-                state.entries = data
-                return .none
-            case let .entriesResponse(.failure(error)):
-                state.isLoading.toggle()
-                state.error = .underlying(error)
-                return .none
+
             case .filterEntries:
                 debugPrint("Filtering items")
                 return .none

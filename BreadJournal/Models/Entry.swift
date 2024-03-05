@@ -82,7 +82,7 @@ extension Entry {
         rating: 4,
         name: "Pan de maíz",
         image: nil,
-        id: UUID(0),
+        id: UUID(1),
         ingredients: [
             Ingredient(id: Ingredient.ID(UUID(0)), ingredient: "100 grs de Harina"),
             Ingredient(id: Ingredient.ID(UUID(1)), ingredient: "300 grs de Agua"),
@@ -105,7 +105,7 @@ extension Entry {
             return UIImage(data: imageData)
         }
         set {
-            self.image = newValue?.jpegData(compressionQuality: 1.0) // Or pngData()
+            self.image = newValue?.jpegData(compressionQuality: 1.0)
         }
     }
 }

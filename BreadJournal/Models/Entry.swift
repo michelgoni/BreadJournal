@@ -61,12 +61,17 @@ extension IdentifiedArray where ID == JournalDetailViewFeature.State.ID, Element
 
 extension Entry {
     
+    static let mockTest = Entry(
+        name: "Pan de centeno",
+        id: UUID(0)
+    )
+    
     static let mock = Entry(
         isFavorite: false,
         rating: 2,
         name: "Pan de centeno",
         image: nil,
-        id: Entry.ID(),
+        id: UUID(0),
         ingredients: [Ingredient(id: Ingredient.ID(UUID(0)), ingredient: "100 grs de Harina"),
                       Ingredient(id: Ingredient.ID(UUID(1)), ingredient: "300 grs de Agua"),
                       Ingredient(id: Ingredient.ID(UUID(2)), ingredient: "10 grs de sal"),
@@ -77,7 +82,7 @@ extension Entry {
         rating: 4,
         name: "Pan de maíz",
         image: nil,
-        id: Entry.ID(),
+        id: UUID(0),
         ingredients: [
             Ingredient(id: Ingredient.ID(UUID(0)), ingredient: "100 grs de Harina"),
             Ingredient(id: Ingredient.ID(UUID(1)), ingredient: "300 grs de Agua"),

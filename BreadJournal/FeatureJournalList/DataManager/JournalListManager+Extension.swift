@@ -14,7 +14,7 @@ extension JournalListManager: TestDependencyKey {
     static let testValueErrorMock = Self.errorMockTest()
     
     static func mockTest(initialData: Data? = nil) -> Self {
-        let data = LockIsolated(try? JSONEncoder().encode([Entry.mock, Entry.mock2]))
+        let data = LockIsolated(try? JSONEncoder().encode([Entry.mockTest]))
       return Self(
         load: { _ in
           guard let data = data.value

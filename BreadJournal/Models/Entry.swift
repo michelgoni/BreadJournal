@@ -18,21 +18,21 @@ import ComposableArchitecture
 
 struct Entry: Codable, Identifiable, Equatable {
     
-    var entryDate = Date(timeIntervalSince1970: 0)
+    var entryDate = Date()
     var isFavorite = false
     var rating = Int.zero
     var name = ""
     var image: Data?
     let id: UUID
     var ingredients: IdentifiedArrayOf<Ingredient> = []
-    var lastSourdoughFeedTime = Date(timeIntervalSince1970: 0)
-    var prefermentStartingTime = Date(timeIntervalSince1970: 0)
-    var autolysisStartingTime = Date(timeIntervalSince1970: 0)
-    var bulkFermentationStartingTime = Date(timeIntervalSince1970: 0)
-    var secondFermentarionStartingTime = Date(timeIntervalSince1970: 0)
+    var lastSourdoughFeedTime = Date()
+    var prefermentStartingTime = Date()
+    var autolysisStartingTime = Date()
+    var bulkFermentationStartingTime = Date()
+    var secondFermentarionStartingTime = Date()
     var fridgeTotalTime = ""
     var folds = ""
-    var breadFormingTime = Date(timeIntervalSince1970: 0)
+    var breadFormingTime = Date()
     var isFridgeUsed = true
     var bakingTime = ""
     var isSteelPlateUsed = false

@@ -25,6 +25,7 @@ struct JournalDetailViewFeature {
         case destination(PresentationAction<Destination.Action>)
         case doneEditingButtonTapped
         case editButtonTapped
+        case favoriteTapped
      
         
         @CasePathable
@@ -97,6 +98,10 @@ struct JournalDetailViewFeature {
                 
             case .destination:
               return .none
+                
+            case .favoriteTapped:
+                state.journalEntry.isFavorite.toggle()
+                return .none
             }
         }
         .ifLet(\.$destination, action: \.destination) {

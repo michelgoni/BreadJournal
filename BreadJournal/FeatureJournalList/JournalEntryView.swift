@@ -28,7 +28,7 @@ struct JournalEntryView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundColor(.primary)
                         .padding(.bottom, 1.0)
-                    store.journalEntry.isFavorite.favoriteImage
+                    FavoriteButton(store: store)
                         .foregroundColor(.black)
                         .font(.system(size: 20, weight: .light))
                 }
@@ -51,10 +51,15 @@ struct JournalEntryView: View {
     }
 }
 
-struct FavoriteButton<ID: Hashable & Sendable>: View {
+struct FavoriteButton: View {
+    @Bindable var store: StoreOf<JournalDetailViewFeature>
     var body: some View {
-        
-        EmptyView()
+        Button {
+            store.send(.favoriteTapped)
+        } label: {
+            Image(systemName: "heart")
+                .symbolVariant(store.journalEntry.isFavorite ? .fill : .none)
+        }
     }
 }
 

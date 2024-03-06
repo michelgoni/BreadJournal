@@ -83,7 +83,7 @@ struct JournalEntryView: View {
                     rating: 3,
                     name: "Pan de centeno",
                     image: nil,
-                    id: Entry.ID()), id: UUID()),
+                    id: UUID()), id: UUID()),
             reducer: {
                 JournalDetailViewFeature()
             }))
@@ -101,7 +101,7 @@ struct JournalEntryView: View {
                     rating: 1,
                     name: "Pan de maíz",
                     image: nil,
-                    id: Entry.ID()), id: UUID()),
+                    id: UUID()), id: UUID()),
             reducer: {
                 JournalDetailViewFeature()
             }))

@@ -51,17 +51,6 @@ struct JournalEntryView: View {
     }
 }
 
-struct FavoriteButton: View {
-    @Bindable var store: StoreOf<JournalDetailViewFeature>
-    var body: some View {
-        Button {
-            store.send(.favoriteTapped)
-        } label: {
-            Image(systemName: "heart")
-                .symbolVariant(store.journalEntry.isFavorite ? .fill : .none)
-        }
-    }
-}
 
 #Preview ("Favorite true") {
     

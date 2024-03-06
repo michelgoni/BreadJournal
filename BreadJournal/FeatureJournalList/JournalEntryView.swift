@@ -8,27 +8,6 @@ import ComposableArchitecture
 import Foundation
 import SwiftUI
 
-//@Reducer
-//struct JournalDetailFeature {
-//    @ObservableState
-//    struct State: Equatable, Identifiable {
-//        var entry: Entry
-//        let id: UUID
-//    }
-//    
-//    enum Action {
-//        case favoriteTapped
-//    }
-//    
-//    var body: some ReducerOf<Self> {
-//        Reduce { state, action in
-//            switch action {
-//            case .favoriteTapped:
-//                return .none
-//            }
-//        }
-//    }
-//}
 
 struct JournalEntryView: View {
     
@@ -69,6 +48,13 @@ struct JournalEntryView: View {
         .cornerRadius(10)
         .shadow(radius: 5)
         
+    }
+}
+
+struct FavoriteButton<ID: Hashable & Sendable>: View {
+    var body: some View {
+        
+        EmptyView()
     }
 }
 

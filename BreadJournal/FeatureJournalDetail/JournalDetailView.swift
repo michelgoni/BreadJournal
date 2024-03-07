@@ -16,7 +16,14 @@ struct JournalDetailViewFeature {
         @Presents var destination: Destination.State?
         var journalEntry: Entry
         let id: UUID
-        
+        var favoritingState: Favoriting.State {
+            get {
+                Favoriting.State(isFavorite: self.journalEntry.isFavorite)
+            }
+            set {
+                self.journalEntry.isFavorite = newValue.isFavorite
+            }
+        }
     }
     enum Action: Sendable {
         case cancelEditTapped
@@ -25,9 +32,9 @@ struct JournalDetailViewFeature {
         case destination(PresentationAction<Destination.Action>)
         case doneEditingButtonTapped
         case editButtonTapped
-        case favoriteTapped
+        case favoriteTapped(Favoriting.Action)
      
-        
+
         @CasePathable
         enum Delegate {
             case entryUpdated(Entry)
@@ -60,6 +67,10 @@ struct JournalDetailViewFeature {
     }
     
     var body: some ReducerOf<Self> {
+        Scope(state: \.favoritingState,
+              action: \.favoriteTapped) {
+            Favoriting()
+        }
         Reduce { state, action in
             switch action {
             case .cancelEditTapped:
@@ -100,7 +111,6 @@ struct JournalDetailViewFeature {
               return .none
                 
             case .favoriteTapped:
-                state.journalEntry.isFavorite.toggle()
                 return .none
             }
         }

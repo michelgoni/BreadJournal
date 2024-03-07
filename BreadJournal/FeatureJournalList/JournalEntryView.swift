@@ -28,9 +28,10 @@ struct JournalEntryView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundColor(.primary)
                         .padding(.bottom, 1.0)
-                    FavoriteButton(store: store)
-                        .foregroundColor(.black)
-                        .font(.system(size: 20, weight: .light))
+                    FavoriteButton(
+                        store: store.scope(
+                        state: \.favoritingState, 
+                        action: \.favoriteTapped))
                 }
                 Text(store.journalEntry.entryDate.convertToMonthYearFormat())
                     .font(.callout)

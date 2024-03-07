@@ -9,42 +9,61 @@ import ComposableArchitecture
 import Foundation
 import SwiftUI
 
+@Reducer
+
+struct Favoriting {
+    @ObservableState
+    struct State: Equatable {
+        var isFavorite: Bool
+    }
+    enum Action {
+        case buttonFavoriteTapped
+    }
+    
+    var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .buttonFavoriteTapped:
+                state.isFavorite.toggle()
+                return .none
+            }
+        }
+    }
+}
+
 struct FavoriteButton: View {
-    @Bindable var store: StoreOf<JournalDetailViewFeature>
+    @Bindable var store: StoreOf<Favoriting>
     var body: some View {
         Button {
-            store.send(.favoriteTapped)
+            store.send(.buttonFavoriteTapped)
         } label: {
             Image(systemName: "heart")
-                .symbolVariant(store.journalEntry.isFavorite ? .fill : .none)
+                .symbolVariant(
+                    store.isFavorite ? .fill : .none)
         }
+        .foregroundColor(.black)
+        .font(.system(size: 20, weight: .light))
     }
 }
 
 #Preview ("Favorite true") {
     
     FavoriteButton(store: Store(
-        initialState: JournalDetailViewFeature.State(
-            journalEntry: Entry(
-                isFavorite: true,
-                id: UUID()),
-            id: UUID()),
+        initialState: Favoriting.State(
+            isFavorite: true),
         reducer: {
-            JournalDetailViewFeature()
-        }))
+        Favoriting()
+    }))
 }
 
 
 #Preview ("Favorite false") {
     
     FavoriteButton(store: Store(
-        initialState: JournalDetailViewFeature.State(
-            journalEntry: Entry(
-                isFavorite: false,
-                id: UUID()),
-            id: UUID()),
+        initialState: Favoriting.State(
+            isFavorite: false),
         reducer: {
-            JournalDetailViewFeature()
-        }))
+        Favoriting()
+    }))
 }
 

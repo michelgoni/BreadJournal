@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2D0807022B7012170069EC19 /* AlertState+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0807012B7012170069EC19 /* AlertState+Extension.swift */; };
+		2D23051A2B9A417C0009888D /* FavoriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2305192B9A417C0009888D /* FavoriteTests.swift */; };
 		2D326C712B98EB3A00C432D6 /* FavoriteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D326C702B98EB3A00C432D6 /* FavoriteButtonView.swift */; };
 		2D573C5C2B6ABF5200B513B5 /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D573C5B2B6ABF5200B513B5 /* AppFeature.swift */; };
 		2D5C09292B51AB1C00D5BEFB /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5C09282B51AB1C00D5BEFB /* Error.swift */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		2D0807012B7012170069EC19 /* AlertState+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlertState+Extension.swift"; sourceTree = "<group>"; };
+		2D2305192B9A417C0009888D /* FavoriteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTests.swift; sourceTree = "<group>"; };
 		2D31992F2B5863AA000F9448 /* BreadJournal.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BreadJournal.xctestplan; sourceTree = "<group>"; };
 		2D326C702B98EB3A00C432D6 /* FavoriteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButtonView.swift; sourceTree = "<group>"; };
 		2D573C5B2B6ABF5200B513B5 /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				2D713E522B7404CB00042F99 /* JournaliDetailTests.swift */,
 				2D9B070B2B7561CD0000AA14 /* BreadFormTest.swift */,
 				2D9AD8322B7BF39400F23D7C /* AppTests.swift */,
+				2D2305192B9A417C0009888D /* FavoriteTests.swift */,
 			);
 			path = BreadJournalTests;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				2D713E532B7404CB00042F99 /* JournaliDetailTests.swift in Sources */,
 				2D9AD8332B7BF39400F23D7C /* AppTests.swift in Sources */,
 				2DD2582D2B584AB400B6B037 /* BreadJournalListTests.swift in Sources */,
+				2D23051A2B9A417C0009888D /* FavoriteTests.swift in Sources */,
 				2D9B070C2B7561CD0000AA14 /* BreadFormTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

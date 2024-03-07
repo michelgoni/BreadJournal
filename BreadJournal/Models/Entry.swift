@@ -62,6 +62,7 @@ extension IdentifiedArray where ID == JournalDetailViewFeature.State.ID, Element
 extension Entry {
     
     static let mockTest = Entry(
+        entryDate: Date(),
         name: "Pan de centeno",
         id: UUID(0)
     )

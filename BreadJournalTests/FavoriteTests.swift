@@ -5,31 +5,50 @@
 //  Created by Michel Goñi on 7/3/24.
 //
 
+import ComposableArchitecture
 import XCTest
 
+@testable import BreadJournal
+
+@MainActor
 final class FavoriteTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func test_favorite_true() async {
+        
+        var entry = Entry(isFavorite: false,
+                          id: UUID(0))
+        
+        let store = TestStore(
+            initialState: JournalDetailViewFeature.State(
+                journalEntry: entry,
+                id: UUID(0)),
+            reducer: {
+                JournalDetailViewFeature()
+            })
+        
+        await store.send(.favoriteTapped(.buttonFavoriteTapped)) {
+            $0.favoritingState.isFavorite = true
         }
+        
     }
-
+    
+    func test_favorite_false() async {
+        
+        var entry = Entry(isFavorite: true,
+                          id: UUID(0))
+        
+        let store = TestStore(
+            initialState: JournalDetailViewFeature.State(
+                journalEntry: entry,
+                id: UUID(0)),
+            reducer: {
+                JournalDetailViewFeature()
+            })
+        
+        await store.send(.favoriteTapped(.buttonFavoriteTapped)) {
+            $0.favoritingState.isFavorite = false
+        }
+        
+    }
+    
 }

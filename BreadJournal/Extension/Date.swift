@@ -20,5 +20,11 @@ public extension Date {
         formatter.dateStyle = .none
         return formatter.string(from: self)
     }
+    
+    static var yearMonthDay: Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: Date())
+        return calendar.date(from: components) ?? Date()
+    }
 }
 

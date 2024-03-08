@@ -17,11 +17,13 @@ final class BreadJournalListTests: XCTestCase {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()
         }withDependencies: {
+            $0.continuousClock = ImmediateClock()
             $0.journalListDataManager = .testValueMock
             $0.uuid = .incrementing
         }
        
-        var entry = Entry(id: UUID(.zero))
+        var entry = Entry(
+                          id: UUID(.zero))
         
         await store.send(.addEntryTapped) {
             $0.destination = .add(BreadFormFeature.State(journalEntry: entry))

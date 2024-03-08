@@ -18,21 +18,21 @@ import ComposableArchitecture
 
 struct Entry: Codable, Identifiable, Equatable {
     
-    var entryDate = Date()
+    var entryDate = Date.yearMonthDay
     var isFavorite = false
     var rating = Int.zero
     var name = ""
     var image: Data?
     let id: UUID
     var ingredients: IdentifiedArrayOf<Ingredient> = []
-    var lastSourdoughFeedTime = Date()
-    var prefermentStartingTime = Date()
-    var autolysisStartingTime = Date()
-    var bulkFermentationStartingTime = Date()
-    var secondFermentarionStartingTime = Date()
+    var lastSourdoughFeedTime = Date.yearMonthDay
+    var prefermentStartingTime = Date.yearMonthDay
+    var autolysisStartingTime = Date.yearMonthDay
+    var bulkFermentationStartingTime = Date.yearMonthDay
+    var secondFermentarionStartingTime = Date.yearMonthDay
     var fridgeTotalTime = ""
     var folds = ""
-    var breadFormingTime = Date()
+    var breadFormingTime = Date.yearMonthDay
     var isFridgeUsed = true
     var bakingTime = ""
     var isSteelPlateUsed = false
@@ -62,7 +62,7 @@ extension IdentifiedArray where ID == JournalDetailViewFeature.State.ID, Element
 extension Entry {
     
     static let mockTest = Entry(
-        entryDate: Date(),
+        entryDate: Date.yearMonthDay,
         name: "Pan de centeno",
         id: UUID(0)
     )

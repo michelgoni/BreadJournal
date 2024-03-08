@@ -24,7 +24,17 @@ struct JournalDetailViewFeature {
                 self.journalEntry.isFavorite = newValue.isFavorite
             }
         }
+        
+        var ratingState: RatingFeature.State {
+            get {
+                RatingFeature.State(rating: self.journalEntry.rating)
+            }
+            set {
+                self.journalEntry.rating = newValue.rating
+            }
+        }
     }
+    
     enum Action: Sendable {
         case cancelEditTapped
         case delegate(Delegate)
@@ -33,6 +43,7 @@ struct JournalDetailViewFeature {
         case doneEditingButtonTapped
         case editButtonTapped
         case favoriteTapped(Favoriting.Action)
+        case ratingTapped(RatingFeature.Action)
      
 
         @CasePathable
@@ -70,6 +81,11 @@ struct JournalDetailViewFeature {
         Scope(state: \.favoritingState,
               action: \.favoriteTapped) {
             Favoriting()
+        }
+        
+        Scope(state: \.ratingState,
+              action: \.ratingTapped) {
+            RatingFeature()
         }
         Reduce { state, action in
             switch action {
@@ -111,6 +127,8 @@ struct JournalDetailViewFeature {
               return .none
                 
             case .favoriteTapped:
+                return .none
+            case .ratingTapped:
                 return .none
             }
         }

@@ -12,7 +12,7 @@ import SwiftUI
 struct RatingFeature {
     @ObservableState
     struct State: Equatable {
-        var rating: Int = .zero
+        var rating: Int
     }
     enum Action {
         case ratingTapped
@@ -33,8 +33,7 @@ struct RatingFeature {
 
 struct RatingView: View {
 
-    @State var rating: Int
-//    @Bindable var store: StoreOf<RatingFeature>
+    @Bindable var store: StoreOf<RatingFeature>
 
     var label = ""
     var maximumRating = 5
@@ -51,16 +50,16 @@ struct RatingView: View {
 
             ForEach(1..<maximumRating + 1, id: \.self) { number in
                 image(for: number)
-                    .foregroundColor(number > rating ? offColor : onColor)
+                    .foregroundColor(number > store.rating ? offColor : onColor)
                     .onTapGesture {
-                        rating = number
+                        store.send(.ratingTapped)
                     }
             }
         }
     }
 
     func image(for number: Int) -> Image {
-        if number > rating {
+        if number > store.rating {
             return offImage ?? onImage
         } else {
             return onImage

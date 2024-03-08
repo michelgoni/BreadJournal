@@ -40,7 +40,8 @@ struct JournalEntryView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundColor(.primary)
                     .padding(.bottom, 16)
-                RatingView(rating: store.journalEntry.rating)
+                RatingView(store: store.scope(state: \.ratingState,
+                                               action: \.ratingTapped))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }

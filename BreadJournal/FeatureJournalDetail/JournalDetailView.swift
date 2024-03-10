@@ -171,63 +171,63 @@ struct JournalDetailView: View {
                 }
                 
                 Group {
-                    Section(header: Text("Hora último refresco masa madre")) {
-                        Text(store.journalEntry.lastSourdoughFeedTime.toHourMinuteString())
+                    Section(header: Text("Tiempo refresco masa madre")) {
+                        Text(store.journalEntry.sourdoughFeedTime)
                     }
-                    Section(header: Text("Hora comiezo prefermento")) {
-                        Text(store.journalEntry.prefermentStartingTime.toHourMinuteString())
+                    Section(header: Text("Temperatura refresco")) {
+                        Text(store.journalEntry.sourdoughFeedTemperature)
                     }
-                    Section(header: Text("Hora comiezo autólisis")) {
-                        Text(store.journalEntry.autolysisStartingTime.toHourMinuteString())
+                    Section(header: Text("Tiempo autólisis")) {
+                        Text(store.journalEntry.autolysisTime)
                     }
-                    Section(header: Text("Hora comiezo fermentación en bloque")) {
-                        Text(store.journalEntry.bulkFermentationStartingTime.toHourMinuteString())
+                    Section(header: Text("Tiempo fermentación en bloque")) {
+                        Text(store.journalEntry.bulkFermentationStartingTime)
                     }
                     
                     Section(header: Text("Pliegues")) {
                         Text(store.journalEntry.folds)
                     }
-                    Section(header: Text("Hora formado del pan")) {
-                        Text(store.journalEntry.breadFormingTime.toHourMinuteString())
-                    }
-                    Section(header: Text("Hora segunda fermentación")) {
-                        Text(store.journalEntry.secondFermentarionStartingTime.toHourMinuteString())
-                    }
-                    Group {
-                        Section(header: Text("¿Se ha usado frigorífico?")) {
-                            Text(store.journalEntry.isFridgeUsed.elementUsedTitle)
-                        }
-                        
-                        if store.journalEntry.isFridgeUsed {
-                            Section(header: Text("Tiempo total en el frigo")) {
-                                Text(store.journalEntry.fridgeTotalTime)
-                            }
-                        }
-                        Section(header: Text("Tiempo de horneado")) {
-                            Text(store.journalEntry.bakingTime)
-                        }
-                        Section(header: Text("¿Plancha de acero?")) {
-                            Text(store.journalEntry.isSteelPlateUsed.elementUsedTitle)
-                        }
-                    }
-                    Section(header: Text("Corteza")) {
-                        StarRatingView(staticRating: store.journalEntry.crustRating)
-                    }
-                    Section(header: Text("Miga")) {
-                        StarRatingView(staticRating: store.journalEntry.crumbRating)
-                    }
-                    Section(header: Text("Subida")) {
-                        StarRatingView(staticRating: store.journalEntry.bloomRating)
-                    }
-                    Section(header: Text("Greñado")) {
-                        StarRatingView(staticRating: store.journalEntry.scoreRating)
-                    }
-                    Section(header: Text("Sabor")) {
-                        StarRatingView(staticRating: store.journalEntry.tasteRating)
-                    }
-                    Section(header: Text("Evaluation")) {
-                        StarRatingView(staticRating: store.journalEntry.evaluation)
-                    }
+//                    Section(header: Text("Hora formado del pan")) {
+//                        Text(store.journalEntry.breadFormingTime.toHourMinuteString())
+//                    }
+//                    Section(header: Text("Hora segunda fermentación")) {
+//                        Text(store.journalEntry.secondFermentarionStartingTime.toHourMinuteString())
+//                    }
+//                    Group {
+//                        Section(header: Text("¿Se ha usado frigorífico?")) {
+//                            Text(store.journalEntry.isFridgeUsed.elementUsedTitle)
+//                        }
+//                        
+//                        if store.journalEntry.isFridgeUsed {
+//                            Section(header: Text("Tiempo total en el frigo")) {
+//                                Text(store.journalEntry.fridgeTotalTime)
+//                            }
+//                        }
+//                        Section(header: Text("Tiempo de horneado")) {
+//                            Text(store.journalEntry.bakingTime)
+//                        }
+//                        Section(header: Text("¿Plancha de acero?")) {
+//                            Text(store.journalEntry.isSteelPlateUsed.elementUsedTitle)
+//                        }
+//                    }
+//                    Section(header: Text("Corteza")) {
+//                        StarRatingView(staticRating: store.journalEntry.crustRating)
+//                    }
+//                    Section(header: Text("Miga")) {
+//                        StarRatingView(staticRating: store.journalEntry.crumbRating)
+//                    }
+//                    Section(header: Text("Subida")) {
+//                        StarRatingView(staticRating: store.journalEntry.bloomRating)
+//                    }
+//                    Section(header: Text("Greñado")) {
+//                        StarRatingView(staticRating: store.journalEntry.scoreRating)
+//                    }
+//                    Section(header: Text("Sabor")) {
+//                        StarRatingView(staticRating: store.journalEntry.tasteRating)
+//                    }
+//                    Section(header: Text("Evaluation")) {
+//                        StarRatingView(staticRating: store.journalEntry.rating)
+//                    }
                 }
                 
                 Section {

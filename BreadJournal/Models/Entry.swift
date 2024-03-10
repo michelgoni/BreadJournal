@@ -18,6 +18,7 @@ import ComposableArchitecture
 
 struct Entry: Codable, Identifiable, Equatable {
     
+    var autolysisTime = ""
     var entryDate = Date.yearMonthDay
     var isFavorite = false
     var rating = Int.zero
@@ -25,10 +26,10 @@ struct Entry: Codable, Identifiable, Equatable {
     var image: Data?
     let id: UUID
     var ingredients: IdentifiedArrayOf<Ingredient> = []
-    var lastSourdoughFeedTime = Date.yearMonthDay
-    var prefermentStartingTime = Date.yearMonthDay
+    var sourdoughFeedTime = ""
+    var sourdoughFeedTemperature = ""
     var autolysisStartingTime = Date.yearMonthDay
-    var bulkFermentationStartingTime = Date.yearMonthDay
+    var bulkFermentationStartingTime = ""
     var secondFermentarionStartingTime = Date.yearMonthDay
     var fridgeTotalTime = ""
     var folds = ""
@@ -68,6 +69,7 @@ extension Entry {
     )
     
     static let mock = Entry(
+        autolysisTime: "Sin autólisis",
         isFavorite: false,
         rating: 2,
         name: "Pan de centeno",
@@ -76,7 +78,10 @@ extension Entry {
         ingredients: [Ingredient(id: Ingredient.ID(UUID(0)), ingredient: "100 grs de Harina"),
                       Ingredient(id: Ingredient.ID(UUID(1)), ingredient: "300 grs de Agua"),
                       Ingredient(id: Ingredient.ID(UUID(2)), ingredient: "10 grs de sal"),
-                      Ingredient(id: Ingredient.ID(UUID(3)), ingredient: "100 grs de Harina de centeno")])
+                      Ingredient(id: Ingredient.ID(UUID(3)), ingredient: "100 grs de Harina de centeno")], 
+        sourdoughFeedTime: "3 horas",
+        sourdoughFeedTemperature: "24º",
+        bulkFermentationStartingTime: "3 horas")
     
     static let mock2 = Entry(
         isFavorite: true,

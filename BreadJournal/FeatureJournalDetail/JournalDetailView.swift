@@ -171,7 +171,7 @@ struct JournalDetailView: View {
                 }
                 
                 Group {
-                    Section(header: Text("Hora último refresco mada madre")) {
+                    Section(header: Text("Hora último refresco masa madre")) {
                         Text(store.journalEntry.lastSourdoughFeedTime.toHourMinuteString())
                     }
                     Section(header: Text("Hora comiezo prefermento")) {

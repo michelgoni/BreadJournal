@@ -15,7 +15,7 @@ final class FavoriteTests: XCTestCase {
     
     func test_favorite_true() async {
         
-        var entry = Entry(isFavorite: false,
+        let entry = Entry(isFavorite: false,
                           id: UUID(0))
         
         let store = TestStore(

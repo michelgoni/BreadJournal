@@ -4,40 +4,44 @@
 //
 //  Created by Michel Goñi on 3/1/24.
 //
-
+import ComposableArchitecture
 import Foundation
 import SwiftUI
 
-struct JournalEntryView: View {
-    let entry: Entry
-    public var body: some View {
 
+struct JournalEntryView: View {
+    
+    @Bindable var store: StoreOf<JournalDetailViewFeature>
+    public var body: some View {
+        
         HStack {
             VStack {
                 Image("")
-                    .optionalUIImage(entry.breadPicture)
+                    .optionalUIImage(store.journalEntry.breadPicture)
                     .clipShape(Capsule())
             }
             VStack {
                 HStack {
-                    Text(entry.name)
+                    Text(store.journalEntry.name)
                         .font(.body)
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundColor(.primary)
                         .padding(.bottom, 1.0)
-                    entry.isFavorite.favoriteImage
-                        .foregroundColor(.black)
-                        .font(.system(size: 20, weight: .light))
+                    FavoriteButton(
+                        store: store.scope(
+                        state: \.favoritingState, 
+                        action: \.favoriteTapped))
                 }
-                Text(entry.date.convertToMonthYearFormat())
+                Text(store.journalEntry.entryDate.convertToMonthYearFormat())
                     .font(.callout)
                     .fontWeight(.light)
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundColor(.primary)
                     .padding(.bottom, 16)
-                RatingView(rating: entry.rating)
+                RatingView(store: store.scope(state: \.ratingState,
+                                               action: \.ratingTapped))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
@@ -45,29 +49,43 @@ struct JournalEntryView: View {
         .background(Color(white: 0.95))
         .cornerRadius(10)
         .shadow(radius: 5)
-      
+        
     }
 }
 
-#Preview {
+
+#Preview ("Favorite true") {
     
-    JournalEntryView(entry: Entry(date: Date(),
-                                  isFavorite: true,
-                                  rating: 3,
-                                  name: "Pan de centeno",
-                                  image: nil,
-                                  id: UUID()))
+    JournalEntryView(
+        store: Store(
+            initialState: JournalDetailViewFeature.State(
+                journalEntry: Entry(
+                    entryDate: Date(),
+                    isFavorite: true,
+                    rating: 3,
+                    name: "Pan de centeno",
+                    image: nil,
+                    id: UUID()), id: UUID()),
+            reducer: {
+                JournalDetailViewFeature()
+            }))
     
 }
 
 #Preview("Favorite false") {
     
-    JournalEntryView(entry: Entry(date: Date(),
-                                  isFavorite: false,
-                                  rating: 1,
-                                  name: "Pan de maíz",
-                                  image: nil,
-                                  id: UUID()))
+    JournalEntryView(
+        store: Store(
+            initialState: JournalDetailViewFeature.State(
+                journalEntry: Entry(
+                    entryDate: Date(),
+                    isFavorite: false,
+                    rating: 1,
+                    name: "Pan de maíz",
+                    image: nil,
+                    id: UUID()), id: UUID()),
+            reducer: {
+                JournalDetailViewFeature()
+            }))
     
 }
-

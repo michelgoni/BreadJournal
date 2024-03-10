@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "DE468613-EFA0-44BC-94A6-57D2930B2642",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:BreadJournal.xcodeproj",
+      "identifier" : "2D975B6D2B45C3DF00FA1FB2",
+      "name" : "BreadJournal"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:BreadJournal.xcodeproj",
+        "identifier" : "2D975B7D2B45C3E100FA1FB2",
+        "name" : "BreadJournalTests"
+      }
+    }
+  ],
+  "version" : 1
+}

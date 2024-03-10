@@ -15,18 +15,17 @@ struct RatingFeature {
         var rating: Int
     }
     enum Action {
-        case ratingTapped
+        case ratingTapped(Int)
     }
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .ratingTapped:
-                
+            case let .ratingTapped(rating):
+                state.rating = rating
                 return .none
             }
         }
-        
     }
 }
 
@@ -52,7 +51,7 @@ struct RatingView: View {
                 image(for: number)
                     .foregroundColor(number > store.rating ? offColor : onColor)
                     .onTapGesture {
-                        store.send(.ratingTapped)
+                        store.send(.ratingTapped(number))
                     }
             }
         }

@@ -180,6 +180,11 @@ struct JournalDetailView: View {
                     Section(header: Text("Tiempo autólisis")) {
                         Text(store.journalEntry.autolysisTime)
                     }
+                    
+                    Section(header: Text("Cómo ha sido el amasado")) {
+                        Text(store.journalEntry.kneadingProcess)
+                    }
+                    
                     Section(header: Text("Tiempo fermentación en bloque")) {
                         Text(store.journalEntry.bulkFermentationStartingTime)
                     }
@@ -187,47 +192,45 @@ struct JournalDetailView: View {
                     Section(header: Text("Pliegues")) {
                         Text(store.journalEntry.folds)
                     }
-//                    Section(header: Text("Hora formado del pan")) {
-//                        Text(store.journalEntry.breadFormingTime.toHourMinuteString())
-//                    }
-//                    Section(header: Text("Hora segunda fermentación")) {
-//                        Text(store.journalEntry.secondFermentarionStartingTime.toHourMinuteString())
-//                    }
-//                    Group {
-//                        Section(header: Text("¿Se ha usado frigorífico?")) {
-//                            Text(store.journalEntry.isFridgeUsed.elementUsedTitle)
-//                        }
-//                        
-//                        if store.journalEntry.isFridgeUsed {
-//                            Section(header: Text("Tiempo total en el frigo")) {
-//                                Text(store.journalEntry.fridgeTotalTime)
-//                            }
-//                        }
-//                        Section(header: Text("Tiempo de horneado")) {
-//                            Text(store.journalEntry.bakingTime)
-//                        }
-//                        Section(header: Text("¿Plancha de acero?")) {
-//                            Text(store.journalEntry.isSteelPlateUsed.elementUsedTitle)
-//                        }
-//                    }
-//                    Section(header: Text("Corteza")) {
-//                        StarRatingView(staticRating: store.journalEntry.crustRating)
-//                    }
-//                    Section(header: Text("Miga")) {
-//                        StarRatingView(staticRating: store.journalEntry.crumbRating)
-//                    }
-//                    Section(header: Text("Subida")) {
-//                        StarRatingView(staticRating: store.journalEntry.bloomRating)
-//                    }
-//                    Section(header: Text("Greñado")) {
-//                        StarRatingView(staticRating: store.journalEntry.scoreRating)
-//                    }
-//                    Section(header: Text("Sabor")) {
-//                        StarRatingView(staticRating: store.journalEntry.tasteRating)
-//                    }
-//                    Section(header: Text("Evaluation")) {
-//                        StarRatingView(staticRating: store.journalEntry.rating)
-//                    }
+
+                    Section(header: Text("Tiempo segunda fermentación")) {
+                        Text(store.journalEntry.secondFermentarionTime)
+                    }
+                    Group {
+                        Section(header: Text("¿Se ha usado frigorífico?")) {
+                            Text(store.journalEntry.isFridgeUsed.elementUsedTitle)
+                        }
+                        
+                        if store.journalEntry.isFridgeUsed {
+                            Section(header: Text("Tiempo total en el frigo")) {
+                                Text(store.journalEntry.fridgeTotalTime)
+                            }
+                        }
+                        Section(header: Text("Cómo ha sido el horneado")) {
+                            Text(store.journalEntry.bakingProcedureAndTime)
+                        }
+                        Section(header: Text("¿Plancha de acero?")) {
+                            Text(store.journalEntry.isSteelPlateUsed.elementUsedTitle)
+                        }
+                    }
+                    Section(header: Text("Corteza")) {
+                        StarRatingView(staticRating: store.journalEntry.crustRating)
+                    }
+                    Section(header: Text("Miga")) {
+                        StarRatingView(staticRating: store.journalEntry.crumbRating)
+                    }
+                    Section(header: Text("Subida")) {
+                        StarRatingView(staticRating: store.journalEntry.bloomRating)
+                    }
+                    Section(header: Text("Greñado")) {
+                        StarRatingView(staticRating: store.journalEntry.scoreRating)
+                    }
+                    Section(header: Text("Sabor")) {
+                        StarRatingView(staticRating: store.journalEntry.tasteRating)
+                    }
+                    Section(header: Text("Evaluation")) {
+                        StarRatingView(staticRating: store.journalEntry.rating)
+                    }
                 }
                 
                 Section {

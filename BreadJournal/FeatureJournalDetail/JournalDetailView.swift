@@ -228,7 +228,7 @@ struct JournalDetailView: View {
                     Section(header: Text("Sabor")) {
                         StarRatingView(staticRating: store.journalEntry.tasteRating)
                     }
-                    Section(header: Text("Evaluation")) {
+                    Section(header: Text("Evaluación")) {
                         StarRatingView(staticRating: store.journalEntry.rating)
                     }
                 }

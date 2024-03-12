@@ -19,10 +19,25 @@ extension JournalListManager: DependencyKey {
         load: { url in try Data(contentsOf: url) },
         save: { data, url in try data.write(to: url) }
     )
-    
+    static let decodingError = Self.decodingErrorMock()
     static let previewValue = Self.mock()
     static let previewEmpty = Self.emptyMock()
     static let previewError = Self.errorMock()
+    
+    static func decodingErrorMock(initialData: Data? = nil) -> Self {
+        
+        
+      return Self(
+        load: { _ in
+            let mockError = DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], 
+                                                                              debugDescription: "Error decoding data",
+                                                                              underlyingError: nil))
+            
+            throw BreadJournalError.general
+        },
+        save: { _ , _ in}
+      )
+    }
     
     
     static func mock(initialData: Data? = nil) -> Self {

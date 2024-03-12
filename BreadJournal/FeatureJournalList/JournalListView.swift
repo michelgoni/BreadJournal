@@ -16,6 +16,7 @@ struct BreadJournalListFeature {
         var entries: IdentifiedArrayOf<JournalDetailViewFeature.State> = []
         var error: BreadJournalError? = nil
         var isLoading = false
+        @Presents var alert: AlertState<Action.Alert>?
         
         init(destination: Destination.State? = nil) {
             self.destination = destination
@@ -34,9 +35,13 @@ struct BreadJournalListFeature {
                 let final = IdentifiedArrayOf(uniqueElements: values)
                 self.entries = final
             } catch is DecodingError {
-                
+                alert = .some(AlertState(title: {
+                    TextState("Error convirtiendo los datos")
+                }))
             } catch {
-                
+                alert = .some(AlertState(title: {
+                    TextState("Error genérico")
+                }))
             }
         }
 
@@ -48,10 +53,17 @@ struct BreadJournalListFeature {
     enum Action {
         case addEntryTapped
         case addEntry(PresentationAction<Destination.Action>)
+        case alert(PresentationAction<Alert>)
         case cancelEntry
         case confirmEntryTapped
-        case filterEntries
         case detail(IdentifiedActionOf<JournalDetailViewFeature>)
+        
+        case filterEntries
+        
+        enum Alert {
+            case error
+        }
+       
     }
     
     @Reducer
@@ -82,6 +94,7 @@ struct BreadJournalListFeature {
         
         Reduce { state, action in
             switch action {
+            
             case .addEntry:
                 return .none
             case .addEntryTapped:
@@ -93,6 +106,7 @@ struct BreadJournalListFeature {
                     )
                 )
                 return .none
+           
             case .cancelEntry:
                 state.destination = nil
                 return .none
@@ -109,8 +123,11 @@ struct BreadJournalListFeature {
                 return .none
             case .detail:
                 return .none
+            case .alert:
+                return .none
             }
         }
+        
         .ifLet(\.$destination, action: \.addEntry) {
           Destination()
         }
@@ -152,6 +169,7 @@ struct BreadJournalListView: View {
                 }
                 .padding(.all, 46)
                 .loader(isLoading: store.state.isLoading)
+                .alert($store.scope(state: \.alert, action: \.alert))
 //                .onError(error: store.state.error)
                 .applyToolbar(store: store)
                 .sheet(item: $store.scope(state: \.destination?.add,
@@ -189,6 +207,21 @@ struct BreadJournalListView: View {
                         BreadJournalListFeature()
                     }, withDependencies: {
                         $0.journalListDataManager = .previewValue
+                    }))
+        }
+    }
+}
+
+#Preview("Decoding error") {
+    MainActor.assumeIsolated {
+        NavigationStack {
+            BreadJournalListView(
+                store: Store(
+                    initialState: BreadJournalListFeature.State(),
+                    reducer: {
+                        BreadJournalListFeature()
+                    }, withDependencies: {
+                        $0.journalListDataManager = .decodingError
                     }))
         }
     }

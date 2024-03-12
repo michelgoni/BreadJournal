@@ -9,6 +9,8 @@ import ComposableArchitecture
 import Foundation
 
 extension JournalListManager: TestDependencyKey {
+    
+    static let testErrorDecodingMock = Self.decodingErrorMock()
     static let testValueMock = Self.mockTest()
     static let testValueEmptyMock = Self.emptyMockTest()
     static let testValueErrorMock = Self.errorMockTest()
@@ -50,6 +52,23 @@ extension JournalListManager: TestDependencyKey {
         load: { _ in
           
             throw FileNotFound()
+        },
+        save: { _ , _ in}
+      )
+    }
+    
+    static func errorDecodingMockTest(initialData: Data? = nil) -> Self {
+       
+      return Self(
+        load: { _ in
+            let mockError = DecodingError.dataCorrupted(
+                DecodingError.Context(
+                    codingPath: [],
+                    debugDescription: "Decoding error",
+                    underlyingError: nil)
+            )
+
+            throw mockError
         },
         save: { _ , _ in}
       )

@@ -13,10 +13,21 @@ import XCTest
 @MainActor
 final class BreadJournalListTests: XCTestCase {
     
+    func test_error_decoding_state() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        } withDependencies: {
+            
+            $0.journalListDataManager = .testErrorDecodingMock
+        }
+        
+        XCTAssertTrue((store.state.alert?.title != nil))
+    }
+    
     func test_add_entry_tapped() async {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()
-        }withDependencies: {
+        } withDependencies: {
             $0.continuousClock = ImmediateClock()
             $0.journalListDataManager = .testValueMock
             $0.uuid = .incrementing

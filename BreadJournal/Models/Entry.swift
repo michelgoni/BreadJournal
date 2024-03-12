@@ -69,6 +69,12 @@ extension Entry {
         id: UUID(0)
     )
     
+    static let decodingError = Entry(
+        entryDate: Date.yearMonthDay,
+        name: "Pan de centeno",
+        id: UUID(0)
+    )
+    
     static let mock = Entry(
         autolysisTime: "Sin autólisis",
         isFavorite: false,

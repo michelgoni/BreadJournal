@@ -18,7 +18,7 @@ struct BreadFormFeature {
             self.journalEntry = journalEntry
         }
     }
-    
+
     enum Action: BindableAction, Equatable, Sendable {
         case addIngredientTapped(String)
         case binding(BindingAction<State>)
@@ -55,18 +55,16 @@ struct BreadFormView: View {
                     TextField("",
                               text: $store.journalEntry.name)
                 }
-                
                 Section {
                     DatePicker("Fecha",
                                selection: $store.journalEntry.entryDate,
                                displayedComponents: .date)
                 }
-                
                 Section(header: Text("Foto")) {
                     ImagePickerView(selectedImage: $store.journalEntry.breadPicture)
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
-                
+
                 Section(header: Text("Ingredientes")) {
                     ForEach($store.journalEntry.ingredients) {
                         TextField("Ingredient", text: $0.ingredient)
@@ -79,77 +77,65 @@ struct BreadFormView: View {
                         store.send(.addIngredientTapped(""))
                     }
                 }
-                
                 Group {
-                    Section {
-                        DatePicker(
-                            "Hora último refresco mada madre",
-                            selection: $store.journalEntry.lastSourdoughFeedTime,
-                            displayedComponents: .hourAndMinute
-                        )
-                    }
-                    Section {
-                        DatePicker(
-                            "Hora comiezo prefermento",
-                            selection: $store.journalEntry.prefermentStartingTime,
-                            displayedComponents: .hourAndMinute
-                        )
-                    }
-                    Section {
-                        DatePicker("Hora comiezo autólisis",
-                                   selection: $store.journalEntry.autolysisStartingTime,
-                                   displayedComponents: .hourAndMinute)
-                    }
-                    Section {
-                        DatePicker(
-                            "Hora comiezo fermentación en bloque",
-                            selection: $store.journalEntry.bulkFermentationStartingTime,
-                            displayedComponents: .hourAndMinute
-                        )
-                    }
-                    
-                    Section {
+                    Section("Tiempo refresco masa madre") {
                         TextField(
-                            "Pliegues",
+                            "",
+                            text: $store.journalEntry.sourdoughFeedTime)
+                    }
+                    Section(header: Text("Temperatura refresco")) {
+                        TextField(
+                            "",
+                            text: $store.journalEntry.sourdoughFeedTemperature)
+                    }
+
+                    Section(header: Text("Tiempo autólisis")) {
+                        TextField(
+                            "",
+                            text: $store.journalEntry.autolysisTime)
+                    }
+
+                    Section(header: Text("Tiempo fermentación en bloque")) {
+                        TextField(
+                            "",
+                            text: $store.journalEntry.bulkFermentationStartingTime)
+                    }
+
+                    Section(header: Text("Pliegues")) {
+                        TextField(
+                            "",
                             text: $store.journalEntry.folds
                         )
                     }
-                    
-                    Section {
-                        DatePicker("Hora formado del pan",
-                                   selection: $store.journalEntry.breadFormingTime,
-                                   displayedComponents: .hourAndMinute)
+                    Section(header: Text("Tiempo segunda fermentación")) {
+                        TextField(
+                            "",
+                            text: $store.journalEntry.secondFermentarionTime
+                        )
                     }
-                    
-                    Section {
-                        DatePicker("Hora segunda fermentación",
-                                   selection: $store.journalEntry.secondFermentarionStartingTime,
-                                   displayedComponents: .hourAndMinute)
+                }
+                Group {
+                    Toggle(isOn: $store.journalEntry.isFridgeUsed) {
+                        Text("¿Se ha usado frigorífico?")
                     }
-                    Group {
-                        
-                        Toggle(isOn: $store.journalEntry.isFridgeUsed) {
-                            Text("¿Se ha usado frigorífico?")
-                        }
-                        if store.journalEntry.isFridgeUsed{
-                            Section {
-                                TextField("Tiempo total en el frigo", text: $store.journalEntry.fridgeTotalTime)
-                            }
-                        }
+                    if store.journalEntry.isFridgeUsed{
                         Section {
                             TextField(
-                                "Tiempo de horneado",
-                                text: $store.journalEntry.bakingTime
-                            )
-                            Toggle(
-                                isOn: $store.journalEntry.isSteelPlateUsed
-                            ) {
-                                Text(
-                                    "¿Plancha de acero?"
-                                )
-                            }
+                                "",
+                                text: $store.journalEntry.fridgeTotalTime)
                         }
-                        
+                    }
+                    Section(header: Text("Cómo ha sido el horneado")) {
+                        TextField(
+                            "",
+                            text: $store.journalEntry.bakingProcedureAndTime)
+                    }
+                    Toggle(
+                        isOn: $store.journalEntry.isSteelPlateUsed
+                    ) {
+                        Text(
+                            "¿Plancha de acero?"
+                        )
                     }
                     Section(header: Text("Corteza")) {
                         StarRatingView(rating: $store.journalEntry.crustRating)
@@ -167,17 +153,19 @@ struct BreadFormView: View {
                         StarRatingView(rating: $store.journalEntry.tasteRating)
                     }
                     Section(header: Text("Evaluation")) {
-                        StarRatingView(rating: $store.journalEntry.evaluation)
+                        StarRatingView(rating: $store.journalEntry.rating)
                     }
                 }
             }
         }
-        
     }
 }
 
 #Preview(body: {
-    BreadFormView(store: Store(initialState: BreadFormFeature.State(journalEntry: .mock), reducer: {
-        BreadFormFeature()
-    }))
+    BreadFormView(
+        store: Store(
+            initialState: BreadFormFeature.State(
+                journalEntry: .mock), reducer: {
+                    BreadFormFeature()
+                }))
 })

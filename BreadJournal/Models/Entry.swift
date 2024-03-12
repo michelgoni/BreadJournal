@@ -18,6 +18,7 @@ import ComposableArchitecture
 
 struct Entry: Codable, Identifiable, Equatable {
     
+    var autolysisTime = ""
     var entryDate = Date.yearMonthDay
     var isFavorite = false
     var rating = Int.zero
@@ -25,16 +26,17 @@ struct Entry: Codable, Identifiable, Equatable {
     var image: Data?
     let id: UUID
     var ingredients: IdentifiedArrayOf<Ingredient> = []
-    var lastSourdoughFeedTime = Date.yearMonthDay
-    var prefermentStartingTime = Date.yearMonthDay
+    var kneadingProcess = ""
+    var sourdoughFeedTime = ""
+    var sourdoughFeedTemperature = ""
     var autolysisStartingTime = Date.yearMonthDay
-    var bulkFermentationStartingTime = Date.yearMonthDay
-    var secondFermentarionStartingTime = Date.yearMonthDay
+    var bulkFermentationStartingTime = ""
+    var secondFermentarionTime = ""
     var fridgeTotalTime = ""
     var folds = ""
     var breadFormingTime = Date.yearMonthDay
     var isFridgeUsed = true
-    var bakingTime = ""
+    var bakingProcedureAndTime = ""
     var isSteelPlateUsed = false
     var crustRating = Int.zero
     var crumbRating = Int.zero
@@ -68,6 +70,7 @@ extension Entry {
     )
     
     static let mock = Entry(
+        autolysisTime: "Sin autólisis",
         isFavorite: false,
         rating: 2,
         name: "Pan de centeno",
@@ -76,7 +79,21 @@ extension Entry {
         ingredients: [Ingredient(id: Ingredient.ID(UUID(0)), ingredient: "100 grs de Harina"),
                       Ingredient(id: Ingredient.ID(UUID(1)), ingredient: "300 grs de Agua"),
                       Ingredient(id: Ingredient.ID(UUID(2)), ingredient: "10 grs de sal"),
-                      Ingredient(id: Ingredient.ID(UUID(3)), ingredient: "100 grs de Harina de centeno")])
+                      Ingredient(id: Ingredient.ID(UUID(3)), ingredient: "100 grs de Harina de centeno")], 
+        kneadingProcess: "Amasado Fisterra",
+        sourdoughFeedTime: "3 horas",
+        sourdoughFeedTemperature: "24º",
+        bulkFermentationStartingTime: "3 horas",
+        secondFermentarionTime: "2 horas",
+        fridgeTotalTime: "12 horas",
+        folds: "4",
+        bakingProcedureAndTime: "15 minutos con calor solo debajo al máximo y 40 minutos a 220º con calor arriba y abajo. Con vapor.",
+        isSteelPlateUsed: true,
+        crumbRating: 3,
+        bloomRating: 3, 
+        scoreRating: 4,
+        tasteRating: 4,
+        evaluation: 4)
     
     static let mock2 = Entry(
         isFavorite: true,

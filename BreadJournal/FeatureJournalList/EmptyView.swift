@@ -9,20 +9,25 @@ import SwiftUI
 
 private extension String {
     static let pencil = "pencil"
-    static let title = "There are no entries your diary yet"
+    static let title = "No hay entradas en tu diario"
 }
 
 
 struct EmptyJournalView: View {
     var body: some View {
         VStack {
-            Image(systemName: .pencil)
-                .imageScale(.large)
-            Text(verbatim: .title)
-                .font(.headline)
-                .padding()
-            Image(systemName: .pencil)
-                .imageScale(.large)
+            Spacer()
+            HStack {
+                Spacer()
+               
+                Text(verbatim: .title)
+                    .font(.headline)
+                    .padding()
+             
+                Spacer()
+            }
+            Spacer()
+           
         }
     }
 }

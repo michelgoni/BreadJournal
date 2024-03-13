@@ -166,7 +166,7 @@ struct BreadJournalListView: View {
                         }
                     }
                 }
-                .emptyPlaceholder(if: store.state.entries.count)
+                
                 .padding(.all, 46)
                 .loader(isLoading: store.state.isLoading)
                 .alert($store.scope(state: \.alert, action: \.alert))
@@ -190,8 +190,10 @@ struct BreadJournalListView: View {
                         }
                     }
                 }
-            
         }
+        .emptyPlaceholder(if: store.state.entries.count)
+        .applyToolbar(store: store)
+        
     }
 
 }

@@ -39,9 +39,10 @@ struct EmptyJournalView: View {
 
 struct IfEmptyModifier: ViewModifier {
     var itemCount: Int
+    var alertPopulated: Bool
     
     func body(content: Content) -> some View {
-        if itemCount == .zero {
+        if itemCount == .zero && !alertPopulated {
             EmptyJournalView()
         } else {
             content
@@ -50,7 +51,7 @@ struct IfEmptyModifier: ViewModifier {
 }
 
 extension View {
-    func emptyPlaceholder(if itemCount: Int) -> some View {
-        modifier(IfEmptyModifier(itemCount: itemCount))
+    func emptyPlaceholder(if itemCount: Int, alertPopulated: Bool) -> some View {
+        modifier(IfEmptyModifier(itemCount: itemCount, alertPopulated: alertPopulated))
     }
 }

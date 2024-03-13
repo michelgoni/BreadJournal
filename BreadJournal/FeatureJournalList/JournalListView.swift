@@ -56,7 +56,7 @@ struct BreadJournalListFeature {
         case alert(PresentationAction<Alert>)
         case cancelEntry
         case confirmEntryTapped
-        case detail(IdentifiedActionOf<JournalDetailViewFeature>)
+        case entries(IdentifiedActionOf<JournalDetailViewFeature>)
         case filterEntries
         
         enum Alert {
@@ -87,7 +87,7 @@ struct BreadJournalListFeature {
     @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
         
-        EmptyReducer().forEach(\.entries, action: \.detail) {
+        EmptyReducer().forEach(\.entries, action: \.entries) {
             JournalDetailViewFeature()
         }
         
@@ -120,7 +120,7 @@ struct BreadJournalListFeature {
             case .filterEntries:
                 debugPrint("Filtering items")
                 return .none
-            case .detail:
+            case .entries:
                 return .none
             case .alert:
                 return .none
@@ -153,7 +153,7 @@ struct BreadJournalListView: View {
                 spacing: 16) {
                     
                     ForEach(store.scope(state: \.entries,
-                                             action: \.detail)) { store in
+                                             action: \.entries)) { store in
                         NavigationLink(
                             state: AppFeature.Path.State.detail(
                                 JournalDetailViewFeature.State(

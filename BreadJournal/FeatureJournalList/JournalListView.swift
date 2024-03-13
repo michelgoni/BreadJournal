@@ -153,11 +153,11 @@ struct BreadJournalListView: View {
                 spacing: 16) {
                     
                     ForEach(store.scope(state: \.entries,
-                                             action: \.entries)) { store in
+                                        action: \.entries)) { store in
                         NavigationLink(
                             state: AppFeature.Path.State.detail(
                                 JournalDetailViewFeature.State(
-                                    journalEntry: store.journalEntry, 
+                                    journalEntry: store.journalEntry,
                                     id: store.journalEntry.id)
                             )
                         ) {
@@ -165,35 +165,32 @@ struct BreadJournalListView: View {
                         }
                     }
                 }
-                
                 .padding(.all, 46)
-                .loader(isLoading: store.state.isLoading)
                 .alert($store.scope(state: \.alert, action: \.alert))
-                .sheet(item: $store.scope(state: \.destination?.add,
-                                          action: \.addEntry.add)) { store in
-                    NavigationStack {
-                        BreadFormView(store: store)
-                        .navigationTitle("New journal entry")
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Dismiss") {
-                                    self.store.send(.cancelEntry)
-                                }
-                            }
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button("Add") {
-                                    self.store.send(.confirmEntryTapped)
-                                }
-                            }
-                        }
-                    }
-                }
         }
         .emptyPlaceholder(if: store.state.entries.count)
         .applyToolbar(store: store)
+        .sheet(item: $store.scope(state: \.destination?.add,
+                                  action: \.addEntry.add)) { store in
+            NavigationStack {
+                BreadFormView(store: store)
+                    .navigationTitle("New journal entry")
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Dismiss") {
+                                self.store.send(.cancelEntry)
+                            }
+                        }
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Add") {
+                                self.store.send(.confirmEntryTapped)
+                            }
+                        }
+                    }
+            }
+        }
         
     }
-
 }
 
 #Preview {

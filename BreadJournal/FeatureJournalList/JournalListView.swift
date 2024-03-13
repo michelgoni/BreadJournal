@@ -165,12 +165,11 @@ struct BreadJournalListView: View {
                             JournalEntryView(store: store)
                         }
                     }
-                    .emptyPlaceholder(if: store.state.entries.count)
                 }
+                .emptyPlaceholder(if: store.state.entries.count)
                 .padding(.all, 46)
                 .loader(isLoading: store.state.isLoading)
                 .alert($store.scope(state: \.alert, action: \.alert))
-//                .onError(error: store.state.error)
                 .applyToolbar(store: store)
                 .sheet(item: $store.scope(state: \.destination?.add,
                                           action: \.addEntry.add)) { store in
@@ -211,6 +210,22 @@ struct BreadJournalListView: View {
         }
     }
 }
+
+#Preview("Empty journal") {
+    MainActor.assumeIsolated {
+        NavigationStack {
+            BreadJournalListView(
+                store: Store(
+                    initialState: BreadJournalListFeature.State(),
+                    reducer: {
+                        BreadJournalListFeature()
+                    }, withDependencies: {
+                        $0.journalListDataManager = .previewEmpty
+                    }))
+        }
+    }
+}
+
 
 #Preview("Decoding error") {
     MainActor.assumeIsolated {

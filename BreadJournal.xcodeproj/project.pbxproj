@@ -14,7 +14,6 @@
 		2D573C5C2B6ABF5200B513B5 /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D573C5B2B6ABF5200B513B5 /* AppFeature.swift */; };
 		2D5C09292B51AB1C00D5BEFB /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5C09282B51AB1C00D5BEFB /* Error.swift */; };
 		2D619A102B56FCFA004E564B /* LoaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */; };
-		2D619A122B570408004E564B /* BreadErrorModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D619A112B570408004E564B /* BreadErrorModifier.swift */; };
 		2D713E532B7404CB00042F99 /* JournaliDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D713E522B7404CB00042F99 /* JournaliDetailTests.swift */; };
 		2D7237272B72AF8500DD74D7 /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = 2D7237262B72AF8500DD74D7 /* Tagged */; };
 		2D7D74C42B66D4CA0067776B /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7D74C32B66D4CA0067776B /* Bool.swift */; };
@@ -71,7 +70,6 @@
 		2D573C5B2B6ABF5200B513B5 /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
 		2D5C09282B51AB1C00D5BEFB /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderModifier.swift; sourceTree = "<group>"; };
-		2D619A112B570408004E564B /* BreadErrorModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadErrorModifier.swift; sourceTree = "<group>"; };
 		2D713E522B7404CB00042F99 /* JournaliDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournaliDetailTests.swift; sourceTree = "<group>"; };
 		2D7D74C32B66D4CA0067776B /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		2D975B6E2B45C3DF00FA1FB2 /* BreadJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreadJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -253,7 +251,6 @@
 				2D975BA82B45D5C100FA1FB2 /* OptionalImageModifier.swift */,
 				2DA5F8A82B4DCFC700F3E5D2 /* ToolbarModifier.swift */,
 				2D619A0F2B56FCFA004E564B /* LoaderModifier.swift */,
-				2D619A112B570408004E564B /* BreadErrorModifier.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -441,7 +438,6 @@
 				2D975BAB2B45D5C100FA1FB2 /* OptionalImageModifier.swift in Sources */,
 				2DCBB2072B640F0300C666F4 /* StarRatingView.swift in Sources */,
 				2D7D74C42B66D4CA0067776B /* Bool.swift in Sources */,
-				2D619A122B570408004E564B /* BreadErrorModifier.swift in Sources */,
 				2D975BA52B45D3FE00FA1FB2 /* RatingView.swift in Sources */,
 				2D975BAE2B45D74600FA1FB2 /* Date.swift in Sources */,
 				2DA5F8A92B4DCFC700F3E5D2 /* ToolbarModifier.swift in Sources */,

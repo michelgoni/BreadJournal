@@ -57,7 +57,6 @@ struct BreadJournalListFeature {
         case cancelEntry
         case confirmEntryTapped
         case detail(IdentifiedActionOf<JournalDetailViewFeature>)
-        
         case filterEntries
         
         enum Alert {
@@ -170,7 +169,6 @@ struct BreadJournalListView: View {
                 .padding(.all, 46)
                 .loader(isLoading: store.state.isLoading)
                 .alert($store.scope(state: \.alert, action: \.alert))
-                .applyToolbar(store: store)
                 .sheet(item: $store.scope(state: \.destination?.add,
                                           action: \.addEntry.add)) { store in
                     NavigationStack {

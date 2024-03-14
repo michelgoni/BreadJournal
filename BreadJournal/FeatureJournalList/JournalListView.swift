@@ -26,7 +26,7 @@ struct BreadJournalListFeature {
                 let entries = try JSONDecoder().decode(
                     IdentifiedArrayOf<Entry>.self,
                     from: loadEntries(.breadEntries)
-                )
+                ).sorted { $0.entryDate > $1.entryDate }
                 let values = entries.map {
                     JournalDetailViewFeature.State(
                         journalEntry: $0,
@@ -122,6 +122,9 @@ struct BreadJournalListFeature {
 
             case .filterEntries:
                 debugPrint("Filtering items")
+                return .none
+            case .filtersDialog(.presented(.filterByFavorites)):
+                
                 return .none
             case .filtersDialog:
                 return .none

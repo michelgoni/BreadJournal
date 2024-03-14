@@ -14,7 +14,7 @@ struct BreadJournalListFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         @Presents var alert: AlertState<Action.Alert>?
-        @Presents var filters: ConfirmationDialogState<Action.Filter>?
+        @Presents var filtersDialog: ConfirmationDialogState<Action.Filter>?
         var entries: IdentifiedArrayOf<JournalDetailViewFeature.State> = []
         var error: BreadJournalError? = nil
 
@@ -54,7 +54,7 @@ struct BreadJournalListFeature {
         case cancelEntry
         case confirmEntryTapped
         case entries(IdentifiedActionOf<JournalDetailViewFeature>)
-        case filter(PresentationAction<Filter>)
+        case filtersDialog(PresentationAction<Filter>)
         case filterEntries
         
         enum Alert {
@@ -123,7 +123,7 @@ struct BreadJournalListFeature {
             case .filterEntries:
                 debugPrint("Filtering items")
                 return .none
-            case .filter:
+            case .filtersDialog:
                 return .none
             case .entries:
                 return .none
@@ -172,6 +172,7 @@ struct BreadJournalListView: View {
                 }
                 .padding(.all, 46)
                 .alert($store.scope(state: \.alert, action: \.alert))
+                
         }
         .emptyPlaceholder(if: store.state.entries.count, 
                           alertPopulated: store.state.alert != nil)

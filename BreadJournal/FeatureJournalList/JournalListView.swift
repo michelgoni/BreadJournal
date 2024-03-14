@@ -171,7 +171,10 @@ struct BreadJournalListView: View {
                     }
                 }
                 .padding(.all, 46)
-                .alert($store.scope(state: \.alert, action: \.alert))
+                .alert($store.scope(state: \.alert, 
+                                    action: \.alert))
+                .confirmationDialog($store.scope(state: \.filtersDialog,
+                                                 action: \.filtersDialog))
                 
         }
         .emptyPlaceholder(if: store.state.entries.count, 

@@ -13,11 +13,11 @@ struct BreadJournalListFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
+        @Presents var alert: AlertState<Action.Alert>?
+        @Presents var filters: ConfirmationDialogState<Action.Filter>?
         var entries: IdentifiedArrayOf<JournalDetailViewFeature.State> = []
         var error: BreadJournalError? = nil
-        var isLoading = false
-        @Presents var alert: AlertState<Action.Alert>?
-        
+
         init(destination: Destination.State? = nil) {
             self.destination = destination
             
@@ -45,10 +45,6 @@ struct BreadJournalListFeature {
                 }))
             }
         }
-
-        var isEmpty: Bool {
-            entries.isEmpty
-        }
     }
     
     enum Action {
@@ -58,12 +54,18 @@ struct BreadJournalListFeature {
         case cancelEntry
         case confirmEntryTapped
         case entries(IdentifiedActionOf<JournalDetailViewFeature>)
+        case filter(PresentationAction<Filter>)
         case filterEntries
         
         enum Alert {
             case error
         }
-       
+
+        enum Filter {
+            case filterByFavorites
+            case filterByRating
+            case filterByDate
+        }
     }
     
     @Reducer
@@ -120,6 +122,8 @@ struct BreadJournalListFeature {
 
             case .filterEntries:
                 debugPrint("Filtering items")
+                return .none
+            case .filter:
                 return .none
             case .entries:
                 return .none

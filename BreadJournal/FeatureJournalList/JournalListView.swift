@@ -169,7 +169,8 @@ struct BreadJournalListView: View {
                 .padding(.all, 46)
                 .alert($store.scope(state: \.alert, action: \.alert))
         }
-        .emptyPlaceholder(if: store.state.entries.count, alertPopulated: store.state.alert != nil)
+        .emptyPlaceholder(if: store.state.entries.count, 
+                          alertPopulated: store.state.alert != nil)
         .applyToolbar(store: store)
         .sheet(item: $store.scope(state: \.destination?.add,
                                   action: \.addEntry.add)) { store in

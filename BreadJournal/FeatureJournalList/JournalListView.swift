@@ -141,7 +141,7 @@ struct BreadJournalListFeature {
             case .filtersDialog(.presented(.filterByFavorites)):
                 state.entries.removeAll()
                 do {
-                    var entries = try JSONDecoder().decode(
+                    let entries = try JSONDecoder().decode(
                         [Entry].self,
                         from: loadEntries(.breadEntries)
                     ).sorted {
@@ -151,13 +151,12 @@ struct BreadJournalListFeature {
                             journalEntry: $0,
                             id: $0.id)
                     }
-                    
                     let final = IdentifiedArrayOf(uniqueElements: entries)
                     state.entries = final
                     
                 } catch {
                     state.alert = .some(AlertState(title: {
-                        TextState("Error genérico")
+                        TextState(error.localizedDescription)
                     }))
                 }
                 return .none
@@ -173,6 +172,7 @@ struct BreadJournalListFeature {
         .ifLet(\.$destination, action: \.addEntry) {
             Destination()
         }
+        .ifLet(\.filtersDialog, action: \.filtersDialog)
     }
 }
 

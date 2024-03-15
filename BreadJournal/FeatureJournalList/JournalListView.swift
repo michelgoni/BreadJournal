@@ -17,7 +17,7 @@ struct BreadJournalListFeature {
         @Presents var filtersDialog: ConfirmationDialogState<Action.Filter>?
         var entries: IdentifiedArrayOf<JournalDetailViewFeature.State> = []
         var error: BreadJournalError? = nil
-
+        
         init(destination: Destination.State? = nil) {
             self.destination = destination
             
@@ -34,7 +34,7 @@ struct BreadJournalListFeature {
                 }
                 let final = IdentifiedArrayOf(uniqueElements: values)
                 self.entries = final
-         
+                
             } catch is DecodingError {
                 alert = .some(AlertState(title: {
                     TextState("Error convirtiendo los datos")
@@ -60,7 +60,7 @@ struct BreadJournalListFeature {
         enum Alert {
             case error
         }
-
+        
         enum Filter {
             case filterByFavorites
             case filterByRating
@@ -88,6 +88,7 @@ struct BreadJournalListFeature {
     
     
     @Dependency(\.uuid) var uuid
+    @Dependency (\.journalListDataManager.load) var loadEntries
     var body: some ReducerOf<Self> {
         
         EmptyReducer().forEach(\.entries, action: \.entries) {
@@ -96,7 +97,7 @@ struct BreadJournalListFeature {
         
         Reduce { state, action in
             switch action {
-            
+                
             case .addEntry:
                 return .none
             case .addEntryTapped:
@@ -108,7 +109,7 @@ struct BreadJournalListFeature {
                     )
                 )
                 return .none
-           
+                
             case .cancelEntry:
                 state.destination = nil
                 return .none
@@ -119,12 +120,46 @@ struct BreadJournalListFeature {
                 state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: editState.journalEntry.id))
                 state.destination = nil
                 return .none
-
+                
             case .filterEntries:
-                debugPrint("Filtering items")
+                state.filtersDialog = ConfirmationDialogState(title: {
+                    TextState("Filtrar por")
+                }, actions: {
+                    ButtonState(action: .filterByFavorites) {
+                      TextState("Favoritos")
+                    }
+                    
+                    ButtonState(action: .filterByDate) {
+                      TextState("Por fecha")
+                    }
+                    
+                    ButtonState(action: .filterByRating) {
+                      TextState("Mejor valorados")
+                    }
+                })
                 return .none
             case .filtersDialog(.presented(.filterByFavorites)):
-                
+                state.entries.removeAll()
+                do {
+                    var entries = try JSONDecoder().decode(
+                        [Entry].self,
+                        from: loadEntries(.breadEntries)
+                    ).sorted {
+                        ($0.isFavorite && !$1.isFavorite) || ($0.isFavorite == $1.isFavorite && $0.name < $1.name)
+                    }.map {
+                        JournalDetailViewFeature.State(
+                            journalEntry: $0,
+                            id: $0.id)
+                    }
+                    
+                    let final = IdentifiedArrayOf(uniqueElements: entries)
+                    state.entries = final
+                    
+                } catch {
+                    state.alert = .some(AlertState(title: {
+                        TextState("Error genérico")
+                    }))
+                }
                 return .none
             case .filtersDialog:
                 return .none
@@ -136,7 +171,7 @@ struct BreadJournalListFeature {
         }
         
         .ifLet(\.$destination, action: \.addEntry) {
-          Destination()
+            Destination()
         }
     }
 }
@@ -174,13 +209,13 @@ struct BreadJournalListView: View {
                     }
                 }
                 .padding(.all, 46)
-                .alert($store.scope(state: \.alert, 
+                .alert($store.scope(state: \.alert,
                                     action: \.alert))
                 .confirmationDialog($store.scope(state: \.filtersDialog,
                                                  action: \.filtersDialog))
-                
+            
         }
-        .emptyPlaceholder(if: store.state.entries.count, 
+        .emptyPlaceholder(if: store.state.entries.count,
                           alertPopulated: store.state.alert != nil)
         .applyToolbar(store: store)
         .sheet(item: $store.scope(state: \.destination?.add,

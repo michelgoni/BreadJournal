@@ -138,6 +138,51 @@ struct BreadJournalListFeature {
                     }
                 })
                 return .none
+            case .filtersDialog(.presented(.filterByRating)):
+                state.entries.removeAll()
+                do {
+                    let entries = try JSONDecoder().decode(
+                        [Entry].self,
+                        from: loadEntries(.breadEntries)
+                    ).sorted {
+                        $0.evaluation < $1.evaluation
+                    }.map {
+                        JournalDetailViewFeature.State(
+                            journalEntry: $0,
+                            id: $0.id)
+                    }
+                    let final = IdentifiedArrayOf(uniqueElements: entries)
+                    state.entries = final
+                    
+                } catch {
+                    state.alert = .some(AlertState(title: {
+                        TextState(error.localizedDescription)
+                    }))
+                }
+                return .none
+                
+            case .filtersDialog(.presented(.filterByDate)):
+                state.entries.removeAll()
+                do {
+                    let entries = try JSONDecoder().decode(
+                        [Entry].self,
+                        from: loadEntries(.breadEntries)
+                    ).sorted {
+                        $0.entryDate > $1.entryDate
+                    }.map {
+                        JournalDetailViewFeature.State(
+                            journalEntry: $0,
+                            id: $0.id)
+                    }
+                    let final = IdentifiedArrayOf(uniqueElements: entries)
+                    state.entries = final
+                    
+                } catch {
+                    state.alert = .some(AlertState(title: {
+                        TextState(error.localizedDescription)
+                    }))
+                }
+                return .none
             case .filtersDialog(.presented(.filterByFavorites)):
                 state.entries.removeAll()
                 do {

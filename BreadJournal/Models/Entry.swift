@@ -77,6 +77,7 @@ extension Entry {
     
     static let mock = Entry(
         autolysisTime: "Sin autólisis",
+        entryDate: Date.mockRandomyearMonthDay,
         isFavorite: false,
         rating: 2,
         name: "Pan de centeno",
@@ -102,6 +103,7 @@ extension Entry {
         evaluation: 4)
     
     static let mock2 = Entry(
+        entryDate: Date.mockRandomyearMonthDay,
         isFavorite: true,
         rating: 4,
         name: "Pan de maíz",

@@ -216,13 +216,8 @@ struct BreadJournalListFeature {
             case .entries:
                 return .none
             case .filters(.filtersDialog(.presented((.filterByFavorites)))):
-                let val = state.filters.entries.map {
-                    JournalDetailViewFeature.State(
-                        journalEntry: $0,
-                        id: $0.id)
-                }
-                let final = IdentifiedArrayOf(uniqueElements: val)
-                state.entries = final
+               
+                state.entries = state.filters.entries
                 return .none
             case .filters:
                 state.filters.filtersDialog = ConfirmationDialogState(title: {

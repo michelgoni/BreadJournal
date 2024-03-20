@@ -13,7 +13,7 @@ struct ToolBarFeature {
     @ObservableState
     struct State: Identifiable, Equatable {
         @Presents var filtersDialog: ConfirmationDialogState<Action.Filter>?
-        var entries: IdentifiedArrayOf<Entry> = []
+        var entries: IdentifiedArray<UUID, JournalDetailViewFeature.State> = []
         var id: UUID
     }
     
@@ -32,12 +32,17 @@ struct ToolBarFeature {
         Reduce { state, action in
             switch action {
             case .addEntryTapped, .filterEntries, .filtersDialog:
-               
-                let entries = try! JSONDecoder().decode(
-                    IdentifiedArrayOf<Entry>.self,
-                    from: loadEntries(.breadEntries)
-                ).sorted { $0.isFavorite && !$1.isFavorite }
-
+                let entries = try! JSONDecoder()
+                    .decode(
+                        IdentifiedArrayOf<Entry>.self,
+                        from: loadEntries(.breadEntries)
+                    )
+                    .sorted { $0.isFavorite && !$1.isFavorite }
+                    .map {
+                        JournalDetailViewFeature.State(
+                            journalEntry: $0,
+                            id: $0.id)
+                    }
                 let final = IdentifiedArrayOf(uniqueElements: entries)
                 state.entries = final
                 state.filtersDialog = nil

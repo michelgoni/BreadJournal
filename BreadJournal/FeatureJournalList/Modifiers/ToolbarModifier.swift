@@ -8,11 +8,51 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct ToolbarModifier: ViewModifier {
-    let store: StoreOf<BreadJournalListFeature>
+@Reducer
+struct ToolBarFeature {
+    @ObservableState
+    struct State: Identifiable, Equatable {
+        @Presents var filtersDialog: ConfirmationDialogState<Action.Filter>?
+        var entries: IdentifiedArrayOf<Entry> = []
+        var id: UUID
+    }
+    
+    enum Action: Equatable {
+        case addEntryTapped
+        case filterEntries
+        case filtersDialog(PresentationAction<Filter>)
+        enum Filter {
+            case filterByFavorites
+            case filterByRating
+            case filterByDate
+        }
+    }
+    @Dependency (\.journalListDataManager.load) var loadEntries
+    var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .addEntryTapped, .filterEntries, .filtersDialog:
+               
+                let entries = try! JSONDecoder().decode(
+                    IdentifiedArrayOf<Entry>.self,
+                    from: loadEntries(.breadEntries)
+                ).sorted { $0.isFavorite && !$1.isFavorite }
 
+                let final = IdentifiedArrayOf(uniqueElements: entries)
+                state.entries = final
+                state.filtersDialog = nil
+                return .none
+            }
+        }
+    }
+}
+
+struct ToolbarModifier: ViewModifier {
+
+    @Bindable var store: StoreOf<ToolBarFeature>
     func body(content: Content) -> some View {
         content
+            
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button {
@@ -22,8 +62,6 @@ struct ToolbarModifier: ViewModifier {
                             .foregroundColor(.black)
                             .font(.title)
                     }
-              
-
                     Spacer()
 
                     Button {
@@ -36,11 +74,12 @@ struct ToolbarModifier: ViewModifier {
 
                 }
             }
+            
     }
 }
 
 extension View {
-    func applyToolbar(store: StoreOf<BreadJournalListFeature>) -> some View {
+    func applyToolbar(store: StoreOf<ToolBarFeature>) -> some View {
         self.modifier(ToolbarModifier(store: store))
     }
 }

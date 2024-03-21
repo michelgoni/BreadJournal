@@ -126,93 +126,6 @@ struct BreadJournalListFeature {
                 state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: editState.journalEntry.id))
                 state.destination = nil
                 return .none
-                
-//            case .filterEntries:
-//                state.filtersDialog = ConfirmationDialogState(title: {
-//                    TextState("Filtrar por")
-//                }, actions: {
-//                    ButtonState(action: .filterByFavorites) {
-//                      TextState("Favoritos")
-//                    }
-//                    
-//                    ButtonState(action: .filterByDate) {
-//                      TextState("Por fecha")
-//                    }
-//                    
-//                    ButtonState(action: .filterByRating) {
-//                      TextState("Mejor valorados")
-//                    }
-//                })
-//                return .none
-//            case .filtersDialog(.presented(.filterByRating)):
-//                state.entries.removeAll()
-//                do {
-//                    let entries = try JSONDecoder().decode(
-//                        [Entry].self,
-//                        from: loadEntries(.breadEntries)
-//                    ).sorted {
-//                        $0.evaluation < $1.evaluation
-//                    }.map {
-//                        JournalDetailViewFeature.State(
-//                            journalEntry: $0,
-//                            id: $0.id)
-//                    }
-//                    let final = IdentifiedArrayOf(uniqueElements: entries)
-//                    state.entries = final
-//                    
-//                } catch {
-//                    state.alert = .some(AlertState(title: {
-//                        TextState(error.localizedDescription)
-//                    }))
-//                }
-//                return .none
-//                
-//            case .filtersDialog(.presented(.filterByDate)):
-//                state.entries.removeAll()
-//                do {
-//                    let entries = try JSONDecoder().decode(
-//                        [Entry].self,
-//                        from: loadEntries(.breadEntries)
-//                    ).sorted {
-//                        $0.entryDate > $1.entryDate
-//                    }.map {
-//                        JournalDetailViewFeature.State(
-//                            journalEntry: $0,
-//                            id: $0.id)
-//                    }
-//                    let final = IdentifiedArrayOf(uniqueElements: entries)
-//                    state.entries = final
-//                    
-//                } catch {
-//                    state.alert = .some(AlertState(title: {
-//                        TextState(error.localizedDescription)
-//                    }))
-//                }
-//                return .none
-//            case .filtersDialog(.presented(.filterByFavorites)):
-//                state.entries.removeAll()
-//                do {
-//                    let entries = try JSONDecoder().decode(
-//                        [Entry].self,
-//                        from: loadEntries(.breadEntries)
-//                    ).sorted {
-//                        ($0.isFavorite && !$1.isFavorite) || ($0.isFavorite == $1.isFavorite && $0.name < $1.name)
-//                    }.map {
-//                        JournalDetailViewFeature.State(
-//                            journalEntry: $0,
-//                            id: $0.id)
-//                    }
-//                    let final = IdentifiedArrayOf(uniqueElements: entries)
-//                    state.entries = final
-//                    
-//                } catch {
-//                    state.alert = .some(AlertState(title: {
-//                        TextState(error.localizedDescription)
-//                    }))
-//                }
-//                return .none
-//            case .filtersDialog:
-//                return .none
             case .entries:
                 return .none
             case .filters(.filtersDialog(.presented((.filterByRating)))):
@@ -223,6 +136,9 @@ struct BreadJournalListFeature {
                 return .none
             case .filters(.filtersDialog(.presented((.filterByFavorites)))):
                 state.entries = state.filters.entries
+                return .none
+            case .filters(.filtersDialog(.dismiss)):
+                
                 return .none
             case .filters:
                 state.filters.filtersDialog = ConfirmationDialogState(title: {

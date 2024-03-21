@@ -31,7 +31,9 @@ struct ToolBarFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .addEntryTapped, .filterEntries, .filtersDialog:
+            case .filterEntries:
+                return .none
+            case .addEntryTapped, .filtersDialog:
                 let entries = try! JSONDecoder()
                     .decode(
                         IdentifiedArrayOf<Entry>.self,

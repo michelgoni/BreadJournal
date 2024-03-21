@@ -31,9 +31,10 @@ struct ToolBarFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .filterEntries:
+            case .filterEntries, .addEntryTapped:
                 return .none
-            case .addEntryTapped, .filtersDialog:
+            
+            case .filtersDialog(.presented(.filterByFavorites)):
                 let entries = try! JSONDecoder()
                     .decode(
                         IdentifiedArrayOf<Entry>.self,
@@ -47,6 +48,42 @@ struct ToolBarFeature {
                     }
                 let final = IdentifiedArrayOf(uniqueElements: entries)
                 state.entries = final
+                state.filtersDialog = nil
+                return .none
+            
+            case .filtersDialog(.presented(.filterByRating)):
+                let entries = try! JSONDecoder()
+                    .decode(
+                        IdentifiedArrayOf<Entry>.self,
+                        from: loadEntries(.breadEntries)
+                    )
+                    .sorted { $0.rating > $1.rating }
+                    .map {
+                        JournalDetailViewFeature.State(
+                            journalEntry: $0,
+                            id: $0.id)
+                    }
+                let final = IdentifiedArrayOf(uniqueElements: entries)
+                state.entries = final
+                state.filtersDialog = nil
+                return .none
+            case .filtersDialog(.presented(.filterByDate)):
+                let entries = try! JSONDecoder()
+                    .decode(
+                        IdentifiedArrayOf<Entry>.self,
+                        from: loadEntries(.breadEntries)
+                    )
+                    .sorted { $0.entryDate > $1.entryDate }
+                    .map {
+                        JournalDetailViewFeature.State(
+                            journalEntry: $0,
+                            id: $0.id)
+                    }
+                let final = IdentifiedArrayOf(uniqueElements: entries)
+                state.entries = final
+                state.filtersDialog = nil
+                return .none
+            case .filtersDialog(.dismiss):
                 state.filtersDialog = nil
                 return .none
             }

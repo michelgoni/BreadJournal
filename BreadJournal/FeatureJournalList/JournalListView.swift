@@ -215,8 +215,13 @@ struct BreadJournalListFeature {
 //                return .none
             case .entries:
                 return .none
+            case .filters(.filtersDialog(.presented((.filterByRating)))):
+                state.entries = state.filters.entries
+                return .none
+            case .filters(.filtersDialog(.presented((.filterByDate)))):
+                state.entries = state.filters.entries
+                return .none
             case .filters(.filtersDialog(.presented((.filterByFavorites)))):
-               
                 state.entries = state.filters.entries
                 return .none
             case .filters:

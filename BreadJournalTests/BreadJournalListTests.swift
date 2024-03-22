@@ -50,6 +50,20 @@ final class BreadJournalListTests: XCTestCase {
         }
     }
     
+    func test_filter_cancels_modal() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        } withDependencies: {
+            $0.journalListDataManager = .testValueEmptyMock
+        }
+        store.exhaustivity = .off
+        
+        await store.send(.filters(.filterEntries))
+        await store.send(.filters(.filtersDialog(.dismiss))) {
+            $0.filters.filtersDialog = nil
+        }
+    }
+    
     func test_add_entry_tapped() async {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()

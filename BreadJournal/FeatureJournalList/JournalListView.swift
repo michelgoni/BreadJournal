@@ -14,8 +14,6 @@ struct BreadJournalListFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         @Presents var alert: AlertState<Action.Alert>?
-//        @Presents var filtersDialog: ConfirmationDialogState<Action.Filter>?
-        
         var entries: IdentifiedArrayOf<JournalDetailViewFeature.State> = []
         var filters = ToolBarFeature.State(id: UUID())
         var error: BreadJournalError? = nil
@@ -56,19 +54,11 @@ struct BreadJournalListFeature {
         case cancelEntry
         case confirmEntryTapped
         case entries(IdentifiedActionOf<JournalDetailViewFeature>)
-//        case filtersDialog(PresentationAction<Filter>)
-//        case filterEntries
         case filters(ToolBarFeature.Action)
         
         enum Alert {
             case error
         }
-        
-//        enum Filter {
-//            case filterByFavorites
-//            case filterByRating
-//            case filterByDate
-//        }
     }
     
     @Reducer
@@ -238,7 +228,6 @@ struct BreadJournalListView: View {
                     }
             }
         }
-        
     }
 }
 

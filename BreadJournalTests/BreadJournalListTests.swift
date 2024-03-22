@@ -64,6 +64,24 @@ final class BreadJournalListTests: XCTestCase {
         }
     }
     
+    func test_filter_filters_favorites() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        } withDependencies: {
+            $0.journalListDataManager = .testValueEmptyMockWithFavoriteTrue
+        }
+        store.exhaustivity = .off
+        
+        await store.send(.filters(.filterEntries))
+        await store.send(.filters(.filtersDialog(.presented(.filterByFavorites)))) {
+            
+            let favorites = $0.entries.map { $0.journalEntry.isFavorite }
+            
+            XCTAssertTrue(favorites.first!)
+            XCTAssertFalse(favorites.last!)
+        }
+    }
+    
     func test_add_entry_tapped() async {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()

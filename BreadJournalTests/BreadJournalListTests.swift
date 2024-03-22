@@ -24,6 +24,33 @@ final class BreadJournalListTests: XCTestCase {
         XCTAssertTrue((store.state.alert?.title != nil))
     }
     
+    func test_filter_shows_modal() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        } withDependencies: {
+            $0.journalListDataManager = .testValueMock
+            $0.uuid = .incrementing
+        }
+        
+        await store.send(.filters(.filterEntries)) {
+            $0.filters.filtersDialog = ConfirmationDialogState(title: {
+                TextState("Filtrar por")
+            }, actions: {
+                ButtonState(action: .filterByFavorites) {
+                    TextState("Favoritos")
+                }
+                
+                ButtonState(action: .filterByDate) {
+                    TextState("Por fecha")
+                }
+                
+                ButtonState(action: .filterByRating) {
+                    TextState("Mejor valorados")
+                }
+            })
+        }
+    }
+    
     func test_add_entry_tapped() async {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()

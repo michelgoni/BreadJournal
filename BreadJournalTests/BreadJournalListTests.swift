@@ -28,8 +28,7 @@ final class BreadJournalListTests: XCTestCase {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()
         } withDependencies: {
-            $0.journalListDataManager = .testValueMock
-            $0.uuid = .incrementing
+            $0.journalListDataManager = .testValueEmptyMock
         }
         
         await store.send(.filters(.filterEntries)) {

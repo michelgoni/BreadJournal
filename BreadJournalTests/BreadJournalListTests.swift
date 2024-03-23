@@ -96,6 +96,21 @@ final class BreadJournalListTests: XCTestCase {
         }
     }
     
+    func test_filter_filters__by_date() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        } withDependencies: {
+            $0.journalListDataManager = .testValueEmptyMockWithFavoriteTrue
+        }
+        store.exhaustivity = .off
+        
+        await store.send(.filters(.filterEntries))
+        await store.send(.filters(.filtersDialog(.presented(.filterByDate)))) {
+            let dates = $0.entries.map { $0.journalEntry.entryDate }
+            XCTAssertTrue(dates.first! > dates.last!)
+        }
+    }
+    
     func test_add_entry_tapped() async {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()

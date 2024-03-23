@@ -70,6 +70,7 @@ extension Entry {
     )
     
     static let mockTestFavoriteTrue = Entry(
+        entryDate: Date.mockRandomyearMonthDayMinusOne,
         isFavorite: true,
         name: "Pan de maíz",
         id: UUID(1)

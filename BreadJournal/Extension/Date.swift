@@ -38,5 +38,17 @@ public extension Date {
         components.day = .random(in: 1..<25)
         return calendar.date(from: components) ?? Date()
     }
+    
+    static var mockRandomyearMonthDayMinusOne: Date {
+        
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.locale = Locale(identifier: "es_ES")
+        calendar.timeZone = TimeZone(identifier: "Europe/Madrid") ?? calendar.timeZone
+        
+        let date = Date()
+        var components = calendar.dateComponents([.year, .month, .day], from: date)
+        components.day = 1
+        return calendar.date(from: components) ?? Date()
+    }
 }
 

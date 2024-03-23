@@ -14,8 +14,8 @@ struct BreadJournalListFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         @Presents var alert: AlertState<Action.Alert>?
-        @Presents var filtersDialog: ConfirmationDialogState<Action.Filter>?
         var entries: IdentifiedArrayOf<JournalDetailViewFeature.State> = []
+        var filters = ToolBarFeature.State(id: UUID())
         var error: BreadJournalError? = nil
         
         init(destination: Destination.State? = nil) {
@@ -54,17 +54,10 @@ struct BreadJournalListFeature {
         case cancelEntry
         case confirmEntryTapped
         case entries(IdentifiedActionOf<JournalDetailViewFeature>)
-        case filtersDialog(PresentationAction<Filter>)
-        case filterEntries
+        case filters(ToolBarFeature.Action)
         
         enum Alert {
             case error
-        }
-        
-        enum Filter {
-            case filterByFavorites
-            case filterByRating
-            case filterByDate
         }
     }
     
@@ -91,6 +84,9 @@ struct BreadJournalListFeature {
     @Dependency (\.journalListDataManager.load) var loadEntries
     var body: some ReducerOf<Self> {
         
+        Scope(state: \.filters, action: \.filters) {
+            ToolBarFeature()
+        }
         EmptyReducer().forEach(\.entries, action: \.entries) {
             JournalDetailViewFeature()
         }
@@ -120,94 +116,36 @@ struct BreadJournalListFeature {
                 state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: editState.journalEntry.id))
                 state.destination = nil
                 return .none
+            case .entries:
+                return .none
+            case .filters(.filtersDialog(.presented((.filterByRating)))):
+                state.entries = state.filters.entries
+                return .none
+            case .filters(.filtersDialog(.presented((.filterByDate)))):
+                state.entries = state.filters.entries
+                return .none
+            case .filters(.filtersDialog(.presented((.filterByFavorites)))):
+                state.entries = state.filters.entries
+                return .none
+            case .filters(.filtersDialog(.dismiss)):
                 
-            case .filterEntries:
-                state.filtersDialog = ConfirmationDialogState(title: {
+                return .none
+            case .filters:
+                state.filters.filtersDialog = ConfirmationDialogState(title: {
                     TextState("Filtrar por")
                 }, actions: {
                     ButtonState(action: .filterByFavorites) {
-                      TextState("Favoritos")
+                        TextState("Favoritos")
                     }
                     
                     ButtonState(action: .filterByDate) {
-                      TextState("Por fecha")
+                        TextState("Por fecha")
                     }
                     
                     ButtonState(action: .filterByRating) {
-                      TextState("Mejor valorados")
+                        TextState("Mejor valorados")
                     }
                 })
-                return .none
-            case .filtersDialog(.presented(.filterByRating)):
-                state.entries.removeAll()
-                do {
-                    let entries = try JSONDecoder().decode(
-                        [Entry].self,
-                        from: loadEntries(.breadEntries)
-                    ).sorted {
-                        $0.evaluation < $1.evaluation
-                    }.map {
-                        JournalDetailViewFeature.State(
-                            journalEntry: $0,
-                            id: $0.id)
-                    }
-                    let final = IdentifiedArrayOf(uniqueElements: entries)
-                    state.entries = final
-                    
-                } catch {
-                    state.alert = .some(AlertState(title: {
-                        TextState(error.localizedDescription)
-                    }))
-                }
-                return .none
-                
-            case .filtersDialog(.presented(.filterByDate)):
-                state.entries.removeAll()
-                do {
-                    let entries = try JSONDecoder().decode(
-                        [Entry].self,
-                        from: loadEntries(.breadEntries)
-                    ).sorted {
-                        $0.entryDate > $1.entryDate
-                    }.map {
-                        JournalDetailViewFeature.State(
-                            journalEntry: $0,
-                            id: $0.id)
-                    }
-                    let final = IdentifiedArrayOf(uniqueElements: entries)
-                    state.entries = final
-                    
-                } catch {
-                    state.alert = .some(AlertState(title: {
-                        TextState(error.localizedDescription)
-                    }))
-                }
-                return .none
-            case .filtersDialog(.presented(.filterByFavorites)):
-                state.entries.removeAll()
-                do {
-                    let entries = try JSONDecoder().decode(
-                        [Entry].self,
-                        from: loadEntries(.breadEntries)
-                    ).sorted {
-                        ($0.isFavorite && !$1.isFavorite) || ($0.isFavorite == $1.isFavorite && $0.name < $1.name)
-                    }.map {
-                        JournalDetailViewFeature.State(
-                            journalEntry: $0,
-                            id: $0.id)
-                    }
-                    let final = IdentifiedArrayOf(uniqueElements: entries)
-                    state.entries = final
-                    
-                } catch {
-                    state.alert = .some(AlertState(title: {
-                        TextState(error.localizedDescription)
-                    }))
-                }
-                return .none
-            case .filtersDialog:
-                return .none
-            case .entries:
                 return .none
             case .alert:
                 return .none
@@ -217,7 +155,7 @@ struct BreadJournalListFeature {
         .ifLet(\.$destination, action: \.addEntry) {
             Destination()
         }
-        .ifLet(\.filtersDialog, action: \.filtersDialog)
+ 
     }
 }
 
@@ -249,6 +187,10 @@ struct BreadJournalListView: View {
                                     id: store.journalEntry.id)
                             )
                         ) {
+                            let val = $store.scope(
+                                state: \.filters.filtersDialog,
+                                action: \.filters.filtersDialog
+                            )
                             JournalEntryView(store: store)
                         }
                     }
@@ -256,13 +198,17 @@ struct BreadJournalListView: View {
                 .padding(.all, 46)
                 .alert($store.scope(state: \.alert,
                                     action: \.alert))
-                .confirmationDialog($store.scope(state: \.filtersDialog,
-                                                 action: \.filtersDialog))
+                .confirmationDialog(
+                    $store.scope(
+                        state: \.filters.filtersDialog,
+                        action: \.filters.filtersDialog
+                    )
+                )
             
         }
         .emptyPlaceholder(if: store.state.entries.count,
                           alertPopulated: store.state.alert != nil)
-        .applyToolbar(store: store)
+        .applyToolbar(store: self.store.scope(state: \.filters, action: \.filters))
         .sheet(item: $store.scope(state: \.destination?.add,
                                   action: \.addEntry.add)) { store in
             NavigationStack {
@@ -282,7 +228,6 @@ struct BreadJournalListView: View {
                     }
             }
         }
-        
     }
 }
 

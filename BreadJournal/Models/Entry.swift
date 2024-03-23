@@ -65,6 +65,7 @@ extension Entry {
     
     static let mockTest = Entry(
         isFavorite: false,
+        rating: 2,
         name: "Pan de centeno",
         id: UUID(0)
     )
@@ -72,6 +73,7 @@ extension Entry {
     static let mockTestFavoriteTrue = Entry(
         entryDate: Date.mockRandomyearMonthDayMinusOne,
         isFavorite: true,
+        rating: 4,
         name: "Pan de maíz",
         id: UUID(1)
     )

@@ -111,6 +111,21 @@ final class BreadJournalListTests: XCTestCase {
         }
     }
     
+    func test_filter_filters__by_rating() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        } withDependencies: {
+            $0.journalListDataManager = .testValueEmptyMockWithFavoriteTrue
+        }
+        store.exhaustivity = .off
+        
+        await store.send(.filters(.filterEntries))
+        await store.send(.filters(.filtersDialog(.presented(.filterByRating)))) {
+            let ratings = $0.entries.map { $0.journalEntry.rating }
+            XCTAssertTrue(ratings.first! > ratings.last!)
+        }
+    }
+    
     func test_add_entry_tapped() async {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()
@@ -121,15 +136,18 @@ final class BreadJournalListTests: XCTestCase {
         }
        
         var entry = Entry(
-                          id: UUID(.zero))
+            id: UUID(.zero)
+        )
         
         await store.send(.addEntryTapped) {
             $0.destination = .add(BreadFormFeature.State(journalEntry: entry))
         }
         entry.name = "Pan de centeno"
+        entry.rating = 2
         
         await store.send(.addEntry(.presented(.add(.set(\.journalEntry, entry))))) {
             $0.$destination[case: \.add]?.journalEntry.name = "Pan de centeno"
+            $0.$destination[case: \.add]?.journalEntry.rating = 2
         }
         
         await store.send(.confirmEntryTapped) {

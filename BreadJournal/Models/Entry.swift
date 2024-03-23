@@ -64,9 +64,15 @@ extension IdentifiedArray where ID == JournalDetailViewFeature.State.ID, Element
 extension Entry {
     
     static let mockTest = Entry(
-        entryDate: Date.yearMonthDay,
+        isFavorite: false,
         name: "Pan de centeno",
         id: UUID(0)
+    )
+    
+    static let mockTestFavoriteTrue = Entry(
+        isFavorite: true,
+        name: "Pan de maíz",
+        id: UUID(1)
     )
     
     static let decodingError = Entry(
@@ -100,7 +106,8 @@ extension Entry {
         bloomRating: 3, 
         scoreRating: 4,
         tasteRating: 4,
-        evaluation: 4)
+        evaluation: 4
+    )
     
     static let mock2 = Entry(
         entryDate: Date.mockRandomyearMonthDay,

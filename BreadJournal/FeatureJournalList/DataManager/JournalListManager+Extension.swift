@@ -12,11 +12,27 @@ extension JournalListManager: TestDependencyKey {
     
     static let testErrorDecodingMock = Self.decodingErrorMock()
     static let testValueMock = Self.mockTest()
-    static let testValueEmptyMock = Self.emptyMockTest()
+    static var testValueEmptyMock = Self.emptyMockTest()
+    static let testValueEmptyMockWithFavoriteTrue = Self.mockTestWithFavoriteTrue()
     static let testValueErrorMock = Self.errorMockTest()
     
     static func mockTest(initialData: Data? = nil) -> Self {
         let data = LockIsolated(try? JSONEncoder().encode([Entry.mockTest]))
+      return Self(
+        load: { _ in
+          guard let data = data.value
+          else {
+            struct FileNotFound: Error {}
+            throw FileNotFound()
+          }
+          return data
+        },
+        save: { newData, _ in data.setValue(newData) }
+      )
+    }
+    
+    static func mockTestWithFavoriteTrue(initialData: Data? = nil) -> Self {
+        let data = LockIsolated(try? JSONEncoder().encode([Entry.mockTest, Entry.mockTestFavoriteTrue]))
       return Self(
         load: { _ in
           guard let data = data.value

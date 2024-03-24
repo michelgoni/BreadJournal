@@ -12,14 +12,14 @@ import SwiftUI
 struct BreadJournalListFeature {
     @ObservableState
     struct State: Equatable {
-        @Presents var destination: Destination.State?
+       
         @Presents var alert: AlertState<Action.Alert>?
         var entries: IdentifiedArrayOf<JournalDetailViewFeature.State> = []
         var filters = ToolBarFeature.State(id: UUID())
         var error: BreadJournalError? = nil
         
-        init(destination: Destination.State? = nil) {
-            self.destination = destination
+        init() {
+          
             
             do {
                 @Dependency (\.journalListDataManager.load) var loadEntries
@@ -49,7 +49,7 @@ struct BreadJournalListFeature {
     
     enum Action {
         case addEntryTapped
-        case addEntry(PresentationAction<Destination.Action>)
+       
         case alert(PresentationAction<Alert>)
         case cancelEntry
         case confirmEntryTapped
@@ -58,24 +58,6 @@ struct BreadJournalListFeature {
         
         enum Alert {
             case error
-        }
-    }
-    
-    @Reducer
-    struct Destination {
-        @ObservableState
-        enum State: Equatable {
-            case add(BreadFormFeature.State)
-        }
-        
-        enum Action {
-            case add(BreadFormFeature.Action)
-        }
-        
-        var body: some ReducerOf<Self> {
-            Scope(state: \.add, action: \.add) {
-                BreadFormFeature()
-            }
         }
     }
     
@@ -93,11 +75,8 @@ struct BreadJournalListFeature {
         
         Reduce { state, action in
             switch action {
-                
-            case .addEntry:
-                return .none
-            case .addEntryTapped:
-                state.destination = .add(
+            case .filters(.addEntryTapped):
+                state.filters.destination = .add(
                     BreadFormFeature.State(
                         journalEntry: Entry(
                             id: uuid()
@@ -105,16 +84,26 @@ struct BreadJournalListFeature {
                     )
                 )
                 return .none
+          
+            case .addEntryTapped:
+//                state.destination = .add(
+//                    BreadFormFeature.State(
+//                        journalEntry: Entry(
+//                            id: uuid()
+//                        )
+//                    )
+//                )
+                return .none
                 
             case .cancelEntry:
-                state.destination = nil
+                
                 return .none
             case .confirmEntryTapped:
-                guard case let .some(.add(editState)) = state.destination else {
+                guard case let .some(.add(editState)) = state.filters.destination else {
                     return .none
                 }
                 state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: editState.journalEntry.id))
-                state.destination = nil
+                
                 return .none
             case .entries:
                 return .none
@@ -152,9 +141,6 @@ struct BreadJournalListFeature {
             }
         }
         
-        .ifLet(\.$destination, action: \.addEntry) {
-            Destination()
-        }
  
     }
 }
@@ -209,8 +195,8 @@ struct BreadJournalListView: View {
         .emptyPlaceholder(if: store.state.entries.count,
                           alertPopulated: store.state.alert != nil)
         .applyToolbar(store: self.store.scope(state: \.filters, action: \.filters))
-        .sheet(item: $store.scope(state: \.destination?.add,
-                                  action: \.addEntry.add)) { store in
+        .sheet(item: $store.scope(state: \.filters.destination?.add,
+                                  action: \.filters.addEntry.add)) { store in
             NavigationStack {
                 BreadFormView(store: store)
                     .navigationTitle("New journal entry")

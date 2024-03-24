@@ -13,25 +13,51 @@ struct ToolBarFeature {
     @ObservableState
     struct State: Identifiable, Equatable {
         @Presents var filtersDialog: ConfirmationDialogState<Action.Filter>?
+        @Presents var destination: Destination.State?
         var entries: IdentifiedArray<UUID, JournalDetailViewFeature.State> = []
         var id: UUID
     }
     
-    enum Action: Equatable {
+    enum Action {
         case addEntryTapped
+        case addEntry(PresentationAction<Destination.Action>)
         case filterEntries
         case filtersDialog(PresentationAction<Filter>)
+        case delegate(Delegate)
         enum Filter {
             case filterByFavorites
             case filterByRating
             case filterByDate
+        }
+        
+        @CasePathable
+        enum Delegate {
+            case addEntryTapped
+        }
+    }
+    
+    @Reducer
+    struct Destination {
+        @ObservableState
+        enum State: Equatable {
+            case add(BreadFormFeature.State)
+        }
+        
+        enum Action {
+            case add(BreadFormFeature.Action)
+        }
+        
+        var body: some ReducerOf<Self> {
+            Scope(state: \.add, action: \.add) {
+                BreadFormFeature()
+            }
         }
     }
     @Dependency (\.journalListDataManager.load) var loadEntries
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .filterEntries, .addEntryTapped:
+            case .filterEntries, .addEntryTapped, .delegate:
                 return .none
             
             case .filtersDialog(.presented(.filterByFavorites)):
@@ -86,7 +112,12 @@ struct ToolBarFeature {
             case .filtersDialog(.dismiss):
                 state.filtersDialog = nil
                 return .none
+            case .addEntry:
+                return .none
             }
+        }
+        .ifLet(\.$destination, action: \.addEntry) {
+            Destination()
         }
     }
 }

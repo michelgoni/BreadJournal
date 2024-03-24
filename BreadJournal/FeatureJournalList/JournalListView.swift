@@ -96,7 +96,7 @@ struct BreadJournalListFeature {
                 return .none
                 
             case .cancelEntry:
-                
+                state.filters.destination = nil
                 return .none
             case .confirmEntryTapped:
                 guard case let .some(.add(editState)) = state.filters.destination else {

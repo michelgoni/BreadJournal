@@ -23,16 +23,10 @@ struct ToolBarFeature {
         case addEntry(PresentationAction<Destination.Action>)
         case filterEntries
         case filtersDialog(PresentationAction<Filter>)
-        case delegate(Delegate)
         enum Filter {
             case filterByFavorites
             case filterByRating
             case filterByDate
-        }
-        
-        @CasePathable
-        enum Delegate {
-            case addEntryTapped
         }
     }
     
@@ -57,7 +51,7 @@ struct ToolBarFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .filterEntries, .addEntryTapped, .delegate:
+            case .filterEntries, .addEntryTapped:
                 return .none
             
             case .filtersDialog(.presented(.filterByFavorites)):

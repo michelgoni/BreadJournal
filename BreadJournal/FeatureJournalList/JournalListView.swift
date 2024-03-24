@@ -91,7 +91,7 @@ struct BreadJournalListFeature {
                     return .none
                 }
                 state.entries.append(JournalDetailViewFeature.State(journalEntry: editState.journalEntry, id: editState.journalEntry.id))
-                
+                state.filters.destination = nil
                 return .none
             case .entries:
                 return .none
@@ -105,7 +105,6 @@ struct BreadJournalListFeature {
                 state.entries = state.filters.entries
                 return .none
             case .filters(.filtersDialog(.dismiss)):
-                
                 return .none
             case .filters:
                 state.filters.filtersDialog = ConfirmationDialogState(title: {

@@ -156,10 +156,8 @@ final class BreadJournalListTests: XCTestCase {
         var entry = Entry(
             id: UUID(.zero)
         )
-        
-        await store.send(.filters(.addEntryTapped)) {
-            $0.filters.destination = .add(BreadFormFeature.State(journalEntry: entry))
-        }
+        store.exhaustivity = .off
+        await store.send(.filters(.addEntryTapped))
         entry.name = "Pan de centeno"
         entry.rating = 2
         

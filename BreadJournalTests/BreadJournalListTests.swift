@@ -126,6 +126,24 @@ final class BreadJournalListTests: XCTestCase {
         }
     }
     
+    func test_add_entry_shows_modal() async {
+        let store = TestStore(initialState: BreadJournalListFeature.State()) {
+            BreadJournalListFeature()
+        } withDependencies: {
+            $0.continuousClock = ImmediateClock()
+            $0.journalListDataManager = .testValueMock
+            $0.uuid = .incrementing
+        }
+       
+        var entry = Entry(
+            id: UUID(.zero)
+        )
+        
+        await store.send(.filters(.addEntryTapped)) {
+            $0.filters.destination = .add(BreadFormFeature.State(journalEntry: entry))
+        }
+    }
+    
     func test_add_entry_tapped() async {
         let store = TestStore(initialState: BreadJournalListFeature.State()) {
             BreadJournalListFeature()
@@ -151,7 +169,7 @@ final class BreadJournalListTests: XCTestCase {
         }
         
         await store.send(.confirmEntryTapped) {
-            $0.filters.entries = [JournalDetailViewFeature.State(journalEntry: entry,
+            $0.entries = [JournalDetailViewFeature.State(journalEntry: entry,
                                                          id: UUID(.zero))]
             $0.filters.destination = nil
         }

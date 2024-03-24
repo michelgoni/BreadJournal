@@ -48,8 +48,6 @@ struct BreadJournalListFeature {
     }
     
     enum Action {
-        case addEntryTapped
-       
         case alert(PresentationAction<Alert>)
         case cancelEntry
         case confirmEntryTapped
@@ -84,17 +82,7 @@ struct BreadJournalListFeature {
                     )
                 )
                 return .none
-          
-            case .addEntryTapped:
-//                state.destination = .add(
-//                    BreadFormFeature.State(
-//                        journalEntry: Entry(
-//                            id: uuid()
-//                        )
-//                    )
-//                )
-                return .none
-                
+
             case .cancelEntry:
                 state.filters.destination = nil
                 return .none

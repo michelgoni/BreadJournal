@@ -139,21 +139,21 @@ final class BreadJournalListTests: XCTestCase {
             id: UUID(.zero)
         )
         
-        await store.send(.addEntryTapped) {
-            $0.destination = .add(BreadFormFeature.State(journalEntry: entry))
+        await store.send(.filters(.addEntryTapped)) {
+            $0.filters.destination = .add(BreadFormFeature.State(journalEntry: entry))
         }
         entry.name = "Pan de centeno"
         entry.rating = 2
         
-        await store.send(.addEntry(.presented(.add(.set(\.journalEntry, entry))))) {
-            $0.$destination[case: \.add]?.journalEntry.name = "Pan de centeno"
-            $0.$destination[case: \.add]?.journalEntry.rating = 2
+        await store.send(.filters(.addEntry(.presented(.add(.set(\.journalEntry, entry)))))) {
+            $0.filters.$destination[case: \.add]?.journalEntry.name = "Pan de centeno"
+            $0.filters.$destination[case: \.add]?.journalEntry.rating = 2
         }
         
         await store.send(.confirmEntryTapped) {
-            $0.entries = [JournalDetailViewFeature.State(journalEntry: entry,
+            $0.filters.entries = [JournalDetailViewFeature.State(journalEntry: entry,
                                                          id: UUID(.zero))]
-            $0.destination = nil
+            $0.filters.destination = nil
         }
     }
     
@@ -167,12 +167,12 @@ final class BreadJournalListTests: XCTestCase {
        
         let entry = Entry(id: UUID(0))
         
-        await store.send(.addEntryTapped) {
-            $0.destination = .add(BreadFormFeature.State(journalEntry: entry))
+        await store.send(.filters(.addEntryTapped)) {
+            $0.filters.destination = .add(BreadFormFeature.State(journalEntry: entry))
         }
 
         await store.send(.cancelEntry) {
-            $0.destination = nil
+            $0.filters.destination = nil
         }
     }
 
